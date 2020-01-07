@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import { Text, View, ScrollView, Image} from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { ListItem, Icon } from 'react-native-elements';
 import axios from 'axios';
 
-class TestComponent extends Component{
+import PostThumbNail from './PostThumbNail';
+
+class PostTileList extends Component{
     constructor(){
         super();
         this.state = {
@@ -28,8 +30,7 @@ class TestComponent extends Component{
                             key={i}
                             title={post.data.title}
                             subtitle={post.data.subreddit + " " + post.data.name}
-                            leftAvatar={{size:"large", rounded: false, source: {uri: post.data.thumbnail}}}
-                            // rightSubtitle={post.data.name}
+                            leftElement={ <PostThumbNail imageURI={post.data.thumbnail} linkURL={post.data.url}/> }
                             bottomDivider
                             titleStyle={{ color: 'white'}}
                             subtitleStyle={{ color: 'grey'}}
@@ -42,4 +43,4 @@ class TestComponent extends Component{
     }
 };
 
-export default TestComponent;
+export default PostTileList;

@@ -12,14 +12,14 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import TestComponent from './components/TestComponent'
+import PostTileList from './src/components/PostTileList'
 
 const App: () => React$Node = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <TestComponent/>
+        <PostTileList/>
       </SafeAreaView>
     </>
   );
