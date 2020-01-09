@@ -30,11 +30,22 @@ class PostTileList extends Component{
                             key={i}
                             title={post.data.title}
                             subtitle={post.data.subreddit + " " + post.data.name}
-                            leftElement={ <PostThumbNail imageURI={post.data.thumbnail} linkURL={post.data.url}/> }
                             bottomDivider
                             titleStyle={{ color: 'white'}}
                             subtitleStyle={{ color: 'grey'}}
+                            subtitleProps={
+                                {
+                                    onPress: () => {
+                                        console.log(post.data.subreddit);
+                                    
+                                    }
+                                }
+                            }
                             containerStyle={{ backgroundColor: 'black' }}
+                            leftElement={ <PostThumbNail imageURI={post.data.thumbnail} linkURL={post.data.url}/> }
+                            onPress={ () => {
+                                console.log(post.data.title);
+                            }}
                         />
                     ))
                 }
