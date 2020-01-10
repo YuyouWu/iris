@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { ScrollView, View, Image, Dimensions, Text} from 'react-native';
+import { ScrollView, View, Image, Dimensions, Text, TouchableOpacity} from 'react-native';
 import { Icon } from 'react-native-elements';
 import axios from 'axios';
 
@@ -14,14 +14,26 @@ class Post extends Component{
         }
     }
 
+    handleOnPress = (linkURL) => {
+        this.props.navigation.navigate('PostImage', {
+            linkURL: linkURL
+        });
+    }
+
     renderImage = () => {
         if(!this.state.postData['is_video']){
             return(
-                <Image
-                    source={{uri: this.state.postData.url}}
-                    style={{width: window.width, height: this.state.imageHeight}} 
-                    resizeMode={'contain'}
-                />
+                <TouchableOpacity
+                    onPress={()=>{
+                        this.handleOnPress(this.state.postData.url);
+                    }}
+                >
+                    <Image
+                        source={{uri: this.state.postData.url}}
+                        style={{width: window.width, height: this.state.imageHeight}} 
+                        resizeMode={'contain'}
+                    />
+                </TouchableOpacity>
             )
         }
     }

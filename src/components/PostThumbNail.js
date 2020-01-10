@@ -7,8 +7,13 @@ class PostThumbNail extends Component {
     }
 
     handleOnClick = (linkURL) => {
-        Linking.openURL(linkURL).catch((err) => {
-            console.log(err);
+        // Linking.openURL(linkURL).catch((err) => {
+        //     console.log(err);
+        // });
+        
+        // TODO: check if it's link or iamge
+        this.props.navigation.navigate('PostImage', {
+            linkURL: linkURL
         });
     }
 

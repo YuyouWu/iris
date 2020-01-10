@@ -17,11 +17,13 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import PostTileList from './src/components/PostTileList';
 import Post from './src/components/Post';
+import PostImage from './src/components/PostImage';
 
 const AppNavigator = createStackNavigator(
   {
     PostTileList: PostTileList,
     Post: Post,
+    PostImage: PostImage
   },
   {
     initialRouteName: 'PostTileList',
