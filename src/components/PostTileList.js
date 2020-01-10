@@ -6,8 +6,8 @@ import axios from 'axios';
 import PostThumbNail from './PostThumbNail';
 
 class PostTileList extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             postData: null
         }
@@ -44,7 +44,10 @@ class PostTileList extends Component{
                             containerStyle={{ backgroundColor: 'black' }}
                             leftElement={ <PostThumbNail imageURI={post.data.thumbnail} linkURL={post.data.url}/> }
                             onPress={ () => {
-                                console.log(post.data.title);
+                                this.props.navigation.navigate('Post', {
+                                    postTitle: post.data.title,
+                                    postSubreddit:  post.data.subreddit
+                                });
                             }}
                         />
                     ))

@@ -3,8 +3,6 @@ import { Text, View, ScrollView, Image} from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import axios from 'axios';
 
-import PostThumbNail from './PostThumbNail';
-
 class Post extends Component{
     constructor(props){
         super(props);
@@ -13,7 +11,8 @@ class Post extends Component{
     render(){
         return (
             <ScrollView>
-                
+                <Text>{this.props.navigation.getParam('postTitle')}</Text>
+                <Text>{this.props.navigation.getParam('postSubreddit')}</Text>
             </ScrollView>
         );
     }
