@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, View, ScrollView, Image} from 'react-native';
+import { Text, View, ScrollView, Image, RefreshControl} from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import axios from 'axios';
 
@@ -9,17 +9,32 @@ class PostTileList extends Component{
     constructor(props){
         super(props);
         this.state = {
-            postData: null
+            posts: null,
+            refreshing: false
         }
+        this.getPost();
+    }
 
+    getPost = () => {
         axios.get('https://old.reddit.com/r/all/.json').then((res) => {
             this.setState({
-                postData: res.data.data.children
+                posts: res.data.data.children
             });
-        }).catch(e => {
-            console.log(e);
-        });        
+        }).then(() => {
+            this.setState({
+                refreshing: false
+            });
+        });
     }
+
+    onRefresh = () => {
+        this.setState({
+            refreshing: true
+        }, () => {
+            this.getPost();
+        });
+    }
+
 
     PostSubtitle = (subreddit, score) => {
         return(
@@ -36,9 +51,13 @@ class PostTileList extends Component{
     
     render(){
         return (
-            <ScrollView>
-                {this.state.postData &&
-                    this.state.postData.map((post, i) => (
+            <ScrollView
+                refreshControl={
+                <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
+              }
+            >
+                {this.state.posts &&
+                    this.state.posts.map((post, i) => (
                         <ListItem
                             key={i}
                             title={post.data.title}
