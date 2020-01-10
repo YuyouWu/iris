@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Text, View, ScrollView, Image, RefreshControl} from 'react-native';
-import { ListItem, Icon } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 
 import PostThumbNail from './PostThumbNail';
@@ -43,7 +44,7 @@ class PostTileList extends Component{
                     {subreddit + " "}
                 </Text>
                 <Text style={{color: 'grey'}}>
-                    {score}
+                    <Icon name='arrowup' color='grey'/> {score}
                 </Text>
             </View>
         );

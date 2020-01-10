@@ -26,7 +26,7 @@ class Post extends Component{
     
     render(){
         return (
-            <ScrollView 
+            <ScrollView
                 contentContainerStyle = {{backgroundColor: 'black'}}
             >
                 {this.renderImage()}

@@ -25,7 +25,7 @@ const AppNavigator = createStackNavigator(
   },
   {
     initialRouteName: 'PostTileList',
-    headerMode: 'none'
+    headerMode: 'none',
   }
 );
 
