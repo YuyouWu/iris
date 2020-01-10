@@ -4,23 +4,25 @@ import { Icon } from 'react-native-elements';
 import axios from 'axios';
 
 const window = Dimensions.get('window');
+
 class Post extends Component{
     constructor(props){
         super(props);
         this.state={
-            postData: props.navigation.getParam('post').data
+            postData: props.navigation.getParam('post').data,
+            imageHeight: 350
         }
     }
 
     renderImage = () => {
         if(!this.state.postData['is_video']){
             return(
-                <Image 
+                <Image
                     source={{uri: this.state.postData.url}}
-                    style={{width: window.width, height: 300}} 
-                    resizeMode={'cover'}
+                    style={{width: window.width, height: this.state.imageHeight}} 
+                    resizeMode={'contain'}
                 />
-            )    
+            )
         }
     }
     
