@@ -20,6 +20,19 @@ class PostTileList extends Component{
             console.log(e);
         });        
     }
+
+    PostSubtitle = (subreddit, score) => {
+        return(
+            <View style={{flexDirection: 'row'}}>
+                <Text style={{color: 'grey'}}>
+                    {subreddit + " "}
+                </Text>
+                <Text style={{color: 'grey'}}>
+                    {score}
+                </Text>
+            </View>
+        );
+    }
     
     render(){
         return (
@@ -29,24 +42,14 @@ class PostTileList extends Component{
                         <ListItem
                             key={i}
                             title={post.data.title}
-                            subtitle={post.data.subreddit + " " + post.data.name}
+                            subtitle={this.PostSubtitle(post.data.subreddit, post.data.score)}
                             bottomDivider
                             titleStyle={{ color: 'white'}}
-                            subtitleStyle={{ color: 'grey'}}
-                            subtitleProps={
-                                {
-                                    onPress: () => {
-                                        console.log(post.data.subreddit);
-                                    
-                                    }
-                                }
-                            }
                             containerStyle={{ backgroundColor: 'black' }}
                             leftElement={ <PostThumbNail imageURI={post.data.thumbnail} linkURL={post.data.url}/> }
                             onPress={ () => {
                                 this.props.navigation.navigate('Post', {
-                                    postTitle: post.data.title,
-                                    postSubreddit:  post.data.subreddit
+                                    post: post
                                 });
                             }}
                         />
