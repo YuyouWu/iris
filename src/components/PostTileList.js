@@ -13,7 +13,7 @@ class PostTileList extends Component {
             posts: null,
             postCount: 0,
             isLoadingMorePost: false,
-            refreshing: false
+            refreshing: false,
         }
         this.getPost();
     }
@@ -37,8 +37,7 @@ class PostTileList extends Component {
         });
 
         //Get last post id
-        const lastPostID = this.state.posts[this.state.posts.length-1].data.name;
-
+        const lastPostID = this.state.posts[this.state.posts.length - 1].data.name;
         axios.get(`https://old.reddit.com/r/all/.json?count=50&after=${lastPostID}`).then((res) => {
             let currentPosts = this.state.posts;
             const newPosts = res.data.data.children;
@@ -83,9 +82,10 @@ class PostTileList extends Component {
                 refreshControl={
                     <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
                 }
+                contentContainerStyle={{ backgroundColor: 'black' }}
                 scrollEventThrottle={50}
                 onScroll={({ nativeEvent }) => {
-                    if(this.isCloseToBottom(nativeEvent)){
+                    if (this.isCloseToBottom(nativeEvent)) {
                         this.loadMorePost();
                     }
                 }}
@@ -101,19 +101,22 @@ class PostTileList extends Component {
                             containerStyle={{ backgroundColor: 'black' }}
                             leftElement={<PostThumbNail thumbnailURL={post.data.thumbnail} linkURL={post.data.url} postHint={post.data['post_hint']} navigation={this.props.navigation} />}
                             onPress={() => {
-                                this.props.navigation.navigate('Post', {
-                                    post: post
-                                });
+                                if (!this.state.isLoadingMorePost) {
+                                    this.props.navigation.navigate('Post', {
+                                        post: post
+                                    });
+                                }
                             }}
                         />
                     ))
                 }
 
-                {this.state.isLoadingMorePost && 
-                    <View stye={{flex: 1, backgroundColor:"black"}}>
-                        <ActivityIndicator size="large" color="white" />
-                    </View>
-                }
+                <ListItem
+                    stye={{ padding: 10 }}
+                    containerStyle={{ backgroundColor: 'black' }}
+                    title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
+                />
+
             </ScrollView>
         );
     }
