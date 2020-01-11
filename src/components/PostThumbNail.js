@@ -8,18 +8,13 @@ class PostThumbNail extends Component {
     }
 
     handleOnClick = (linkURL) => {
-        // Linking.openURL(linkURL).catch((err) => {
-        //     console.log(err);
-        // });
-
-        // TODO: check if it's link or iamge
+        // TODO: check if it's link or image based on post_hint
         this.props.navigation.navigate('PostImage', {
             linkURL: linkURL
         });
     }
 
     renderThumbNail = () => {
-        console.log(this.props.thumbnailURL);
         if (this.props.thumbnailURL === "self" || this.props.thumbnailURL === "image") {
             //TODO: if this is a self post open Post component 
             return (
