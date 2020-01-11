@@ -19,13 +19,11 @@ class PostImage extends Component {
                 bindToBorders={true}
                 style={{ backgroundColor: 'black' }}
             >
-                <ScrollView>
-                    <Image
-                        source={{ uri: this.props.navigation.getParam('linkURL') }}
-                        style={{ width: window.width, height: window.height }}
-                        resizeMode='contain'
-                    />
-                </ScrollView>
+                <Image
+                    source={{ uri: this.props.navigation.getParam('linkURL') }}
+                    style={{ width: window.width, height: window.height }}
+                    resizeMode='contain'
+                />
             </ReactNativeZoomableView>
         );
     }
