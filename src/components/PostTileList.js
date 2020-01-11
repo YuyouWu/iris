@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, RefreshControl } from 'react-native';
+import { Text, View, ScrollView, RefreshControl, ActivityIndicator } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
@@ -11,6 +11,8 @@ class PostTileList extends Component {
         super(props);
         this.state = {
             posts: null,
+            postCount: 0,
+            isLoadingMorePost: false,
             refreshing: false
         }
         this.getPost();
@@ -28,6 +30,32 @@ class PostTileList extends Component {
         });
     }
 
+    loadMorePost = () => {
+        this.setState({
+            isLoadingMorePost: true,
+            // postCount: this.state.postCount + 25
+        });
+
+        //Get last post id
+        const lastPostID = this.state.posts[this.state.posts.length-1].data.name;
+
+        axios.get(`https://old.reddit.com/r/all/.json?count=50&after=${lastPostID}`).then((res) => {
+            let currentPosts = this.state.posts;
+            const newPosts = res.data.data.children;
+            currentPosts.push.apply(currentPosts, newPosts);
+            this.setState({
+                posts: currentPosts,
+                isLoadingMorePost: false
+            });
+        });
+    }
+
+    isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+        const paddingToBottom = 200;
+        return layoutMeasurement.height + contentOffset.y >=
+            contentSize.height - paddingToBottom;
+    };
+
     onRefresh = () => {
         this.setState({
             refreshing: true
@@ -36,8 +64,7 @@ class PostTileList extends Component {
         });
     }
 
-
-    PostSubtitle = (subreddit, score) => {
+    renderPostSubtitle = (subreddit, score) => {
         return (
             <View style={{ flexDirection: 'row' }}>
                 <Text style={{ color: 'grey' }}>
@@ -56,13 +83,19 @@ class PostTileList extends Component {
                 refreshControl={
                     <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
                 }
+                scrollEventThrottle={50}
+                onScroll={({ nativeEvent }) => {
+                    if(this.isCloseToBottom(nativeEvent)){
+                        this.loadMorePost();
+                    }
+                }}
             >
                 {this.state.posts &&
                     this.state.posts.map((post, i) => (
                         <ListItem
                             key={i}
                             title={post.data.title}
-                            subtitle={this.PostSubtitle(post.data.subreddit, post.data.score)}
+                            subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score)}
                             bottomDivider
                             titleStyle={{ color: 'white' }}
                             containerStyle={{ backgroundColor: 'black' }}
@@ -74,6 +107,12 @@ class PostTileList extends Component {
                             }}
                         />
                     ))
+                }
+
+                {this.state.isLoadingMorePost && 
+                    <View stye={{flex: 1, backgroundColor:"black"}}>
+                        <ActivityIndicator size="large" color="white" />
+                    </View>
                 }
             </ScrollView>
         );
