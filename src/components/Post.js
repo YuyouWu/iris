@@ -3,6 +3,7 @@ import { ScrollView, View, Image, Dimensions, Text, TouchableOpacity} from 'reac
 // import { WebView } from 'react-native-webview';
 import { Divider, ListItem } from 'react-native-elements';
 import axios from 'axios';
+import CommentList from './CommentList';
 
 const window = Dimensions.get('window');
 
@@ -87,12 +88,9 @@ class Post extends Component{
                 <Divider style={{ backgroundColor: 'grey', marginTop:10}}/>
                 {this.state.postCommentData.length > 0 &&
                     this.state.postCommentData.map((comment, i) => (
-                        <ListItem
+                        <CommentList 
                             key={i}
-                            title={comment.data.body}
-                            bottomDivider
-                            containerStyle={{ backgroundColor: 'black' }}
-                            titleStyle={{ color: 'white'}}
+                            comment={comment}
                         />
                     ))
                 }
