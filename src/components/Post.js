@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { ScrollView, View, Image, Dimensions, Text, TouchableOpacity} from 'react-native';
 // import { WebView } from 'react-native-webview';
-import { Divider, ListItem } from 'react-native-elements';
+import { Divider } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 import CommentList from './CommentList';
 
@@ -63,7 +64,6 @@ class Post extends Component{
                         <Image
                             source={{uri: this.state.postData.url}}
                             style={{width: window.width, height: this.state.imageHeight}}
-
                             resizeMode={'contain'}
                         />
                     </TouchableOpacity>
@@ -77,13 +77,18 @@ class Post extends Component{
                 style = {{backgroundColor: 'black', padding:10}}
             >
                 {this.renderImage()}
-                <Text style={{fontSize:18, color: 'white', paddingTop:5}}>{this.state.postData.title}</Text>
+                <Text style={{fontSize:20, color: 'white', paddingTop:5}}>{this.state.postData.title}</Text>
                 <View style={{flexDirection: 'row'}}>
                     <Text style={{color: 'grey'}}>{`in r/${this.state.postData.subreddit} `}</Text>
                     <Text style={{color: 'grey'}}>{`by ${this.state.postData.author}`}</Text>
                 </View>
+                <Text style={{color: 'grey'}}> 
+                    <Icon name='arrowup' color='grey'/>{`${this.state.postData.score}`}
+                </Text>
                 {this.state.selftext !== "" &&
-                    <Text style={{color: 'white'}}>{this.state.selftext}</Text>                
+                    <Text style={{color: 'white'}}>
+                       {this.state.selftext}
+                    </Text>                
                 }
                 <Divider style={{ backgroundColor: 'grey', marginTop:10}}/>
                 {this.state.postCommentData.length > 0 &&
