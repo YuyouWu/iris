@@ -84,7 +84,7 @@ class Post extends Component {
                 >
                     <ListItem
                         key={0}
-                        title={this.state.postData.title}
+                        title={(this.state.postData.url)}
                         leftElement={
                             <Icon 
                                 name="link"
@@ -93,6 +93,7 @@ class Post extends Component {
                             />
                         }
                         titleStyle={{ color: 'white'}}
+                        titleProps={{numberOfLines:1}}
                         containerStyle={{ backgroundColor: '#343434', borderColor:'white', borderRadius:10 }}
                     />
                 </TouchableOpacity>

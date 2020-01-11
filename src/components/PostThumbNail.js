@@ -28,7 +28,7 @@ class PostThumbNail extends Component {
                 </TouchableOpacity>
             );
         }
-        if (this.props.thumbnailURL === "default") {
+        if (this.props.postHint === "link") {
             return (
                 <TouchableOpacity onPress={() => this.handleOnClick(this.props.linkURL)}>
                     <Icon
