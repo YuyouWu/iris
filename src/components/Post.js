@@ -86,19 +86,33 @@ class Post extends Component {
                         key={0}
                         title={(this.state.postData.url)}
                         leftElement={
-                            <Icon 
+                            <Icon
                                 name="link"
                                 color="white"
                                 size={20}
                             />
                         }
-                        titleStyle={{ color: 'white'}}
-                        titleProps={{numberOfLines:1}}
-                        containerStyle={{ backgroundColor: '#343434', borderColor:'white', borderRadius:10 }}
+                        titleStyle={{ color: 'white' }}
+                        titleProps={{ numberOfLines: 1 }}
+                        containerStyle={{ backgroundColor: '#343434', borderColor: 'white', borderRadius: 10 }}
                     />
                 </TouchableOpacity>
             )
         }
+    }
+
+    renderComments = () => {
+        return (
+            this.state.postCommentData.length > 0 &&
+            this.state.postCommentData.map((comment, i) => {
+                return (
+                    <CommentList
+                        key={i}
+                        comment={comment}
+                    />
+                )
+            })
+        )
     }
 
     render() {
@@ -122,14 +136,7 @@ class Post extends Component {
                     </Text>
                 }
                 <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
-                {this.state.postCommentData.length > 0 &&
-                    this.state.postCommentData.map((comment, i) => (
-                        <CommentList
-                            key={i}
-                            comment={comment}
-                        />
-                    ))
-                }
+                {this.renderComments()}
 
             </ScrollView>
         );

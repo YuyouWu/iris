@@ -9,12 +9,12 @@ class CommentList extends Component {
         super(props);
     }
 
-    renderTitle = () => {
+    renderAuthor = () => {
         return (
             <View style={{ flexDirection: 'row' }}>
                 <Text style={{ color: 'grey', fontSize: 15, marginLeft: -15 }}>{this.props.comment.data.author} </Text>
                 <Text style={{ color: 'grey', fontSize: 15 }}>
-                    <Icon name='arrowup' color='grey'/>{this.props.comment.data.score}
+                    <Icon name='arrowup' color='grey' />{this.props.comment.data.score}
                 </Text>
             </View>
         )
@@ -22,13 +22,15 @@ class CommentList extends Component {
 
     render() {
         return (
-            <ListItem
-                title={this.renderTitle()}
-                subtitle={this.props.comment.data.body}
-                bottomDivider
-                containerStyle={{ backgroundColor: 'black' }}
-                subtitleStyle={{ color: 'white', fontSize: 15, marginLeft: -15, marginRight: -15 }}
-            />
+            <View>
+                <ListItem
+                    title={this.renderAuthor()}
+                    subtitle={this.props.comment.data.body}
+                    bottomDivider
+                    containerStyle={{ backgroundColor: 'black' }}
+                    subtitleStyle={{ color: 'white', fontSize: 15, marginLeft: -15, marginRight: -15 }}
+                />
+            </View>
         );
     }
 };

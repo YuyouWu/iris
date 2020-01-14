@@ -31,9 +31,9 @@ class PostTileList extends Component {
     }
 
     loadMorePost = () => {
-        console.log("Loading more post")
         //Get last post id
         const lastPostID = this.state.posts[this.state.posts.length - 1].data.name;
+        //Fetch 25 more post after the last post 
         axios.get(`https://old.reddit.com/r/all/.json?count=25&after=${lastPostID}`).then((res) => {
             let currentPosts = this.state.posts;
             const newPosts = res.data.data.children;
