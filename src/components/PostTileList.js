@@ -31,14 +31,10 @@ class PostTileList extends Component {
     }
 
     loadMorePost = () => {
-        this.setState({
-            isLoadingMorePost: true,
-            // postCount: this.state.postCount + 25
-        });
-
+        console.log("Loading more post")
         //Get last post id
         const lastPostID = this.state.posts[this.state.posts.length - 1].data.name;
-        axios.get(`https://old.reddit.com/r/all/.json?count=50&after=${lastPostID}`).then((res) => {
+        axios.get(`https://old.reddit.com/r/all/.json?count=25&after=${lastPostID}`).then((res) => {
             let currentPosts = this.state.posts;
             const newPosts = res.data.data.children;
             currentPosts.push.apply(currentPosts, newPosts);
@@ -85,7 +81,10 @@ class PostTileList extends Component {
                 contentContainerStyle={{ backgroundColor: 'black' }}
                 scrollEventThrottle={50}
                 onScroll={({ nativeEvent }) => {
-                    if (this.isCloseToBottom(nativeEvent)) {
+                    if (this.isCloseToBottom(nativeEvent) && this.state.isLoadingMorePost === false) {
+                        this.setState({
+                            isLoadingMorePost: true
+                        });
                         this.loadMorePost();
                     }
                 }}
@@ -111,12 +110,19 @@ class PostTileList extends Component {
                     ))
                 }
 
-                <ListItem
-                    stye={{ padding: 10 }}
-                    containerStyle={{ backgroundColor: 'black' }}
-                    title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
-                />
-
+                {this.state.isLoadingMorePost ? (
+                    <ListItem
+                        stye={{ padding: 10 }}
+                        containerStyle={{ backgroundColor: 'black' }}
+                        title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
+                    />
+                ) : (
+                    <ListItem
+                        stye={{ padding: 10, width: 50, height: 50 }}
+                        containerStyle={{ backgroundColor: 'black' }}
+                    />
+                    )
+                }
             </ScrollView>
         );
     }
