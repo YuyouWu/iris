@@ -6,12 +6,35 @@ import axios from 'axios';
 
 const CommentList = ({ comment, level }) => {
     level++;
-    const marginLeft = level * 10;
+    const containerMarginLeft = level * 10;
+    const commentMarginLeft = -10;
+
+    let commentColor = 'grey'
+    switch (level) {
+        case 0:
+            commentColor = 'blue';
+            break;
+        case 1:
+            commentColor = 'purple';
+            break;
+        case 2:
+            commentColor = 'red';
+            break;
+        case 3:
+            commentColor = 'orange';
+            break;
+        case 4:
+            commentColor = 'yellow';
+            break;
+        default:
+            commentColor = 'green';
+    }
+
 
     const renderAuthor = () => {
         return (
             <View style={{ flexDirection: 'row' }}>
-                <Text style={{ color: 'grey', fontSize: 15}}>{comment.data.author} </Text>
+                <Text style={{ color: 'grey', fontSize: 15, marginLeft: commentMarginLeft }}>{comment.data.author} </Text>
                 <Text style={{ color: 'grey', fontSize: 15 }}>
                     <Icon name='arrowup' color='grey' />{comment.data.score}
                 </Text>
@@ -23,14 +46,26 @@ const CommentList = ({ comment, level }) => {
 
     return (
         <View>
-            <ListItem
-                title={renderAuthor()}
-                subtitle={comment.data.body}
-                bottomDivider
-                containerStyle={{ backgroundColor: 'black', marginLeft: marginLeft }}
-                subtitleStyle={{ color: 'white', fontSize: 15}}
-            />
-            {replies !== undefined &&
+            {comment.data.author &&
+                <View
+                    style={{
+                        marginLeft: containerMarginLeft,
+                        borderLeftWidth: 2,
+                        borderLeftColor: commentColor
+                    }}
+                >
+                    <ListItem
+                        title={renderAuthor()}
+                        subtitle={comment.data.body}
+                        topDivider
+                        containerStyle={{ backgroundColor: 'black' }}
+                        subtitleStyle={{ color: 'white', fontSize: 15, marginLeft: commentMarginLeft }}
+                    />
+                </View>
+            }
+            {
+                level < 3 &&
+                replies !== undefined &&
                 replies !== "" &&
                 replies.data.children.length > 0 &&
                 replies.data.children.map((reply, i) => {

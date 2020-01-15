@@ -8,28 +8,16 @@ import CommentList from './CommentList';
 
 const window = Dimensions.get('window');
 
-const RenderComments = ({comments}) => {
+const RenderComments = ({ comments }) => {
     return (
         comments.length > 0 &&
         comments.map((comment, i) => {
             return (
-                <View>
-                    {/* {comments.map((comment, i) => {
-                        console.log(comment.data.replies.data.children[0].data.body);
-                        const replies = comment.data.replies;
-                        if (replies !== undefined && 
-                            replies !== "" &&
-                            replies.data.children.length > 0) {
-                                // console.log(replies.data.children[0].data.body)  
-                                <RenderComments comments = {replies.data.children}/>
-                        }
-                    })} */}
-                    <CommentList
-                        key={i}
-                        level={0}
-                        comment={comment}
-                    />
-                </View>
+                <CommentList
+                    key={i}
+                    level={-1}
+                    comment={comment}
+                />
             )
         })
     )
@@ -150,7 +138,7 @@ class Post extends Component {
                 }
                 <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
                 {/* {renderComments(this.state.postCommentData, 0)} */}
-                <RenderComments comments={this.state.postCommentData}/>
+                <RenderComments comments={this.state.postCommentData} />
             </ScrollView>
         );
     }
