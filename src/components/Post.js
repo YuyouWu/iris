@@ -75,6 +75,9 @@ class Post extends Component {
                     onPress={() => {
                         this.handleOnPress(this.state.postData.url);
                     }}
+                    style={{
+                        alignItems: 'center'
+                    }}
                 >
                     <Image
                         source={{ uri: this.state.postData.url }}
@@ -120,7 +123,7 @@ class Post extends Component {
         const iconSize = 30;
         return (
             <ScrollView
-                style={{ backgroundColor: 'black', padding: 10 }}
+                style={{ backgroundColor: 'black', paddingLeft:5, paddingRight:5}}
             >
                 {this.renderImage()}
                 {this.renderLink()}
