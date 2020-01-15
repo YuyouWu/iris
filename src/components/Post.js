@@ -99,6 +99,9 @@ class Post extends Component {
                             console.log(err);
                         });
                     }}
+                    style={{
+                        paddingTop:10
+                    }}
                 >
                     <ListItem
                         key={0}
