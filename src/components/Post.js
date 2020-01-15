@@ -8,6 +8,33 @@ import CommentList from './CommentList';
 
 const window = Dimensions.get('window');
 
+const RenderComments = ({comments}) => {
+    return (
+        comments.length > 0 &&
+        comments.map((comment, i) => {
+            return (
+                <View>
+                    {/* {comments.map((comment, i) => {
+                        console.log(comment.data.replies.data.children[0].data.body);
+                        const replies = comment.data.replies;
+                        if (replies !== undefined && 
+                            replies !== "" &&
+                            replies.data.children.length > 0) {
+                                // console.log(replies.data.children[0].data.body)  
+                                <RenderComments comments = {replies.data.children}/>
+                        }
+                    })} */}
+                    <CommentList
+                        key={i}
+                        level={0}
+                        comment={comment}
+                    />
+                </View>
+            )
+        })
+    )
+}
+
 class Post extends Component {
     constructor(props) {
         super(props);
@@ -101,20 +128,6 @@ class Post extends Component {
         }
     }
 
-    renderComments = () => {
-        return (
-            this.state.postCommentData.length > 0 &&
-            this.state.postCommentData.map((comment, i) => {
-                return (
-                    <CommentList
-                        key={i}
-                        comment={comment}
-                    />
-                )
-            })
-        )
-    }
-
     render() {
         return (
             <ScrollView
@@ -136,8 +149,8 @@ class Post extends Component {
                     </Text>
                 }
                 <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
-                {this.renderComments()}
-
+                {/* {renderComments(this.state.postCommentData, 0)} */}
+                <RenderComments comments={this.state.postCommentData}/>
             </ScrollView>
         );
     }

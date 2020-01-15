@@ -4,35 +4,43 @@ import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 
-class CommentList extends Component {
-    constructor(props) {
-        super(props);
-    }
+const CommentList = ({ comment, level }) => {
+    level++;
+    const marginLeft = level * 10;
 
-    renderAuthor = () => {
+    const renderAuthor = () => {
         return (
             <View style={{ flexDirection: 'row' }}>
-                <Text style={{ color: 'grey', fontSize: 15, marginLeft: -15 }}>{this.props.comment.data.author} </Text>
+                <Text style={{ color: 'grey', fontSize: 15}}>{comment.data.author} </Text>
                 <Text style={{ color: 'grey', fontSize: 15 }}>
-                    <Icon name='arrowup' color='grey' />{this.props.comment.data.score}
+                    <Icon name='arrowup' color='grey' />{comment.data.score}
                 </Text>
             </View>
         )
     }
 
-    render() {
-        return (
-            <View>
-                <ListItem
-                    title={this.renderAuthor()}
-                    subtitle={this.props.comment.data.body}
-                    bottomDivider
-                    containerStyle={{ backgroundColor: 'black' }}
-                    subtitleStyle={{ color: 'white', fontSize: 15, marginLeft: -15, marginRight: -15 }}
-                />
-            </View>
-        );
-    }
-};
+    const replies = comment.data.replies;
+
+    return (
+        <View>
+            <ListItem
+                title={renderAuthor()}
+                subtitle={comment.data.body}
+                bottomDivider
+                containerStyle={{ backgroundColor: 'black', marginLeft: marginLeft }}
+                subtitleStyle={{ color: 'white', fontSize: 15}}
+            />
+            {replies !== undefined &&
+                replies !== "" &&
+                replies.data.children.length > 0 &&
+                replies.data.children.map((reply, i) => {
+                    return (
+                        <CommentList key={i} comment={reply} level={level} />
+                    )
+                })
+            }
+        </View>
+    );
+}
 
 export default CommentList;
