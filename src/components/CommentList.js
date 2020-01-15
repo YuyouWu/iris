@@ -68,6 +68,11 @@ class CommentList extends Component {
                             topDivider
                             containerStyle={{ backgroundColor: 'black' }}
                             subtitleStyle={{ color: 'white', fontSize: 15, marginLeft: this.state.commentMarginLeft }}
+                            subtitleProps={
+                                !this.state.showSubComments ? (
+                                    {numberOfLines:1}
+                                ) : ({})
+                            }
                             onPress={() => {
                                 this.setState({
                                     showSubComments:!this.state.showSubComments
