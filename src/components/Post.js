@@ -15,7 +15,7 @@ const RenderComments = ({ comments }) => {
             return (
                 <CommentList
                     key={i}
-                    level={-1}
+                    level={0}
                     comment={comment}
                 />
             )
@@ -126,7 +126,7 @@ class Post extends Component {
         const iconSize = 30;
         return (
             <ScrollView
-                style={{ backgroundColor: 'black', paddingLeft:5, paddingRight:5}}
+                style={{ backgroundColor: 'black', paddingLeft:10, paddingRight:10}}
             >
                 {this.renderImage()}
                 {this.renderLink()}
