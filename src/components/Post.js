@@ -117,6 +117,7 @@ class Post extends Component {
     }
 
     render() {
+        const iconSize = 30;
         return (
             <ScrollView
                 style={{ backgroundColor: 'black', padding: 10 }}
@@ -136,9 +137,17 @@ class Post extends Component {
                         {this.state.selftext}
                     </Text>
                 }
-                <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
+                <Divider style={{marginTop:10}}/>
                 {/* {renderComments(this.state.postCommentData, 0)} */}
-                <RenderComments comments={this.state.postCommentData} />
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop:10, marginLeft:20, marginRight:20 }}>
+                    <Icon color="white" size={iconSize} name="upcircleo"/>
+                    <Icon color="white" size={iconSize} name="circledowno"/>
+                    <Icon color="white" size={iconSize} name="save"/>
+                    <Icon color="white" size={iconSize} name="upload"/>
+                </View>
+                <View style={{marginTop:10}}>
+                    <RenderComments comments={this.state.postCommentData} />
+                </View>
             </ScrollView>
         );
     }
