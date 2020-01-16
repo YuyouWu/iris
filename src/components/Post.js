@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Image, Dimensions, Text, TouchableOpacity, Linking } from 'react-native';
+import { ScrollView, View, Image, Dimensions, Text, TouchableOpacity, Linking, ActivityIndicator } from 'react-native';
 // import { WebView } from 'react-native-webview';
 import { Divider, ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -32,7 +32,7 @@ class Post extends Component {
             postCommentData: [],
             selftext: "",
             imageHeight: 350,
-            refreshing: false,
+            fetchingData: true,
             showImage: false
         }
 
@@ -44,7 +44,7 @@ class Post extends Component {
             });
         }).then(() => {
             this.setState({
-                refreshing: false
+                fetchingData: false
             });
         }).catch(e => {
             console.log(e);
@@ -100,7 +100,7 @@ class Post extends Component {
                         });
                     }}
                     style={{
-                        paddingTop:10
+                        paddingTop: 10
                     }}
                 >
                     <ListItem
@@ -126,7 +126,7 @@ class Post extends Component {
         const iconSize = 30;
         return (
             <ScrollView
-                style={{ backgroundColor: 'black', paddingLeft:10, paddingRight:10}}
+                style={{ backgroundColor: 'black', paddingLeft: 10, paddingRight: 10 }}
             >
                 {this.renderImage()}
                 {this.renderLink()}
@@ -138,22 +138,27 @@ class Post extends Component {
                 <Text style={{ color: 'grey' }}>
                     <Icon name='arrowup' color='grey' />{`${this.state.postData.score}`}
                 </Text>
-                {this.state.selftext !== "" &&
-                    <Text style={{ color: 'white' }}>
-                        {this.state.selftext}
-                    </Text>
-                }
-                <Divider style={{marginTop:10}}/>
-                {/* {renderComments(this.state.postCommentData, 0)} */}
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop:10, marginLeft:20, marginRight:20 }}>
-                    <Icon color="white" size={iconSize} name="upcircleo"/>
-                    <Icon color="white" size={iconSize} name="circledowno"/>
-                    <Icon color="white" size={iconSize} name="save"/>
-                    <Icon color="white" size={iconSize} name="upload"/>
-                </View>
-                <View style={{marginTop:10}}>
-                    <RenderComments comments={this.state.postCommentData} />
-                </View>
+                {!this.state.fetchingData ? (
+                    <View>
+                        {this.state.selftext !== "" && (
+                            <Text style={{ color: 'white' }}>
+                                {this.state.selftext}
+                            </Text>
+                        )}
+                        <Divider style={{ marginTop: 10 }} />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, marginLeft: 20, marginRight: 20 }}>
+                            <Icon color="white" size={iconSize} name="upcircleo" />
+                            <Icon color="white" size={iconSize} name="circledowno" />
+                            <Icon color="white" size={iconSize} name="save" />
+                            <Icon color="white" size={iconSize} name="upload" />
+                        </View>
+                        <View style={{ marginTop: 10 }}>
+                            <RenderComments comments={this.state.postCommentData} />
+                        </View>
+                    </View>
+                ) : (
+                    <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />
+                )}
             </ScrollView>
         );
     }

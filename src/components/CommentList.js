@@ -33,26 +33,28 @@ class CommentList extends Component {
         let commentColor = 'grey';
         switch (this.state.level) {
             case 1:
-                commentColor = 'blue';
+                commentColor = 'black';
                 break;
             case 2:
-                commentColor = 'purple';
+                commentColor = 'blue';
                 break;
             case 3:
-                commentColor = 'red';
+                commentColor = 'green';
                 break;
             case 4:
-                commentColor = 'orange';
+                commentColor = 'yellow';
                 break;
             case 5:
-                commentColor = 'yellow';
+                commentColor = 'red';
+                break;
+            case 6:
+                commentColor = 'purple';
                 break;
             default:
                 commentColor = 'grey';
         }
 
         return (
-
             <View>
                 {this.props.comment.data.author &&
                     <View
@@ -70,28 +72,50 @@ class CommentList extends Component {
                             subtitleStyle={{ color: 'white', fontSize: 15, marginLeft: this.state.commentMarginLeft }}
                             subtitleProps={
                                 !this.state.showSubComments ? (
-                                    {numberOfLines:1}
+                                    { numberOfLines: 1 }
                                 ) : ({})
                             }
                             onPress={() => {
                                 this.setState({
-                                    showSubComments:!this.state.showSubComments
+                                    showSubComments: !this.state.showSubComments
                                 })
                             }}
                         />
                     </View>
                 }
                 {
-                    this.state.showSubComments &&
                     this.state.level < 3 &&
                     replies !== undefined &&
                     replies !== "" &&
                     replies.data.children.length > 0 &&
                     replies.data.children.map((reply, i) => {
-                        return (
-                            <CommentList key={i} comment={reply} level={this.state.level} />
-                        )
+                        if (this.state.showSubComments) {
+                            return (
+                                <CommentList key={i} comment={reply} level={this.state.level} />
+                            )
+                        }
                     })
+                }
+                {
+                    //For comments nested higher than 3 levels, hide under a show more button
+                    this.state.level >= 3 &&
+                    replies !== undefined &&
+                    replies !== "" &&
+                    replies.data.children.length > 0 &&
+                    <View
+                        style={{
+                            marginLeft: this.state.containerMarginLeft + 10,
+                            borderLeftWidth: 2,
+                            borderLeftColor: 'grey'
+                        }}
+                    >
+                        <ListItem
+                            title="Load more comments"
+                            titleStyle={{color:'white'}}
+                            containerStyle={{ backgroundColor: 'black' }}
+                            topDivider
+                        />
+                    </View>
                 }
             </View>
         )
