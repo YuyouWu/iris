@@ -51,7 +51,6 @@ class Post extends Component {
     }
 
     loadMoreComments = () => {
-        console.log("loading comments")
         this.setState({
             beginningCommentIdx: this.state.beginningCommentIdx + 15,
             endCommentIdx: this.state.endCommentIdx + 15

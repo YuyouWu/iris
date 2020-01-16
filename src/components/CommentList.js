@@ -58,44 +58,47 @@ class CommentList extends Component {
         return (
             <View>
                 {this.props.comment.data.author &&
-                    <View
-                        style={{
-                            marginLeft: this.state.containerMarginLeft,
-                            borderLeftWidth: 2,
-                            borderLeftColor: commentColor
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.setState({
+                                showSubComments: !this.state.showSubComments
+                            });
                         }}
                     >
-                        <ListItem
-                            title={this.renderAuthor()}
-                            subtitle={this.props.comment.data.body}
-                            topDivider
-                            containerStyle={{ backgroundColor: 'black' }}
-                            subtitleStyle={{ color: 'white', fontSize: 15, marginLeft: this.state.commentMarginLeft }}
-                            subtitleProps={
-                                !this.state.showSubComments ? (
-                                    { numberOfLines: 1 }
-                                ) : ({})
-                            }
-                            onPress={() => {
-                                this.setState({
-                                    showSubComments: !this.state.showSubComments
-                                })
+                        <View
+                            style={{
+                                marginLeft: this.state.containerMarginLeft,
+                                borderLeftWidth: 2,
+                                borderLeftColor: commentColor
                             }}
-                        />
-                    </View>
-                }
-                {
-                    this.state.level < 4 &&
-                    replies !== undefined &&
-                    replies !== "" &&
-                    replies.data.children.length > 0 &&
-                    replies.data.children.map((reply, i) => {
-                        if (this.state.showSubComments) {
-                            return (
-                                <CommentList key={i} comment={reply} level={this.state.level} />
-                            )
+                        >
+                            <ListItem
+                                title={this.renderAuthor()}
+                                subtitle={this.props.comment.data.body}
+                                topDivider
+                                containerStyle={{ backgroundColor: 'black' }}
+                                subtitleStyle={{ color: 'white', fontSize: 15, marginLeft: this.state.commentMarginLeft }}
+                                subtitleProps={
+                                    !this.state.showSubComments ? (
+                                        { numberOfLines: 1 }
+                                    ) : ({})
+                                }
+                            />
+                        </View>
+                        {
+                            this.state.level < 4 &&
+                            replies !== undefined &&
+                            replies !== "" &&
+                            replies.data.children.length > 0 &&
+                            replies.data.children.map((reply, i) => {
+                                if (this.state.showSubComments) {
+                                    return (
+                                        <CommentList key={i} comment={reply} level={this.state.level} />
+                                    )
+                                }
+                            })
                         }
-                    })
+                    </TouchableOpacity>
                 }
                 {
                     //For comments nested higher than 3 levels, hide under a show more button
