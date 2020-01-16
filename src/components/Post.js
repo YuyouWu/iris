@@ -8,21 +8,6 @@ import CommentList from './CommentList';
 
 const window = Dimensions.get('window');
 
-const RenderComments = ({ comments }) => {
-    return (
-        comments.length > 0 &&
-        comments.map((comment, i) => {
-            return (
-                <CommentList
-                    key={i}
-                    level={0}
-                    comment={comment}
-                />
-            )
-        })
-    )
-}
-
 class Post extends Component {
     constructor(props) {
         super(props);
@@ -33,14 +18,17 @@ class Post extends Component {
             selftext: "",
             imageHeight: 350,
             fetchingData: true,
-            showImage: false
+            showImage: false,
+            beginningCommentIdx: 0,
+            endCommentIdx: 15
         }
 
         axios.get(`https://www.reddit.com${this.state.postData.permalink}.json`).then((res) => {
             this.setState({
                 postContentData: res.data[0].data.children[0].data,
                 selftext: res.data[0].data.children[0].data.selftext,
-                postCommentData: res.data[1].data.children.slice(0, 9) //grabbing first 10 comments for now
+                allComments: res.data[1].data.children,
+                postCommentData: res.data[1].data.children.slice(this.state.beginningCommentIdx, this.state.endCommentIdx)
             });
         }).then(() => {
             this.setState({
@@ -61,6 +49,55 @@ class Post extends Component {
             });
         });
     }
+
+    loadMoreComments = () => {
+        console.log("loading comments")
+        this.setState({
+            beginningCommentIdx: this.state.beginningCommentIdx + 15,
+            endCommentIdx: this.state.endCommentIdx + 15
+        }, () => {
+            let currentComments = this.state.postCommentData;
+            let newComments;
+            if (this.state.endCommentIdx > this.state.allComments.length) {
+                newComments = this.state.allComments.slice(this.state.beginningCommentIdx, this.state.allComments.length);
+            } else {
+                newComments = this.state.allComments.slice(this.state.beginningCommentIdx, this.state.endCommentIdx);
+            }
+            //TODO: handle cases when we've reached the end of comments
+            currentComments.push.apply(currentComments, newComments);
+            this.setState({
+                postCommentData: currentComments,
+            }, () => {
+                this.setState({
+                    fetchingData: false
+                });
+            });
+        })
+    }
+
+    isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+        const paddingToBottom = 200;
+        return layoutMeasurement.height + contentOffset.y >=
+            contentSize.height - paddingToBottom;
+    };
+
+    renderComments = (comments) => {
+        return (
+            comments.length > 0 &&
+            comments.map((comment, i) => {
+                return (
+                    <View>
+                        <CommentList
+                            key={i}
+                            level={0}
+                            comment={comment}
+                        />
+                    </View>
+                )
+            })
+        )
+    }
+
 
     handleOnPress = (linkURL) => {
         this.props.navigation.navigate('PostImage', {
@@ -127,6 +164,14 @@ class Post extends Component {
         return (
             <ScrollView
                 style={{ backgroundColor: 'black', paddingLeft: 10, paddingRight: 10 }}
+                onScroll={({ nativeEvent }) => {
+                    if (this.isCloseToBottom(nativeEvent) && this.state.fetchingData === false) {
+                        this.setState({
+                            fetchingData: true
+                        });
+                        this.loadMoreComments();
+                    }
+                }}
             >
                 {this.renderImage()}
                 {this.renderLink()}
@@ -138,27 +183,22 @@ class Post extends Component {
                 <Text style={{ color: 'grey' }}>
                     <Icon name='arrowup' color='grey' />{`${this.state.postData.score}`}
                 </Text>
-                {!this.state.fetchingData ? (
-                    <View>
-                        {this.state.selftext !== "" && (
-                            <Text style={{ color: 'white' }}>
-                                {this.state.selftext}
-                            </Text>
-                        )}
-                        <Divider style={{ marginTop: 10 }} />
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, marginLeft: 20, marginRight: 20 }}>
-                            <Icon color="white" size={iconSize} name="upcircleo" />
-                            <Icon color="white" size={iconSize} name="circledowno" />
-                            <Icon color="white" size={iconSize} name="save" />
-                            <Icon color="white" size={iconSize} name="upload" />
-                        </View>
-                        <View style={{ marginTop: 10 }}>
-                            <RenderComments comments={this.state.postCommentData} />
-                        </View>
-                    </View>
-                ) : (
-                    <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />
+                {this.state.selftext !== "" && (
+                    <Text style={{ color: 'white' }}>
+                        {this.state.selftext}
+                    </Text>
                 )}
+                <Divider style={{ marginTop: 10 }} />
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, marginLeft: 20, marginRight: 20 }}>
+                    <Icon color="white" size={iconSize} name="upcircleo" />
+                    <Icon color="white" size={iconSize} name="circledowno" />
+                    <Icon color="white" size={iconSize} name="save" />
+                    <Icon color="white" size={iconSize} name="upload" />
+                </View>
+                <View style={{ marginTop: 10 }}>
+                    {this.renderComments(this.state.postCommentData)}
+                    <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />
+                </View>
             </ScrollView>
         );
     }
