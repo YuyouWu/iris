@@ -197,7 +197,9 @@ class Post extends Component {
                 </View>
                 <View style={{ marginTop: 10 }}>
                     {this.renderComments(this.state.postCommentData)}
-                    <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />
+                    <View style={{ marginTop: 10 }}>
+                        <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />
+                    </View>
                 </View>
             </ScrollView>
         );

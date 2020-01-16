@@ -84,7 +84,7 @@ class CommentList extends Component {
                     </View>
                 }
                 {
-                    this.state.level < 3 &&
+                    this.state.level < 4 &&
                     replies !== undefined &&
                     replies !== "" &&
                     replies.data.children.length > 0 &&
@@ -98,7 +98,7 @@ class CommentList extends Component {
                 }
                 {
                     //For comments nested higher than 3 levels, hide under a show more button
-                    this.state.level >= 3 &&
+                    this.state.level >= 4 &&
                     replies !== undefined &&
                     replies !== "" &&
                     replies.data.children.length > 0 &&

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, RefreshControl, ActivityIndicator } from 'react-native';
+import { Text, View, ScrollView, StatusBar, SafeAreaView, RefreshControl, ActivityIndicator } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
@@ -74,56 +74,59 @@ class PostTileList extends Component {
 
     render() {
         return (
-            <ScrollView
-                refreshControl={
-                    <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
-                }
-                contentContainerStyle={{ backgroundColor: 'black' }}
-                scrollEventThrottle={50}
-                onScroll={({ nativeEvent }) => {
-                    if (this.isCloseToBottom(nativeEvent) && this.state.isLoadingMorePost === false) {
-                        this.setState({
-                            isLoadingMorePost: true
-                        });
-                        this.loadMorePost();
+            <SafeAreaView>
+                <StatusBar backgroundColor="black" barStyle="light-content" />
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
                     }
-                }}
-            >
-                {this.state.posts &&
-                    this.state.posts.map((post, i) => (
-                        <ListItem
-                            key={i}
-                            title={post.data.title}
-                            subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score)}
-                            bottomDivider
-                            titleStyle={{ color: 'white' }}
-                            containerStyle={{ backgroundColor: 'black' }}
-                            leftElement={<PostThumbNail thumbnailURL={post.data.thumbnail} linkURL={post.data.url} postHint={post.data['post_hint']} navigation={this.props.navigation} />}
-                            onPress={() => {
-                                if (!this.state.isLoadingMorePost) {
-                                    this.props.navigation.navigate('Post', {
-                                        post: post
-                                    });
-                                }
-                            }}
-                        />
-                    ))
-                }
+                    contentContainerStyle={{ backgroundColor: 'black' }}
+                    scrollEventThrottle={50}
+                    onScroll={({ nativeEvent }) => {
+                        if (this.isCloseToBottom(nativeEvent) && this.state.isLoadingMorePost === false) {
+                            this.setState({
+                                isLoadingMorePost: true
+                            });
+                            this.loadMorePost();
+                        }
+                    }}
+                >
+                    {this.state.posts &&
+                        this.state.posts.map((post, i) => (
+                            <ListItem
+                                key={i}
+                                title={post.data.title}
+                                subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score)}
+                                bottomDivider
+                                titleStyle={{ color: 'white' }}
+                                containerStyle={{ backgroundColor: 'black' }}
+                                leftElement={<PostThumbNail thumbnailURL={post.data.thumbnail} linkURL={post.data.url} postHint={post.data['post_hint']} navigation={this.props.navigation} />}
+                                onPress={() => {
+                                    if (!this.state.isLoadingMorePost) {
+                                        this.props.navigation.navigate('Post', {
+                                            post: post
+                                        });
+                                    }
+                                }}
+                            />
+                        ))
+                    }
 
-                {this.state.isLoadingMorePost ? (
-                    <ListItem
-                        stye={{ padding: 10 }}
-                        containerStyle={{ backgroundColor: 'black' }}
-                        title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
-                    />
-                ) : (
-                    <ListItem
-                        stye={{ padding: 10, width: 50, height: 50 }}
-                        containerStyle={{ backgroundColor: 'black' }}
-                    />
-                    )
-                }
-            </ScrollView>
+                    {this.state.isLoadingMorePost ? (
+                        <ListItem
+                            stye={{ padding: 10 }}
+                            containerStyle={{ backgroundColor: 'black' }}
+                            title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
+                        />
+                    ) : (
+                            <ListItem
+                                stye={{ padding: 10, width: 50, height: 50 }}
+                                containerStyle={{ backgroundColor: 'black' }}
+                            />
+                        )
+                    }
+                </ScrollView>
+            </SafeAreaView>
         );
     }
 };
