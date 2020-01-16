@@ -74,7 +74,7 @@ class PostTileList extends Component {
 
     render() {
         return (
-            <SafeAreaView>
+            <SafeAreaView style={{backgroundColor:"black"}}>
                 <StatusBar backgroundColor="black" barStyle="light-content" />
                 <ScrollView
                     refreshControl={

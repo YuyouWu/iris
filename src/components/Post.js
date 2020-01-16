@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Image, Dimensions, Text, TouchableOpacity, Linking, ActivityIndicator } from 'react-native';
+import { ScrollView, SafeAreaView, View, Image, Dimensions, Text, TouchableOpacity, Linking, ActivityIndicator } from 'react-native';
 // import { WebView } from 'react-native-webview';
 import { Divider, ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -162,46 +162,48 @@ class Post extends Component {
     render() {
         const iconSize = 30;
         return (
-            <ScrollView
-                style={{ backgroundColor: 'black', paddingLeft: 10, paddingRight: 10 }}
-                onScroll={({ nativeEvent }) => {
-                    if (this.isCloseToBottom(nativeEvent) && this.state.fetchingData === false) {
-                        this.setState({
-                            fetchingData: true
-                        });
-                        this.loadMoreComments();
-                    }
-                }}
-            >
-                {this.renderImage()}
-                {this.renderLink()}
-                <Text style={{ fontSize: 20, color: 'white', paddingTop: 5 }}>{this.state.postData.title}</Text>
-                <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ color: 'grey' }}>{`in r/${this.state.postData.subreddit} `}</Text>
-                    <Text style={{ color: 'grey' }}>{`by ${this.state.postData.author}`}</Text>
-                </View>
-                <Text style={{ color: 'grey' }}>
-                    <Icon name='arrowup' color='grey' />{`${this.state.postData.score}`}
-                </Text>
-                {this.state.selftext !== "" && (
-                    <Text style={{ color: 'white' }}>
-                        {this.state.selftext}
-                    </Text>
-                )}
-                <Divider style={{ marginTop: 10 }} />
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, marginLeft: 20, marginRight: 20 }}>
-                    <Icon color="white" size={iconSize} name="upcircleo" />
-                    <Icon color="white" size={iconSize} name="circledowno" />
-                    <Icon color="white" size={iconSize} name="save" />
-                    <Icon color="white" size={iconSize} name="upload" />
-                </View>
-                <View style={{ marginTop: 10 }}>
-                    {this.renderComments(this.state.postCommentData)}
-                    <View style={{ marginTop: 10 }}>
-                        <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />
+            <SafeAreaView style={{ backgroundColor: "black" }}>
+                <ScrollView
+                    style={{ backgroundColor: 'black', paddingLeft: 10, paddingRight: 10 }}
+                    onScroll={({ nativeEvent }) => {
+                        if (this.isCloseToBottom(nativeEvent) && this.state.fetchingData === false) {
+                            this.setState({
+                                fetchingData: true
+                            });
+                            this.loadMoreComments();
+                        }
+                    }}
+                >
+                    {this.renderImage()}
+                    {this.renderLink()}
+                    <Text style={{ fontSize: 20, color: 'white', paddingTop: 5 }}>{this.state.postData.title}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ color: 'grey' }}>{`in r/${this.state.postData.subreddit} `}</Text>
+                        <Text style={{ color: 'grey' }}>{`by ${this.state.postData.author}`}</Text>
                     </View>
-                </View>
-            </ScrollView>
+                    <Text style={{ color: 'grey' }}>
+                        <Icon name='arrowup' color='grey' />{`${this.state.postData.score}`}
+                    </Text>
+                    {this.state.selftext !== "" && (
+                        <Text style={{ color: 'white' }}>
+                            {this.state.selftext}
+                        </Text>
+                    )}
+                    <Divider style={{ marginTop: 10 }} />
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, marginLeft: 20, marginRight: 20 }}>
+                        <Icon color="white" size={iconSize} name="upcircleo" />
+                        <Icon color="white" size={iconSize} name="circledowno" />
+                        <Icon color="white" size={iconSize} name="save" />
+                        <Icon color="white" size={iconSize} name="upload" />
+                    </View>
+                    <View style={{ marginTop: 10 }}>
+                        {this.renderComments(this.state.postCommentData)}
+                        <View style={{ marginTop: 10 }}>
+                            <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />
+                        </View>
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
         );
     }
 };
