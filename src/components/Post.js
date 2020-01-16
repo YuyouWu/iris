@@ -86,13 +86,11 @@ class Post extends Component {
             comments.length > 0 &&
             comments.map((comment, i) => {
                 return (
-                    <View>
-                        <CommentList
-                            key={i}
-                            level={0}
-                            comment={comment}
-                        />
-                    </View>
+                    <CommentList
+                        key={i}
+                        level={0}
+                        comment={comment}
+                    />
                 )
             })
         )
@@ -190,13 +188,13 @@ class Post extends Component {
                         </Text>
                     )}
                     <Divider style={{ marginTop: 10 }} />
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, marginLeft: 20, marginRight: 20 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin:15 }}>
                         <Icon color="white" size={iconSize} name="upcircleo" />
                         <Icon color="white" size={iconSize} name="circledowno" />
                         <Icon color="white" size={iconSize} name="save" />
                         <Icon color="white" size={iconSize} name="upload" />
                     </View>
-                    <View style={{ marginTop: 10 }}>
+                    <View>
                         {this.renderComments(this.state.postCommentData)}
                         <View style={{ marginTop: 10 }}>
                             <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />

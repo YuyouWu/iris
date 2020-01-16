@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, Image, RefreshControl } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
@@ -9,6 +9,7 @@ class CommentList extends Component {
         super(props);
         this.state = {
             loading: false,
+            loadMoreComments: false,
             showSubComments: true,
             level: this.props.level + 1,
             commentMarginLeft: -10,
@@ -102,20 +103,41 @@ class CommentList extends Component {
                     replies !== undefined &&
                     replies !== "" &&
                     replies.data.children.length > 0 &&
-                    <View
-                        style={{
-                            marginLeft: this.state.containerMarginLeft + 10,
-                            borderLeftWidth: 2,
-                            borderLeftColor: 'grey'
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.setState({
+                                loadMoreComments: !this.state.loadMoreComments
+                            });
                         }}
                     >
-                        <ListItem
-                            title="Load more comments"
-                            titleStyle={{color:'white'}}
-                            containerStyle={{ backgroundColor: 'black' }}
-                            topDivider
-                        />
-                    </View>
+                        {this.state.loadMoreComments ? (
+                            replies.data.children.map((reply, i) => {
+                                if (this.state.showSubComments) {
+                                    return (
+                                        <CommentList key={i} comment={reply} level={this.state.level} />
+                                    )
+                                }
+                            })
+                        ) : (
+                                <View
+                                    style={{
+                                        marginLeft: this.state.containerMarginLeft + 10,
+                                        borderLeftWidth: 2,
+                                        borderLeftColor: 'grey'
+                                    }}
+                                >
+                                    <ListItem
+                                        title="Load more comments"
+                                        titleStyle={{ color: 'white' }}
+                                        containerStyle={{ backgroundColor: 'black' }}
+                                        topDivider
+                                    />
+                                </View>
+
+                            )
+
+                        }
+                    </TouchableOpacity>
                 }
             </View>
         )
