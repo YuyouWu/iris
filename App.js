@@ -7,23 +7,20 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  Text,
-  StatusBar,
-} from 'react-native';
 import 'react-native-gesture-handler';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import PostTileList from './src/components/PostTileList';
 import Post from './src/components/Post';
 import PostImage from './src/components/PostImage';
+import PostVideo from './src/components/PostVideo';
 
 const AppNavigator = createStackNavigator(
   {
     PostTileList: PostTileList,
     Post: Post,
-    PostImage: PostImage
+    PostImage: PostImage,
+    PostVideo: PostVideo
   },
   {
     initialRouteName: 'PostTileList',

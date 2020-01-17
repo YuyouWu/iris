@@ -100,7 +100,7 @@ class PostTileList extends Component {
                                 bottomDivider
                                 titleStyle={{ color: 'white' }}
                                 containerStyle={{ backgroundColor: 'black' }}
-                                leftElement={<PostThumbNail thumbnailURL={post.data.thumbnail} linkURL={post.data.url} postHint={post.data['post_hint']} navigation={this.props.navigation} />}
+                                leftElement={<PostThumbNail preview={post.data.preview} thumbnailURL={post.data.thumbnail} linkURL={post.data.url} postHint={post.data['post_hint']} navigation={this.props.navigation} />}
                                 onPress={() => {
                                     if (!this.state.isLoadingMorePost) {
                                         this.props.navigation.navigate('Post', {
