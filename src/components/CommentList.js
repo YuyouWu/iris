@@ -85,21 +85,23 @@ class CommentList extends Component {
                                 }
                             />
                         </View>
-                        {
-                            this.state.level < 4 &&
-                            replies !== undefined &&
-                            replies !== "" &&
-                            replies.data.children.length > 0 &&
-                            replies.data.children.map((reply, i) => {
-                                if (this.state.showSubComments) {
-                                    return (
-                                        <CommentList key={i} comment={reply} level={this.state.level} />
-                                    )
-                                }
-                            })
-                        }
                     </TouchableOpacity>
                 }
+                <TouchableOpacity>
+                    {
+                        this.state.level < 4 &&
+                        replies !== undefined &&
+                        replies !== "" &&
+                        replies.data.children.length > 0 &&
+                        replies.data.children.map((reply, i) => {
+                            if (this.state.showSubComments) {
+                                return (
+                                    <CommentList key={i} comment={reply} level={this.state.level} />
+                                )
+                            }
+                        })
+                    }
+                </TouchableOpacity>
                 {
                     //For comments nested higher than 3 levels, hide under a show more button
                     this.state.level >= 4 &&
