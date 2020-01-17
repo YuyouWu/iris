@@ -12,8 +12,8 @@ class CommentList extends Component {
             loadMoreComments: false,
             showSubComments: true,
             level: this.props.level + 1,
-            commentMarginLeft: -10,
-            containerMarginLeft: this.props.level * 10
+            commentMarginLeft: -5,
+            containerMarginLeft: this.props.level * 5
         }
     }
 
@@ -30,6 +30,7 @@ class CommentList extends Component {
     }
 
     render() {
+        const borderLeftWidth = 5;
         const replies = this.props.comment.data.replies;
         let commentColor = 'grey';
         switch (this.state.level) {
@@ -68,7 +69,7 @@ class CommentList extends Component {
                         <View
                             style={{
                                 marginLeft: this.state.containerMarginLeft,
-                                borderLeftWidth: 2,
+                                borderLeftWidth: borderLeftWidth,
                                 borderLeftColor: commentColor
                             }}
                         >
@@ -89,7 +90,7 @@ class CommentList extends Component {
                 }
                 <TouchableOpacity>
                     {
-                        this.state.level < 4 &&
+                        this.state.level < 5 &&
                         replies !== undefined &&
                         replies !== "" &&
                         replies.data.children.length > 0 &&
@@ -104,7 +105,7 @@ class CommentList extends Component {
                 </TouchableOpacity>
                 {
                     //For comments nested higher than 3 levels, hide under a show more button
-                    this.state.level >= 4 &&
+                    this.state.level >= 5 &&
                     replies !== undefined &&
                     replies !== "" &&
                     replies.data.children.length > 0 &&
@@ -127,7 +128,7 @@ class CommentList extends Component {
                                 <View
                                     style={{
                                         marginLeft: this.state.containerMarginLeft + 10,
-                                        borderLeftWidth: 2,
+                                        borderLeftWidth: borderLeftWidth,
                                         borderLeftColor: 'grey'
                                     }}
                                 >
