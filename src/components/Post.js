@@ -129,9 +129,9 @@ class Post extends Component {
             return (
                 <TouchableOpacity
                     onPress={() => {
-                        Linking.openURL(this.state.postData.url).catch((err) => {
-                            console.log(err);
-                        });
+                        this.props.navigation.navigate('PostLinkView', {
+                            url: this.state.postData.url
+                        });                
                     }}
                     style={{
                         paddingTop: 10

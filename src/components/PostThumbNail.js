@@ -16,8 +16,10 @@ class PostThumbNail extends Component {
     }
 
     //show web view of link
-    navigateToLink = () => {
-
+    navigateToLink = (url) => {
+        this.props.navigation.navigate('PostLinkView', {
+            url: url
+        });
     }
 
     //navigate to video 
@@ -27,8 +29,15 @@ class PostThumbNail extends Component {
         });
     }
 
+    //navigate to post for self post
+    navigateToPost = () => {
+        this.props.navigation.navigate('Post', {
+            post: this.props.post
+        });
+    }
+
     renderThumbNail = () => {
-        //Display video if preview exist
+        //Display video if preview video/gif exist
         if (this.props.preview && this.props.preview['reddit_video_preview']) {
             return (
                 <TouchableOpacity onPress={() => this.navigateToVideo(this.props.preview['reddit_video_preview']['fallback_url'])}>
@@ -39,11 +48,22 @@ class PostThumbNail extends Component {
                 </TouchableOpacity>
             )
         }
+        //Display video if reddit video exist
+        if (this.props.secureMedia && this.props.secureMedia['reddit_video']) {
+            return (
+                <TouchableOpacity onPress={() => this.navigateToVideo(this.props.secureMedia['reddit_video']['fallback_url'])}>
+                    <Image
+                        source={{ uri: this.props.thumbnailURL }}
+                        style={{ width: 100, height: 100, borderRadius: 10, overflow: 'hidden' }}
+                    />
+                </TouchableOpacity>
+            )
+        }
 
-        if (this.props.thumbnailURL === "self" || this.props.thumbnailURL === "image") {
+        if (this.props.thumbnailURL === "self") {
             //TODO: if this is a self post open Post component 
             return (
-                <TouchableOpacity onPress={() => this.navigateToImage(this.props.linkURL)}>
+                <TouchableOpacity onPress={() => this.navigateToPost()}>
                     <Icon
                         name="filetext1"
                         color="white"
@@ -55,7 +75,7 @@ class PostThumbNail extends Component {
         }
         if (this.props.postHint === "link") {
             return (
-                <TouchableOpacity onPress={() => this.navigateToImage(this.props.linkURL)}>
+                <TouchableOpacity onPress={() => this.navigateToLink(this.props.linkURL)}>
                     <Icon
                         name="link"
                         color="white"

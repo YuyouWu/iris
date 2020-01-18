@@ -14,12 +14,13 @@ class PostTileList extends Component {
             postCount: 0,
             isLoadingMorePost: false,
             refreshing: false,
+            subreddit: 'all'
         }
         this.getPost();
     }
 
     getPost = () => {
-        axios.get('https://old.reddit.com/r/all/.json').then((res) => {
+        axios.get(`https://old.reddit.com/r/${this.state.subreddit}/.json`).then((res) => {
             this.setState({
                 posts: res.data.data.children
             });
@@ -34,7 +35,7 @@ class PostTileList extends Component {
         //Get last post id
         const lastPostID = this.state.posts[this.state.posts.length - 1].data.name;
         //Fetch 25 more post after the last post 
-        axios.get(`https://old.reddit.com/r/all/.json?count=25&after=${lastPostID}`).then((res) => {
+        axios.get(`https://old.reddit.com/r/${this.state.subreddit}/.json?count=25&after=${lastPostID}`).then((res) => {
             let currentPosts = this.state.posts;
             const newPosts = res.data.data.children;
             currentPosts.push.apply(currentPosts, newPosts);
@@ -74,7 +75,7 @@ class PostTileList extends Component {
 
     render() {
         return (
-            <SafeAreaView style={{backgroundColor:"black"}}>
+            <SafeAreaView style={{ backgroundColor: "black" }}>
                 <StatusBar backgroundColor="black" barStyle="light-content" />
                 <ScrollView
                     refreshControl={
@@ -100,7 +101,17 @@ class PostTileList extends Component {
                                 bottomDivider
                                 titleStyle={{ color: 'white' }}
                                 containerStyle={{ backgroundColor: 'black' }}
-                                leftElement={<PostThumbNail preview={post.data.preview} thumbnailURL={post.data.thumbnail} linkURL={post.data.url} postHint={post.data['post_hint']} navigation={this.props.navigation} />}
+                                leftElement={
+                                    <PostThumbNail
+                                        preview={post.data.preview}
+                                        secureMedia={post.data['secure_media']}
+                                        linkURL={post.data.url}
+                                        postHint={post.data['post_hint']}
+                                        thumbnailURL={post.data.thumbnail}
+                                        navigation={this.props.navigation}
+                                        post={post}
+                                    />
+                                }
                                 onPress={() => {
                                     if (!this.state.isLoadingMorePost) {
                                         this.props.navigation.navigate('Post', {

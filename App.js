@@ -14,13 +14,15 @@ import PostTileList from './src/components/PostTileList';
 import Post from './src/components/Post';
 import PostImage from './src/components/PostImage';
 import PostVideo from './src/components/PostVideo';
+import PostLinkView from './src/components/PostLinkView';
 
 const AppNavigator = createStackNavigator(
   {
     PostTileList: PostTileList,
     Post: Post,
     PostImage: PostImage,
-    PostVideo: PostVideo
+    PostVideo: PostVideo,
+    PostLinkView: PostLinkView
   },
   {
     initialRouteName: 'PostTileList',
