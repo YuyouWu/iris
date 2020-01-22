@@ -9,7 +9,6 @@ class PostThumbNail extends Component {
 
     //show image 
     navigateToImage = (linkURL) => {
-        // TODO: check if it's link or image based on post_hint
         this.props.navigation.navigate('PostImage', {
             linkURL: linkURL
         });

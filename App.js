@@ -8,39 +8,13 @@
 
 import React from 'react';
 import 'react-native-gesture-handler';
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import PostTileList from './src/components/PostTileList';
-import Post from './src/components/Post';
-import PostImage from './src/components/PostImage';
-import PostVideo from './src/components/PostVideo';
-import PostLinkView from './src/components/PostLinkView';
 
-const AppNavigator = createStackNavigator(
-  {
-    PostTileList: PostTileList,
-    Post: Post,
-    PostImage: PostImage,
-    PostVideo: PostVideo,
-    PostLinkView: PostLinkView
-  },
-  {
-    initialRouteName: 'PostTileList',
-    headerMode: 'none',
-  }
-);
-
-const AppContainer = createAppContainer(AppNavigator);
+import StackNavigator from './src/components/StackNavigator';
+import BottomTabNavigator from './src/components/BottomTabNavigator';
 
 const App: () => React$Node = () => {
   return (
-    <AppContainer/>
-    // <>
-    //   <StatusBar barStyle="dark-content" />
-    //   <SafeAreaView>
-    //     <AppContainer/>
-    //   </SafeAreaView>
-    // </>
+      <BottomTabNavigator/>
   );
 };
 
