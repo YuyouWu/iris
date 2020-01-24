@@ -2,13 +2,13 @@ import React from 'react';
 import 'react-native-gesture-handler';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import StackNavigator from './StackNavigator';
+import PostNavigator from './PostScreenComponents/PostNavigator';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const BottomTabs = createBottomTabNavigator(
     {
-        StackNavigator: {
-            screen: StackNavigator,
+        PostNavigator: {
+            screen: PostNavigator,
             navigationOptions: {
                 title: 'Posts',
                 tabBarIcon: <Icon name="ios-albums" style={{color:"white"}} size={24}/>
@@ -16,7 +16,7 @@ const BottomTabs = createBottomTabNavigator(
         }
     },
     {
-        initialRouteName: 'StackNavigator',
+        initialRouteName: 'PostNavigator',
         tabBarOptions: {
             activeTintColor: '#bfbfbf',
             style:{

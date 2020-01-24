@@ -9,7 +9,6 @@
 import React from 'react';
 import 'react-native-gesture-handler';
 
-import StackNavigator from './src/components/StackNavigator';
 import BottomTabNavigator from './src/components/BottomTabNavigator';
 
 const App: () => React$Node = () => {
