@@ -18,11 +18,23 @@ class SearchContainer extends Component {
         });
     }
 
+    onSearchSubmit = (e) => {
+        //TODO: Error handling
+        const query = e.nativeEvent.text;
+        axios.get(`https://www.reddit.com/subreddits/search/.json?q=${query}&include_over_18=on`).then((res) => {
+            this.setState({
+                subreddits: res.data.data.children
+            });
+        });
+    }
+
+    //TODO: go to post view when user click on a list item 
     render() {
         return (
             <ScrollView>
                 <Input
                     placeholder='Search for subreddits'
+                    onSubmitEditing={(e) => this.onSearchSubmit(e)}
                 />
                 {this.state.subreddits &&
                     this.state.subreddits.map((subreddit, i) => (
