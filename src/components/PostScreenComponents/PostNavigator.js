@@ -20,6 +20,9 @@ class PostNavigator extends React.Component {
                     screen: PostTileList,
                     params: {
                         currentSub: this.props.navigation.getParam("currentSub")
+                    },
+                    navigationOptions: {
+                        title: `r/${this.props.navigation.getParam("currentSub")}`,
                     }
                 },
                 Post: Post,
@@ -29,14 +32,21 @@ class PostNavigator extends React.Component {
             },
             {
                 initialRouteName: 'PostTileList',
-                headerMode: 'none',
+                defaultNavigationOptions: {
+                    headerStyle: {
+                        backgroundColor: '#1a1a1a',
+                    },
+                    headerTitleStyle: {
+                        color: 'white'
+                    }
+                }
             }
         );
-        
+
         const Navigator = createAppContainer(NavStack);
-        
+
         return (
-            <Navigator/>
+            <Navigator />
         );
     }
 };
