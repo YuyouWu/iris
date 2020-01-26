@@ -13,7 +13,7 @@ class PostTileList extends Component {
             posts: null,
             postCount: 0,
             isLoadingMorePost: false,
-            refreshing: false,
+            refreshing: true,
             subreddit: 'all'
         }
 
@@ -75,12 +75,12 @@ class PostTileList extends Component {
     }
 
     scrollToTop = () => {
-        this.scroll.scrollTo({x: 0, y: 0, animated: true});
+        this.scroll.scrollTo({ x: 0, y: 0, animated: true });
     }
 
-    shouldComponentUpdate(props,state) {
+    shouldComponentUpdate(props, state) {
         const currentSub = props.navigation.getScreenProps().currentSub;
-        if(currentSub && state.subreddit !== currentSub){
+        if (currentSub && state.subreddit !== currentSub) {
             this.setState({
                 subreddit: currentSub
             }, () => {
@@ -88,7 +88,7 @@ class PostTileList extends Component {
                 this.props.navigation.navigate("PostTileList");
                 this.scrollToTop();
             });
-        } 
+        }
         return true;
     }
 
@@ -96,13 +96,13 @@ class PostTileList extends Component {
         return (
             <SafeAreaView style={{ backgroundColor: "black" }}>
                 <StatusBar backgroundColor="black" barStyle="light-content" />
+                <View style={{backgroundColor:'black'}}>
                     <ScrollView
                         refreshControl={
                             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
                         }
-                        contentContainerStyle={{ backgroundColor: 'black' }}
                         scrollEventThrottle={50}
-                        ref={(c) => {this.scroll = c}}
+                        ref={(c) => { this.scroll = c }}
                         onScroll={({ nativeEvent }) => {
                             if (this.isCloseToBottom(nativeEvent) && this.state.isLoadingMorePost === false) {
                                 this.setState({
@@ -145,18 +145,18 @@ class PostTileList extends Component {
 
                         {this.state.isLoadingMorePost ? (
                             <ListItem
-                                stye={{ padding: 10 }}
                                 containerStyle={{ backgroundColor: 'black' }}
                                 title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
                             />
                         ) : (
                                 <ListItem
-                                    stye={{ padding: 10, width: 50, height: 50 }}
+                                    style={{ padding: 5, width: 50, height: 50 }}
                                     containerStyle={{ backgroundColor: 'black' }}
                                 />
                             )
                         }
                     </ScrollView>
+                </View>
             </SafeAreaView>
         );
     }
