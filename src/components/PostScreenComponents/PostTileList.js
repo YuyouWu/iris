@@ -10,7 +10,7 @@ class PostTileList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            posts: null,
+            posts: [],
             postCount: 0,
             isLoadingMorePost: false,
             refreshing: true,
@@ -33,18 +33,20 @@ class PostTileList extends Component {
     }
 
     loadMorePost = () => {
-        //Get last post id
-        const lastPostID = this.state.posts[this.state.posts.length - 1].data.name;
-        //Fetch 25 more post after the last post 
-        axios.get(`https://old.reddit.com/r/${this.state.subreddit}/.json?count=25&after=${lastPostID}`).then((res) => {
-            let currentPosts = this.state.posts;
-            const newPosts = res.data.data.children;
-            currentPosts.push.apply(currentPosts, newPosts);
-            this.setState({
-                posts: currentPosts,
-                isLoadingMorePost: false
+        if (this.state.posts.length > 0) {
+            //Get last post id
+            const lastPostID = this.state.posts[this.state.posts.length - 1].data.name;
+            //Fetch 25 more post after the last post 
+            axios.get(`https://old.reddit.com/r/${this.state.subreddit}/.json?count=25&after=${lastPostID}`).then((res) => {
+                let currentPosts = this.state.posts;
+                const newPosts = res.data.data.children;
+                currentPosts.push.apply(currentPosts, newPosts);
+                this.setState({
+                    posts: currentPosts,
+                    isLoadingMorePost: false
+                });
             });
-        });
+        }
     }
 
     isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
