@@ -16,6 +16,7 @@ class PostTileList extends Component {
             refreshing: false,
             subreddit: 'all'
         }
+
         this.getPost();
     }
 
@@ -73,70 +74,82 @@ class PostTileList extends Component {
         );
     }
 
+    shouldComponentUpdate(props,state) {
+        const currentSub = props.navigation.getScreenProps().currentSub;
+        if(currentSub && state.subreddit !== currentSub){
+            this.setState({
+                subreddit: currentSub
+            }, () => {
+                this.onRefresh();
+            });
+        } 
+        return true;    
+    }
+
     render() {
         return (
             <SafeAreaView style={{ backgroundColor: "black" }}>
                 <StatusBar backgroundColor="black" barStyle="light-content" />
-                <ScrollView
-                    refreshControl={
-                        <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
-                    }
-                    contentContainerStyle={{ backgroundColor: 'black' }}
-                    scrollEventThrottle={50}
-                    onScroll={({ nativeEvent }) => {
-                        if (this.isCloseToBottom(nativeEvent) && this.state.isLoadingMorePost === false) {
-                            this.setState({
-                                isLoadingMorePost: true
-                            });
-                            this.loadMorePost();
+                    <ScrollView
+                        refreshControl={
+                            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
                         }
-                    }}
-                >
-                    {this.state.posts &&
-                        this.state.posts.map((post, i) => (
-                            <ListItem
-                                key={i}
-                                title={post.data.title}
-                                subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score)}
-                                bottomDivider
-                                titleStyle={{ color: 'white' }}
-                                containerStyle={{ backgroundColor: 'black' }}
-                                leftElement={
-                                    <PostThumbNail
-                                        preview={post.data.preview}
-                                        secureMedia={post.data['secure_media']}
-                                        linkURL={post.data.url}
-                                        postHint={post.data['post_hint']}
-                                        thumbnailURL={post.data.thumbnail}
-                                        navigation={this.props.navigation}
-                                        post={post}
-                                    />
-                                }
-                                onPress={() => {
-                                    if (!this.state.isLoadingMorePost) {
-                                        this.props.navigation.navigate('Post', {
-                                            post: post
-                                        });
+                        contentContainerStyle={{ backgroundColor: 'black' }}
+                        scrollEventThrottle={50}
+                        onScroll={({ nativeEvent }) => {
+                            if (this.isCloseToBottom(nativeEvent) && this.state.isLoadingMorePost === false) {
+                                this.setState({
+                                    isLoadingMorePost: true
+                                });
+                                this.loadMorePost();
+                            }
+                        }}
+                    >
+                        {this.state.posts &&
+                            this.state.posts.map((post, i) => (
+                                <ListItem
+                                    key={i}
+                                    title={post.data.title}
+                                    subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score)}
+                                    bottomDivider
+                                    titleStyle={{ color: 'white' }}
+                                    containerStyle={{ backgroundColor: 'black' }}
+                                    leftElement={
+                                        <PostThumbNail
+                                            preview={post.data.preview}
+                                            secureMedia={post.data['secure_media']}
+                                            linkURL={post.data.url}
+                                            postHint={post.data['post_hint']}
+                                            thumbnailURL={post.data.thumbnail}
+                                            navigation={this.props.navigation}
+                                            post={post}
+                                        />
                                     }
-                                }}
-                            />
-                        ))
-                    }
+                                    onPress={() => {
+                                        if (!this.state.isLoadingMorePost) {
+                                            this.props.navigation.navigate('Post', {
+                                                post: post
+                                            });
+                                        }
+                                    }}
+                                />
+                            ))
+                        }
 
-                    {this.state.isLoadingMorePost ? (
-                        <ListItem
-                            stye={{ padding: 10 }}
-                            containerStyle={{ backgroundColor: 'black' }}
-                            title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
-                        />
-                    ) : (
+                        {this.state.isLoadingMorePost ? (
                             <ListItem
-                                stye={{ padding: 10, width: 50, height: 50 }}
+                                stye={{ padding: 10 }}
                                 containerStyle={{ backgroundColor: 'black' }}
+                                title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
                             />
-                        )
-                    }
-                </ScrollView>
+                        ) : (
+                                <ListItem
+                                    stye={{ padding: 10, width: 50, height: 50 }}
+                                    containerStyle={{ backgroundColor: 'black' }}
+                                />
+                            )
+                        }
+                    </ScrollView>
             </SafeAreaView>
         );
     }

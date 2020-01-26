@@ -28,9 +28,9 @@ class SearchContainer extends Component {
         });
     }
 
-    onPressSubreddit = () => {
+    onPressSubreddit = (subName) => {
         this.props.navigation.navigate("PostNavigator", {
-            currentSub:"all"
+            currentSub: subName
         });
         //Store selected subreddit as context 
     }

@@ -27,7 +27,9 @@ const Navigator = createAppContainer(NavStack);
 class PostNavigator extends React.Component {
     render() {
         return (
-            <Navigator/>
+            <Navigator screenProps={{
+                currentSub: this.props.navigation.getParam('currentSub')
+            }}/>
         );
     }
 };
