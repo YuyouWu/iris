@@ -74,6 +74,10 @@ class PostTileList extends Component {
         );
     }
 
+    scrollToTop = () => {
+        this.scroll.scrollTo({x: 0, y: 0, animated: true});
+    }
+
     shouldComponentUpdate(props,state) {
         const currentSub = props.navigation.getScreenProps().currentSub;
         if(currentSub && state.subreddit !== currentSub){
@@ -81,9 +85,11 @@ class PostTileList extends Component {
                 subreddit: currentSub
             }, () => {
                 this.onRefresh();
+                this.props.navigation.navigate("PostTileList");
+                this.scrollToTop();
             });
         } 
-        return true;    
+        return true;
     }
 
     render() {
@@ -96,6 +102,7 @@ class PostTileList extends Component {
                         }
                         contentContainerStyle={{ backgroundColor: 'black' }}
                         scrollEventThrottle={50}
+                        ref={(c) => {this.scroll = c}}
                         onScroll={({ nativeEvent }) => {
                             if (this.isCloseToBottom(nativeEvent) && this.state.isLoadingMorePost === false) {
                                 this.setState({
