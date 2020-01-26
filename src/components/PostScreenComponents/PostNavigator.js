@@ -8,28 +8,35 @@ import PostImage from './PostImage';
 import PostVideo from './PostVideo';
 import PostLinkView from './PostLinkView';
 
-const NavStack = createStackNavigator(
-    {
-        PostTileList: PostTileList,
-        Post: Post,
-        PostImage: PostImage,
-        PostVideo: PostVideo,
-        PostLinkView: PostLinkView
-    },
-    {
-        initialRouteName: 'PostTileList',
-        headerMode: 'none',
-    }
-);
-
-const Navigator = createAppContainer(NavStack);
-
 class PostNavigator extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
+        const NavStack = createStackNavigator(
+            {
+                PostTileList: {
+                    screen: PostTileList,
+                    params: {
+                        currentSub: this.props.navigation.getParam("currentSub")
+                    }
+                },
+                Post: Post,
+                PostImage: PostImage,
+                PostVideo: PostVideo,
+                PostLinkView: PostLinkView
+            },
+            {
+                initialRouteName: 'PostTileList',
+                headerMode: 'none',
+            }
+        );
+        
+        const Navigator = createAppContainer(NavStack);
+        
         return (
-            <Navigator screenProps={{
-                currentSub: this.props.navigation.getParam('currentSub')
-            }}/>
+            <Navigator/>
         );
     }
 };

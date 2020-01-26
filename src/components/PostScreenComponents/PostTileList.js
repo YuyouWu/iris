@@ -14,7 +14,7 @@ class PostTileList extends Component {
             postCount: 0,
             isLoadingMorePost: false,
             refreshing: true,
-            subreddit: 'all'
+            subreddit: props.navigation.getParam('currentSub') || 'all'
         }
 
         this.getPost();
@@ -78,25 +78,12 @@ class PostTileList extends Component {
         this.scroll.scrollTo({ x: 0, y: 0, animated: true });
     }
 
-    shouldComponentUpdate(props, state) {
-        const currentSub = props.navigation.getScreenProps().currentSub;
-        if (currentSub && state.subreddit !== currentSub) {
-            this.setState({
-                subreddit: currentSub
-            }, () => {
-                this.onRefresh();
-                this.props.navigation.navigate("PostTileList");
-                this.scrollToTop();
-            });
-        }
-        return true;
-    }
 
     render() {
         return (
             <SafeAreaView style={{ backgroundColor: "black" }}>
                 <StatusBar backgroundColor="black" barStyle="light-content" />
-                <View style={{backgroundColor:'black'}}>
+                <View style={{ backgroundColor: 'black' }}>
                     <ScrollView
                         refreshControl={
                             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
