@@ -28,6 +28,13 @@ class SearchContainer extends Component {
         });
     }
 
+    onPressSubreddit = () => {
+        this.props.navigation.navigate("PostNavigator", {
+            currentSub:"all"
+        });
+        //Store selected subreddit as context 
+    }
+
     //TODO: go to post view when user click on a list item 
     render() {
         return (
@@ -40,7 +47,8 @@ class SearchContainer extends Component {
                     this.state.subreddits.map((subreddit, i) => (
                         <ListItem
                             key={i}
-                            title={subreddit.data.display_name}
+                            title={subreddit.data["display_name"]}
+                            onPress = {() => {this.onPressSubreddit(subreddit.data["display_name"])}}
                         />
                     ))
                 }
