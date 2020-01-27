@@ -11,7 +11,6 @@ class PostTileList extends Component {
         super(props);
         this.state = {
             posts: [],
-            postCount: 0,
             isLoadingMorePost: false,
             refreshing: true,
             subreddit: props.navigation.getParam('currentSub') || 'all'
@@ -34,6 +33,9 @@ class PostTileList extends Component {
 
     loadMorePost = () => {
         if (this.state.posts.length > 0) {
+            this.setState({
+                isLoadingMorePost: true
+            });
             //Get last post id
             const lastPostID = this.state.posts[this.state.posts.length - 1].data.name;
             //Fetch 25 more post after the last post 
@@ -50,7 +52,7 @@ class PostTileList extends Component {
     }
 
     isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
-        const paddingToBottom = 200;
+        const paddingToBottom = 500;
         return layoutMeasurement.height + contentOffset.y >=
             contentSize.height - paddingToBottom;
     };
@@ -93,10 +95,7 @@ class PostTileList extends Component {
                         scrollEventThrottle={50}
                         ref={(c) => { this.scroll = c }}
                         onScroll={({ nativeEvent }) => {
-                            if (this.isCloseToBottom(nativeEvent) && this.state.isLoadingMorePost === false) {
-                                this.setState({
-                                    isLoadingMorePost: true
-                                });
+                            if (this.isCloseToBottom(nativeEvent) && !this.state.isLoadingMorePost) {
                                 this.loadMorePost();
                             }
                         }}
@@ -122,11 +121,9 @@ class PostTileList extends Component {
                                         />
                                     }
                                     onPress={() => {
-                                        if (!this.state.isLoadingMorePost) {
-                                            this.props.navigation.navigate('Post', {
-                                                post: post
-                                            });
-                                        }
+                                        this.props.navigation.navigate('Post', {
+                                            post: post
+                                        });
                                     }}
                                 />
                             ))
