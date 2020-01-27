@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
 import axios from 'axios';
 
+import listStyles from '../../styles/listStyle'; 
+import inputStyle from '../../styles/inputStyle'; 
 class SubredditListContainer extends Component {
     constructor(props) {
         super(props);
@@ -19,28 +21,40 @@ class SubredditListContainer extends Component {
 
     render() {
         return (
-            <ScrollView>
-                <Input
-                    placeholder='Filter'
-                />
-                <ListItem
-                    key="home"
-                    title="Home"
-                    bottomDivider
-                />
-                <ListItem
-                    key="popular"
-                    title="Popular"
-                    bottomDivider
-                    onPress = {() => {this.onPressSubreddit("popular")}}
-                />
-                <ListItem
-                    key="all"
-                    title="All"
-                    bottomDivider
-                    onPress = {() => {this.onPressSubreddit("all")}}
-                />
-                <Text style={{marginTop:15, marginLeft: 10}}>Subscription</Text>
+            <ScrollView style={listStyles.containerBackground}>
+                <View style={listStyles.listBackground}>
+                    <Input
+                        containerStyle={inputStyle.container}
+                        inputStyle={inputStyle.input}
+                        inputContainerStyle={inputStyle.inputContainer}
+                        placeholderTextColor={inputStyle.placeHolderColor.color}
+                        placeholder='Filter Subreddits'
+                    />
+                    <ListItem
+                        key="home"
+                        title="Home"
+                        titleStyle={listStyles.title}
+                        containerStyle={listStyles.listBackground}
+                        bottomDivider
+                    />
+                    <ListItem
+                        key="popular"
+                        title="Popular"
+                        titleStyle={listStyles.title}
+                        containerStyle={listStyles.listBackground}
+                        bottomDivider
+                        onPress={() => { this.onPressSubreddit("popular") }}
+                    />
+                    <ListItem
+                        key="all"
+                        title="All"
+                        titleStyle={listStyles.title}
+                        containerStyle={listStyles.listBackground}
+                        bottomDivider
+                        onPress={() => { this.onPressSubreddit("all") }}
+                    />
+                    <Text style={listStyles.title}>Subscription</Text>
+                </View>
             </ScrollView>
         );
     }

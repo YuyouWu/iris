@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, TextInput } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
+
+import listStyles from '../../styles/listStyle';
+import inputStyle from '../../styles/inputStyle';
+
 import axios from 'axios';
 
 class SearchContainer extends Component {
@@ -39,6 +43,10 @@ class SearchContainer extends Component {
         return (
             <ScrollView>
                 <Input
+                    containerStyle={inputStyle.container}
+                    inputStyle={inputStyle.input}
+                    inputContainerStyle={inputStyle.inputContainer}
+                    placeholderTextColor={inputStyle.placeHolderColor.color}
                     placeholder='Search for subreddits'
                     onSubmitEditing={(e) => this.onSearchSubmit(e)}
                 />
@@ -47,7 +55,9 @@ class SearchContainer extends Component {
                         <ListItem
                             key={i}
                             title={subreddit.data["display_name"]}
-                            onPress = {() => {this.onPressSubreddit(subreddit.data["display_name"])}}
+                            titleStyle={listStyles.title}
+                            containerStyle={listStyles.listBackground}
+                            onPress={() => { this.onPressSubreddit(subreddit.data["display_name"]) }}
                             bottomDivider
                         />
                     ))

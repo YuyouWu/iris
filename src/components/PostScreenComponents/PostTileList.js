@@ -4,6 +4,7 @@ import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 
+import listStyles from '../../styles/listStyle';
 import PostThumbNail from './PostThumbNail';
 
 class PostTileList extends Component {
@@ -85,9 +86,9 @@ class PostTileList extends Component {
 
     render() {
         return (
-            <SafeAreaView style={{ backgroundColor: "black" }}>
+            <SafeAreaView style={listStyles.containerBackground}>
                 <StatusBar backgroundColor="black" barStyle="light-content" />
-                <View style={{ backgroundColor: 'black' }}>
+                <View style={listStyles.containerBackground}>
                     <ScrollView
                         refreshControl={
                             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
@@ -107,8 +108,8 @@ class PostTileList extends Component {
                                     title={post.data.title}
                                     subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score)}
                                     bottomDivider
-                                    titleStyle={{ color: 'white' }}
-                                    containerStyle={{ backgroundColor: 'black' }}
+                                    titleStyle={listStyles.title}
+                                    containerStyle={listStyles.listBackground}
                                     leftElement={
                                         <PostThumbNail
                                             preview={post.data.preview}
@@ -131,13 +132,13 @@ class PostTileList extends Component {
 
                         {this.state.isLoadingMorePost ? (
                             <ListItem
-                                containerStyle={{ backgroundColor: 'black' }}
+                                containerStyle={listStyles.listBackground}
                                 title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
                             />
                         ) : (
                                 <ListItem
-                                    style={{ padding: 5, width: 50, height: 50 }}
-                                    containerStyle={{ backgroundColor: 'black' }}
+                                    title= ""
+                                    containerStyle={listStyles.listBackground}
                                 />
                             )
                         }
