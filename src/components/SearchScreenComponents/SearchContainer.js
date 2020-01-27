@@ -32,7 +32,6 @@ class SearchContainer extends Component {
         this.props.navigation.navigate("PostNavigator", {
             currentSub: subName
         });
-        //Store selected subreddit as context 
     }
 
     //TODO: go to post view when user click on a list item 
@@ -49,6 +48,7 @@ class SearchContainer extends Component {
                             key={i}
                             title={subreddit.data["display_name"]}
                             onPress = {() => {this.onPressSubreddit(subreddit.data["display_name"])}}
+                            bottomDivider
                         />
                     ))
                 }

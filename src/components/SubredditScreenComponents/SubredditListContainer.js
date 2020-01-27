@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
 import axios from 'axios';
 
@@ -7,16 +7,41 @@ class SubredditListContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            subreddits: []
+            subscription: []
         }
+    }
+
+    onPressSubreddit = (subName) => {
+        this.props.navigation.navigate("PostNavigator", {
+            currentSub: subName
+        });
     }
 
     render() {
         return (
-            <View>
-                <Text>This is the subreddit list comoponent</Text>
-                <Text>It will show the list of subreddits the user is subscribed to</Text>
-            </View>
+            <ScrollView>
+                <Input
+                    placeholder='Filter'
+                />
+                <ListItem
+                    key="home"
+                    title="Home"
+                    bottomDivider
+                />
+                <ListItem
+                    key="popular"
+                    title="Popular"
+                    bottomDivider
+                    onPress = {() => {this.onPressSubreddit("popular")}}
+                />
+                <ListItem
+                    key="all"
+                    title="All"
+                    bottomDivider
+                    onPress = {() => {this.onPressSubreddit("all")}}
+                />
+                <Text style={{marginTop:15, marginLeft: 10}}>Subscription</Text>
+            </ScrollView>
         );
     }
 };
