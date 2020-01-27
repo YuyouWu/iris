@@ -14,15 +14,16 @@ class PostNavigator extends React.Component {
     }
 
     render() {
+        const currentSub = this.props.navigation.getParam("currentSub") ? this.props.navigation.getParam("currentSub") : 'all'
         const NavStack = createStackNavigator(
             {
                 PostTileList: {
                     screen: PostTileList,
                     params: {
-                        currentSub: this.props.navigation.getParam("currentSub")
+                        currentSub: currentSub
                     },
                     navigationOptions: {
-                        title: `r/${this.props.navigation.getParam("currentSub")}`,
+                        title: `r/${currentSub}`,
                     }
                 },
                 Post: Post,
