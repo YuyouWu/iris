@@ -4,10 +4,19 @@ import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import PostNavigator from './PostScreenComponents/PostNavigator';
 import SearchContainer from './SearchScreenComponents/SearchContainer';
+import SubredditListContainer from './SubredditScreenComponents/SubredditListContainer';
+
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const BottomTabs = createBottomTabNavigator(
-    {
+    {   
+        SubredditListContainer: {
+            screen: SubredditListContainer,
+            navigationOptions: {
+                title: 'Subreddits',
+                tabBarIcon: ({tintColor}) => <Icon name="ios-home" size={24} color={tintColor}/>
+            }
+        },
         PostNavigator: {
             screen: PostNavigator,
             navigationOptions: {
