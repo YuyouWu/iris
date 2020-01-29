@@ -74,15 +74,14 @@ class CommentList extends Component {
                         >
                             <ListItem
                                 title={this.renderAuthor()}
-                                subtitle={this.props.comment.data.body}
+                                subtitle={
+                                    this.state.showSubComments ? (
+                                        this.props.comment.data.body
+                                    ) : (null)
+                                }
                                 topDivider
                                 containerStyle={{ backgroundColor: 'black' }}
                                 subtitleStyle={{ color: 'white', fontSize: 15, marginLeft: this.state.commentMarginLeft }}
-                                subtitleProps={
-                                    !this.state.showSubComments ? (
-                                        { numberOfLines: 1 }
-                                    ) : ({})
-                                }
                             />
                         </View>
                     </TouchableOpacity>
