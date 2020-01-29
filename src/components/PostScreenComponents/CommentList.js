@@ -12,7 +12,7 @@ class CommentList extends Component {
             showSubComments: true,
             level: this.props.level + 1,
             commentMarginLeft: -5,
-            containerMarginLeft: this.props.level * 5
+            containerMarginLeft: this.props.level * 5,
         }
     }
 
@@ -31,28 +31,31 @@ class CommentList extends Component {
     render() {
         const borderLeftWidth = 5;
         const replies = this.props.comment.data.replies;
-        let commentColor = 'grey';
-        switch (this.state.level) {
-            case 1:
-                commentColor = 'black';
+        let commentColor;
+        if (!this.props.commentColor) {
+            commentColor = 'black';
+        }
+        switch (this.props.commentColor) {
+            case 'black':
+                commentColor = '#289EFE';
                 break;
-            case 2:
-                commentColor = 'blue';
+            case '#289EFE':
+                commentColor = '#9DFF48';
                 break;
-            case 3:
-                commentColor = 'green';
+            case '#9DFF48':
+                commentColor = '#FFFA48';
                 break;
-            case 4:
-                commentColor = 'yellow';
+            case '#FFFA48':
+                commentColor = '#FF9F48';
                 break;
-            case 5:
-                commentColor = 'red';
+            case '#FF9F48':
+                commentColor = '#FF6D6E';
                 break;
-            case 6:
-                commentColor = 'purple';
+            case '#FF6D6E':
+                commentColor = '#289EFE';
                 break;
             default:
-                commentColor = 'grey';
+                commentColor = 'black';
         }
 
         return (
@@ -95,7 +98,7 @@ class CommentList extends Component {
                         replies.data.children.map((reply, i) => {
                             if (this.state.showSubComments) {
                                 return (
-                                    <CommentList key={i} comment={reply} level={this.state.level} />
+                                    <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} />
                                 )
                             }
                         })
@@ -118,7 +121,7 @@ class CommentList extends Component {
                             replies.data.children.map((reply, i) => {
                                 if (this.state.showSubComments) {
                                     return (
-                                        <CommentList key={i} comment={reply} level={this.state.level} />
+                                        <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} />
                                     )
                                 }
                             })
