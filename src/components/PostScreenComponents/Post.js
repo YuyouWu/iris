@@ -20,7 +20,8 @@ class Post extends Component {
             fetchingData: true,
             showImage: false,
             beginningCommentIdx: 0,
-            endCommentIdx: 15
+            endCommentIdx: 10,
+            noMoreComments: false
         }
 
         axios.get(`https://www.reddit.com${this.state.postData.permalink}.json`).then((res) => {
@@ -51,14 +52,18 @@ class Post extends Component {
     }
 
     loadMoreComments = () => {
+        const commentIncrement = 10;
         this.setState({
-            beginningCommentIdx: this.state.beginningCommentIdx + 15,
-            endCommentIdx: this.state.endCommentIdx + 15
+            beginningCommentIdx: this.state.beginningCommentIdx + commentIncrement,
+            endCommentIdx: this.state.endCommentIdx + commentIncrement
         }, () => {
             let currentComments = this.state.postCommentData;
             let newComments;
             if (this.state.endCommentIdx > this.state.allComments.length) {
-                newComments = this.state.allComments.slice(this.state.beginningCommentIdx, this.state.allComments.length);
+                newComments = this.state.allComments.slice(this.state.beginningCommentIdx, this.state.allComments.length - 1);
+                this.setState({
+                    noMoreComments: true
+                })
             } else {
                 newComments = this.state.allComments.slice(this.state.beginningCommentIdx, this.state.endCommentIdx);
             }
@@ -131,7 +136,7 @@ class Post extends Component {
                     onPress={() => {
                         this.props.navigation.navigate('PostLinkView', {
                             url: this.state.postData.url
-                        });                
+                        });
                     }}
                     style={{
                         paddingTop: 10
@@ -187,7 +192,7 @@ class Post extends Component {
                         </Text>
                     )}
                     <Divider style={{ marginTop: 10 }} />
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin:15 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 15 }}>
                         <Icon color="white" size={iconSize} name="upcircleo" />
                         <Icon color="white" size={iconSize} name="circledowno" />
                         <Icon color="white" size={iconSize} name="save" />
@@ -195,9 +200,11 @@ class Post extends Component {
                     </View>
                     <View>
                         {this.renderComments(this.state.postCommentData)}
-                        <View style={{ marginTop: 10 }}>
-                            <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />
-                        </View>
+                        {!this.state.noMoreComments &&
+                            <View style={{ marginTop: 10 }}>
+                                <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />
+                            </View>
+                        }
                     </View>
                 </ScrollView>
             </SafeAreaView>
