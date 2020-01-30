@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/AntDesign';
+import commentStyle from '../../styles/commentStyle'
 
 class CommentList extends Component {
     constructor(props) {
@@ -20,8 +21,8 @@ class CommentList extends Component {
     renderAuthor = () => {
         return (
             <View style={{ flexDirection: 'row' }}>
-                <Text style={{ color: 'grey', fontSize: 15, marginLeft: this.state.commentMarginLeft }}>{this.props.comment.data.author} </Text>
-                <Text style={{ color: 'grey', fontSize: 15 }}>
+                <Text style={commentStyle.authorText}>{this.props.comment.data.author} </Text>
+                <Text style={commentStyle.scoreText}>
                     <Icon name='arrowup' color='grey' />{this.props.comment.data.score}
                 </Text>
             </View>
@@ -83,8 +84,8 @@ class CommentList extends Component {
                                     ) : (null)
                                 }
                                 topDivider
-                                containerStyle={{ backgroundColor: 'black' }}
-                                subtitleStyle={{ color: 'white', fontSize: 15, marginLeft: this.state.commentMarginLeft }}
+                                containerStyle={commentStyle.containerBackground}
+                                subtitleStyle={commentStyle.commentText}
                             />
                         </View>
                     </TouchableOpacity>
@@ -138,7 +139,7 @@ class CommentList extends Component {
                                     <ListItem
                                         title="Load more comments"
                                         titleStyle={{ color: 'white' }}
-                                        containerStyle={{ backgroundColor: 'black' }}
+                                        containerStyle={commentStyle.containerBackground}
                                         topDivider
                                     />
                                 </View>
