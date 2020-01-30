@@ -21,7 +21,7 @@ class Post extends Component {
             showImage: false,
             beginningCommentIdx: 0,
             endCommentIdx: 10,
-            noMoreComments: false
+            endOfComments: false
         }
 
         axios.get(`https://www.reddit.com${this.state.postData.permalink}.json`).then((res) => {
@@ -65,7 +65,7 @@ class Post extends Component {
             if (this.state.endCommentIdx > this.state.allComments.length) {
                 newComments = this.state.allComments.slice(this.state.beginningCommentIdx, this.state.allComments.length - 1);
                 this.setState({
-                    noMoreComments: true
+                    endOfComments: true
                 })
             } else {
                 newComments = this.state.allComments.slice(this.state.beginningCommentIdx, this.state.endCommentIdx);
@@ -171,7 +171,7 @@ class Post extends Component {
                 <ScrollView
                     style={{ backgroundColor: 'black', paddingLeft: 10, paddingRight: 10 }}
                     onScroll={({ nativeEvent }) => {
-                        if (this.isCloseToBottom(nativeEvent) && this.state.fetchingData === false) {
+                        if (this.isCloseToBottom(nativeEvent) && this.state.fetchingData === false && !this.state.endOfComments) {
                             this.setState({
                                 fetchingData: true
                             });
@@ -203,7 +203,7 @@ class Post extends Component {
                     </View>
                     <View>
                         {this.renderComments(this.state.postCommentData)}
-                        {!this.state.noMoreComments &&
+                        {!this.state.endOfComments &&
                             <View style={{ marginTop: 10 }}>
                                 <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />
                             </View>
