@@ -89,9 +89,11 @@ class CommentList extends Component {
                         </View>
                     </TouchableOpacity>
                 }
+
+                {/*Rendering replies to parents comment*/}
                 <TouchableOpacity>
                     {
-                        this.state.level < 5 &&
+                        this.state.level < 4 &&
                         replies !== undefined &&
                         replies !== "" &&
                         replies.data.children.length > 0 &&
@@ -105,8 +107,8 @@ class CommentList extends Component {
                     }
                 </TouchableOpacity>
                 {
-                    //For comments nested higher than 3 levels, hide under a show more button
-                    this.state.level >= 5 &&
+                    //For comments nested higher than 4 levels, hide under a show more button
+                    this.state.level >= 4 &&
                     replies !== undefined &&
                     replies !== "" &&
                     replies.data.children.length > 0 &&

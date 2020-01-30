@@ -29,6 +29,9 @@ class Post extends Component {
                 postContentData: res.data[0].data.children[0].data,
                 selftext: res.data[0].data.children[0].data.selftext,
                 allComments: res.data[1].data.children,
+                //TODO optimize comments loading 
+                //DO not fetch all the comments then slice 
+                //Use same approach as loading posts  
                 postCommentData: res.data[1].data.children.slice(this.state.beginningCommentIdx, this.state.endCommentIdx)
             });
         }).then(() => {
