@@ -7,6 +7,7 @@ import SearchContainer from './SearchScreenComponents/SearchContainer';
 import SubredditListContainer from './SubredditScreenComponents/SubredditListContainer';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import bottomTabStyle from '../styles/bottomTabStyle';
 
 const BottomTabs = createBottomTabNavigator(
     {   
@@ -14,24 +15,23 @@ const BottomTabs = createBottomTabNavigator(
             screen: SubredditListContainer,
             navigationOptions: {
                 title: 'Subreddits',
-                tabBarIcon: ({tintColor}) => <Icon name="ios-home" size={24} color={tintColor}/>
+                tabBarIcon: ({tintColor}) => <Icon name="ios-home" size={bottomTabStyle.icon.fontSize} color={tintColor}/>
             }
         },
         PostNavigator: {
             screen: PostNavigator,
             navigationOptions: {
                 title: 'Posts',
-                tabBarIcon: ({tintColor}) => <Icon name="ios-albums" size={24} color={tintColor}/>,
+                tabBarIcon: ({tintColor}) => <Icon name="ios-albums" size={bottomTabStyle.icon.fontSize} color={tintColor}/>,
             }
         },
         SearchContainer: {
             screen: SearchContainer,
             navigationOptions: {
                 title: 'Search',
-                tabBarIcon: ({tintColor}) => <Icon name="ios-search" size={24} color={tintColor}/>
+                tabBarIcon: ({tintColor}) => <Icon name="ios-search" size={bottomTabStyle.icon.fontSize} color={tintColor}/>
             }
         }
-
     },
     {
         initialRouteName: 'PostNavigator',
