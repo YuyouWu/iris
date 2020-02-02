@@ -86,15 +86,15 @@ class PostTileList extends Component {
 
     render() {
         return (
-            <SafeAreaView style={listStyles.containerBackground}>
+            <SafeAreaView style={listStyles.listBackground}>
                 <StatusBar backgroundColor="black" barStyle="light-content" />
                 <View style={listStyles.containerBackground}>
                     <ScrollView
                         refreshControl={
                             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
                         }
-                        scrollEventThrottle={50}
                         ref={(c) => { this.scroll = c }}
+                        scrollEventThrottle={50}
                         onScroll={({ nativeEvent }) => {
                             if (this.isCloseToBottom(nativeEvent) && !this.state.isLoadingMorePost) {
                                 this.loadMorePost();

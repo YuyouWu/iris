@@ -170,6 +170,7 @@ class Post extends Component {
             <SafeAreaView style={{ backgroundColor: "black" }}>
                 <ScrollView
                     style={{ backgroundColor: 'black', paddingLeft: 10, paddingRight: 10 }}
+                    scrollEventThrottle={50}
                     onScroll={({ nativeEvent }) => {
                         if (this.isCloseToBottom(nativeEvent) && this.state.fetchingData === false && !this.state.endOfComments) {
                             this.setState({

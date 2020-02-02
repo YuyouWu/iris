@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, TextInput } from 'react-native';
+import { SafeAreaView, ScrollView, TextInput } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 
@@ -48,28 +48,30 @@ class SearchContainer extends Component {
     //TODO: go to post view when user click on a list item 
     render() {
         return (
-            <ScrollView>
-                <Input
-                    containerStyle={inputStyle.container}
-                    inputStyle={inputStyle.input}
-                    inputContainerStyle={inputStyle.inputContainer}
-                    placeholderTextColor={inputStyle.placeHolderColor.color}
-                    placeholder='Search for subreddits'
-                    onSubmitEditing={(e) => this.onSearchSubmit(e)}
-                />
-                {this.state.subreddits &&
-                    this.state.subreddits.map((subreddit, i) => (
-                        <ListItem
-                            key={i}
-                            title={subreddit.data["display_name"]}
-                            titleStyle={listStyles.title}
-                            containerStyle={listStyles.listBackground}
-                            onPress={() => { this.onPressSubreddit(subreddit.data["display_name"]) }}
-                            bottomDivider
-                        />
-                    ))
-                }
-            </ScrollView>
+            <SafeAreaView style={listStyles.listBackground}>
+                <ScrollView>
+                    <Input
+                        containerStyle={inputStyle.container}
+                        inputStyle={inputStyle.input}
+                        inputContainerStyle={inputStyle.inputContainer}
+                        placeholderTextColor={inputStyle.placeHolderColor.color}
+                        placeholder='Search for subreddits'
+                        onSubmitEditing={(e) => this.onSearchSubmit(e)}
+                    />
+                    {this.state.subreddits &&
+                        this.state.subreddits.map((subreddit, i) => (
+                            <ListItem
+                                key={i}
+                                title={subreddit.data["display_name"]}
+                                titleStyle={listStyles.title}
+                                containerStyle={listStyles.listBackground}
+                                onPress={() => { this.onPressSubreddit(subreddit.data["display_name"]) }}
+                                bottomDivider
+                            />
+                        ))
+                    }
+                </ScrollView>
+            </SafeAreaView>
         );
     }
 };
