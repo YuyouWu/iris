@@ -32,9 +32,16 @@ const NavStack = createStackNavigator(
         Post: Post,
         PostImage: {
             screen: PostImage,
-            tabBarVisible: false
+            navigationOptions: {
+                headerShown: false,
+            }
         },
-        PostVideo: PostVideo,
+        PostVideo: { 
+            screen: PostVideo,
+            navigationOptions: {
+                headerShown: false,
+            }
+        },
         PostLinkView: PostLinkView
     },
     {
