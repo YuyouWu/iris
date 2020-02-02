@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, ScrollView, TextInput } from 'react-native';
+import { SafeAreaView, ScrollView, View, TextInput, Dimensions } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 
@@ -7,6 +7,8 @@ import listStyles from '../../styles/listStyle';
 import inputStyle from '../../styles/inputStyle';
 
 import axios from 'axios';
+
+const window = Dimensions.get('window');
 
 class SearchContainer extends Component {
     constructor(props) {
@@ -49,7 +51,7 @@ class SearchContainer extends Component {
     render() {
         return (
             <SafeAreaView style={listStyles.listBackground}>
-                <ScrollView>
+                <ScrollView style={{ backgroundColor: 'black', height: window.height }}>
                     <Input
                         containerStyle={inputStyle.container}
                         inputStyle={inputStyle.input}

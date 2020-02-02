@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { ScrollView, SafeAreaView, View, Text } from 'react-native';
+import { ScrollView, SafeAreaView, View, Text, Dimensions } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 import axios from 'axios';
 
 import listStyles from '../../styles/listStyle';
 import inputStyle from '../../styles/inputStyle';
+
+const window = Dimensions.get('window');
+
 class SubredditListContainer extends Component {
     constructor(props) {
         super(props);
@@ -28,7 +31,7 @@ class SubredditListContainer extends Component {
     render() {
         return (
             <SafeAreaView style={listStyles.listBackground}>
-                <ScrollView style={listStyles.containerBackground}>
+                <ScrollView style={{backgroundColor: 'black', height: window.height}}>
                     <View style={listStyles.listBackground}>
                         <Input
                             containerStyle={inputStyle.container}
