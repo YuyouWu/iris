@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView, TextInput } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 import listStyles from '../../styles/listStyle';
 import inputStyle from '../../styles/inputStyle';
@@ -33,9 +34,15 @@ class SearchContainer extends Component {
     }
 
     onPressSubreddit = (subName) => {
-        this.props.navigation.navigate("PostNavigator", {
-            currentSub: subName
+        //Reset stack with currentSub param 
+        const resetAction = StackActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({ routeName: 'PostTileList', params: { currentSub: subName } }),
+            ],
         });
+
+        this.props.navigation.dispatch(resetAction);
     }
 
     //TODO: go to post view when user click on a list item 

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
+import { StackActions, NavigationActions } from 'react-navigation';
 import axios from 'axios';
 
-import listStyles from '../../styles/listStyle'; 
-import inputStyle from '../../styles/inputStyle'; 
+import listStyles from '../../styles/listStyle';
+import inputStyle from '../../styles/inputStyle';
 class SubredditListContainer extends Component {
     constructor(props) {
         super(props);
@@ -14,9 +15,14 @@ class SubredditListContainer extends Component {
     }
 
     onPressSubreddit = (subName) => {
-        this.props.navigation.navigate("PostNavigator", {
-            currentSub: subName
+        const resetAction = StackActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({ routeName: 'PostTileList', params: { currentSub: subName } }),
+            ],
         });
+
+        this.props.navigation.dispatch(resetAction);
     }
 
     render() {
