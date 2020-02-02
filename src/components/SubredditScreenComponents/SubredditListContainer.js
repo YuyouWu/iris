@@ -38,7 +38,7 @@ class SubredditListContainer extends Component {
                             inputStyle={inputStyle.input}
                             inputContainerStyle={inputStyle.inputContainer}
                             placeholderTextColor={inputStyle.placeHolderColor.color}
-                            placeholder='Filter Subreddits'
+                            placeholder='  Filter Subreddits'
                         />
                         <ListItem
                             key="home"

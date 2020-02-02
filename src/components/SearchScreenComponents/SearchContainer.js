@@ -57,7 +57,7 @@ class SearchContainer extends Component {
                         inputStyle={inputStyle.input}
                         inputContainerStyle={inputStyle.inputContainer}
                         placeholderTextColor={inputStyle.placeHolderColor.color}
-                        placeholder='Search for subreddits'
+                        placeholder='  Search for subreddits, posts, or users'
                         onSubmitEditing={(e) => this.onSearchSubmit(e)}
                     />
                     {this.state.subreddits &&

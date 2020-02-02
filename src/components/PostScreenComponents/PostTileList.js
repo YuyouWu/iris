@@ -91,7 +91,7 @@ class PostTileList extends Component {
                 <View style={listStyles.containerBackground}>
                     <ScrollView
                         refreshControl={
-                            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
+                            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} tintColor="white"/>
                         }
                         ref={(c) => { this.scroll = c }}
                         scrollEventThrottle={50}
