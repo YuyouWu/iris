@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, SafeAreaView, View, Image, Dimensions, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 // import { WebView } from 'react-native-webview';
 import { Divider, ListItem } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import CommentList from './CommentList';
 
@@ -150,7 +150,7 @@ class Post extends Component {
                         title={(this.state.postData.url)}
                         leftElement={
                             <Icon
-                                name="link"
+                                name="md-link"
                                 color="white"
                                 size={20}
                             />
@@ -188,7 +188,7 @@ class Post extends Component {
                         <Text style={{ color: 'grey' }}>{`by ${this.state.postData.author}`}</Text>
                     </View>
                     <Text style={{ color: 'grey' }}>
-                        <Icon name='arrowup' color='grey' />{`${this.state.postData.score}`}
+                        <Icon name='md-arrow-up' color='grey' />{`${this.state.postData.score}`}
                     </Text>
                     {this.state.selftext !== "" && (
                         <Text style={{ color: 'white' }}>
@@ -197,10 +197,10 @@ class Post extends Component {
                     )}
                     <Divider style={{ marginTop: 10 }} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 15 }}>
-                        <Icon color="white" size={iconSize} name="upcircleo" />
-                        <Icon color="white" size={iconSize} name="circledowno" />
-                        <Icon color="white" size={iconSize} name="save" />
-                        <Icon color="white" size={iconSize} name="upload" />
+                        <Icon color="white" size={iconSize} name="md-arrow-up" />
+                        <Icon color="white" size={iconSize} name="md-arrow-down" />
+                        <Icon color="white" size={iconSize} name="ios-download" />
+                        <Icon color="white" size={iconSize} name="md-share" />
                     </View>
                     <View>
                         {this.renderComments(this.state.postCommentData)}
