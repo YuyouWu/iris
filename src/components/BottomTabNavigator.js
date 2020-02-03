@@ -36,7 +36,7 @@ const NavStack = createStackNavigator(
                 headerShown: false,
             }
         },
-        PostVideo: { 
+        PostVideo: {
             screen: PostVideo,
             navigationOptions: {
                 headerShown: false,

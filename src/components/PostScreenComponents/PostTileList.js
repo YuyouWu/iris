@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, StatusBar, SafeAreaView, RefreshControl, ActivityIndicator } from 'react-native';
-import { ListItem } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/AntDesign';
+import { Text, View, ScrollView, StatusBar, SafeAreaView, RefreshControl, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { ListItem, Overlay } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 
 import listStyles from '../../styles/listStyle';
@@ -14,6 +14,7 @@ class PostTileList extends Component {
             posts: [],
             isLoadingMorePost: false,
             refreshing: true,
+            showSortingOverlay: false,
             subreddit: props.navigation.getParam('currentSub') || 'all'
         }
 
@@ -70,10 +71,10 @@ class PostTileList extends Component {
         return (
             <View style={{ flexDirection: 'row' }}>
                 <Text style={{ color: 'grey' }}>
-                    {subreddit + " "}
+                    {subreddit}
                 </Text>
-                <Text style={{ color: 'grey' }}>
-                    <Icon name='arrowup' color='grey' /> {score}
+                <Text style={{ color: 'grey', marginLeft: 15 }}>
+                    <Icon name='ios-arrow-round-up' color='grey' size={15} /> {score}
                 </Text>
             </View>
         );
@@ -91,7 +92,7 @@ class PostTileList extends Component {
                 <View style={listStyles.containerBackground}>
                     <ScrollView
                         refreshControl={
-                            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} tintColor="white"/>
+                            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} tintColor="white" />
                         }
                         ref={(c) => { this.scroll = c }}
                         scrollEventThrottle={50}
@@ -101,13 +102,67 @@ class PostTileList extends Component {
                             }
                         }}
                     >
+                        <TouchableOpacity
+                            style={{ margin: 10, flexDirection: 'row' }}
+                            onPress={() => {
+                                this.setState({ showSortingOverlay: true })
+                            }}
+                        >
+                            <Text style={{ color: "grey" }}>
+                                Sort By <Icon name='ios-options' color='grey' size={15} />
+                            </Text>
+                        </TouchableOpacity>
+
+                        <Overlay
+                            isVisible={this.state.showSortingOverlay}
+                            onBackdropPress={() => this.setState({ showSortingOverlay: false })}
+                            overlayBackgroundColor="#1a1a1a"
+                            borderRadius={15}
+                            height="auto"
+                            animationType="fade"
+                        >
+                            <View>
+                                <ListItem
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{backgroundColor:"#1a1a1a"}}
+                                    title="Best"
+                                />
+                                <ListItem
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{backgroundColor:"#1a1a1a"}}
+                                    title="Hot"
+                                />
+                                <ListItem
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{backgroundColor:"#1a1a1a"}}
+                                    title="New"
+                                />
+                                <ListItem
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{backgroundColor:"#1a1a1a"}}
+                                    title="Top"
+                                />
+                                <ListItem
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{backgroundColor:"#1a1a1a"}}
+
+                                    title="Controversial"
+                                />
+                                <ListItem
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{backgroundColor:"#1a1a1a"}}
+                                    title="Rising"
+                                />
+                            </View>
+                        </Overlay>
+
                         {this.state.posts &&
                             this.state.posts.map((post, i) => (
                                 <ListItem
                                     key={i}
                                     title={post.data.title}
                                     subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score)}
-                                    bottomDivider
+                                    topDivider
                                     titleStyle={listStyles.title}
                                     containerStyle={listStyles.listBackground}
                                     leftElement={
@@ -137,7 +192,7 @@ class PostTileList extends Component {
                             />
                         ) : (
                                 <ListItem
-                                    title= ""
+                                    title=""
                                     containerStyle={listStyles.listBackground}
                                 />
                             )
