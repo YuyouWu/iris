@@ -50,6 +50,7 @@ const NavStack = createStackNavigator(
             headerStyle: {
                 backgroundColor: '#1a1a1a',
             },
+            headerTintColor: 'white',
             cardStyle: {
                 backgroundColor: 'black'
             },
