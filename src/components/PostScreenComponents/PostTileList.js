@@ -15,6 +15,7 @@ class PostTileList extends Component {
             isLoadingMorePost: false,
             refreshing: true,
             showSortingOverlay: false,
+            sortingParam: "",
             subreddit: props.navigation.getParam('currentSub') || 'all'
         }
 
@@ -22,7 +23,7 @@ class PostTileList extends Component {
     }
 
     getPost = () => {
-        axios.get(`https://old.reddit.com/r/${this.state.subreddit}/.json`).then((res) => {
+        axios.get(`https://old.reddit.com/r/${this.state.subreddit}/${this.state.sortingParam}/.json`).then((res) => {
             this.setState({
                 posts: res.data.data.children
             });
@@ -41,7 +42,7 @@ class PostTileList extends Component {
             //Get last post id
             const lastPostID = this.state.posts[this.state.posts.length - 1].data.name;
             //Fetch 25 more post after the last post 
-            axios.get(`https://old.reddit.com/r/${this.state.subreddit}/.json?count=25&after=${lastPostID}`).then((res) => {
+            axios.get(`https://old.reddit.com/r/${this.state.subreddit}/${this.state.sortingParam}/.json?count=25&after=${lastPostID}`).then((res) => {
                 let currentPosts = this.state.posts;
                 const newPosts = res.data.data.children;
                 currentPosts.push.apply(currentPosts, newPosts);
@@ -103,12 +104,12 @@ class PostTileList extends Component {
                         }}
                     >
                         <TouchableOpacity
-                            style={{ margin: 10, flexDirection: 'row' }}
+                            style={{ margin: 15, flexDirection: 'row' }}
                             onPress={() => {
                                 this.setState({ showSortingOverlay: true })
                             }}
                         >
-                            <Text style={{ color: "grey" }}>
+                            <Text style={{ color: "grey", fontSize:15 }}>
                                 Sort By <Icon name='ios-options' color='grey' size={15} />
                             </Text>
                         </TouchableOpacity>
@@ -126,32 +127,79 @@ class PostTileList extends Component {
                                     titleStyle={listStyles.title}
                                     containerStyle={{backgroundColor:"#1a1a1a"}}
                                     title="Best"
+                                    onPress={() => {
+                                        this.setState({
+                                            sortingParam:'',
+                                            showSortingOverlay: false
+                                        },() => {
+                                            this.onRefresh();
+                                        });
+                                    }}
                                 />
                                 <ListItem
                                     titleStyle={listStyles.title}
                                     containerStyle={{backgroundColor:"#1a1a1a"}}
                                     title="Hot"
+                                    onPress={() => {
+                                        this.setState({
+                                            sortingParam:'hot',
+                                            showSortingOverlay: false
+                                        },() => {
+                                            this.onRefresh();
+                                        });
+                                    }}
                                 />
                                 <ListItem
                                     titleStyle={listStyles.title}
                                     containerStyle={{backgroundColor:"#1a1a1a"}}
                                     title="New"
+                                    onPress={() => {
+                                        this.setState({
+                                            sortingParam:'new',
+                                            showSortingOverlay: false
+                                        },() => {
+                                            this.onRefresh();
+                                        });
+                                    }}
                                 />
                                 <ListItem
                                     titleStyle={listStyles.title}
                                     containerStyle={{backgroundColor:"#1a1a1a"}}
                                     title="Top"
+                                    onPress={() => {
+                                        this.setState({
+                                            sortingParam:'top',
+                                            showSortingOverlay: false
+                                        },() => {
+                                            this.onRefresh();
+                                        });
+                                    }}
                                 />
                                 <ListItem
                                     titleStyle={listStyles.title}
                                     containerStyle={{backgroundColor:"#1a1a1a"}}
-
                                     title="Controversial"
+                                    onPress={() => {
+                                        this.setState({
+                                            sortingParam:'controversial',
+                                            showSortingOverlay: false
+                                        },() => {
+                                            this.onRefresh();
+                                        });
+                                    }}
                                 />
                                 <ListItem
                                     titleStyle={listStyles.title}
                                     containerStyle={{backgroundColor:"#1a1a1a"}}
                                     title="Rising"
+                                    onPress={() => {
+                                        this.setState({
+                                            sortingParam:'rising',
+                                            showSortingOverlay: false
+                                        },() => {
+                                            this.onRefresh();
+                                        });
+                                    }}
                                 />
                             </View>
                         </Overlay>
