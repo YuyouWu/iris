@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, StatusBar, SafeAreaView, RefreshControl, ActivityIndicator, TouchableOpacity } from 'react-native';
-import { ListItem, Overlay } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
+import Modal from "react-native-modal";
 import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 
@@ -109,100 +110,101 @@ class PostTileList extends Component {
                                 this.setState({ showSortingOverlay: true })
                             }}
                         >
-                            <Text style={{ color: "grey", fontSize:15 }}>
+                            <Text style={{ color: "grey", fontSize: 15 }}>
                                 Sort By <Icon name='ios-options' color='grey' size={15} />
                             </Text>
                         </TouchableOpacity>
-
-                        <Overlay
+                        
+                        <Modal
                             isVisible={this.state.showSortingOverlay}
                             onBackdropPress={() => this.setState({ showSortingOverlay: false })}
-                            overlayBackgroundColor="#1a1a1a"
-                            borderRadius={15}
-                            height="auto"
-                            animationType="fade"
+                            onBackButtonPress={() => this.setState({ showSortingOverlay: false })}
+                            // onSwipeComplete={() => this.setState({ showSortingOverlay: false })}
+                            // swipeDirection={["up", "down"]}
+                            hideModalContentWhileAnimating={true}
+                            useNativeDriver={true}
                         >
-                            <View>
+                            <View style={{overflow:'hidden', borderRadius:10}}>
                                 <ListItem
                                     titleStyle={listStyles.title}
-                                    containerStyle={{backgroundColor:"#1a1a1a"}}
+                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
                                     title="Best"
                                     onPress={() => {
                                         this.setState({
-                                            sortingParam:'',
+                                            sortingParam: '',
                                             showSortingOverlay: false
-                                        },() => {
+                                        }, () => {
                                             this.onRefresh();
                                         });
                                     }}
                                 />
                                 <ListItem
                                     titleStyle={listStyles.title}
-                                    containerStyle={{backgroundColor:"#1a1a1a"}}
+                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
                                     title="Hot"
                                     onPress={() => {
                                         this.setState({
-                                            sortingParam:'hot',
+                                            sortingParam: 'hot',
                                             showSortingOverlay: false
-                                        },() => {
+                                        }, () => {
                                             this.onRefresh();
                                         });
                                     }}
                                 />
                                 <ListItem
                                     titleStyle={listStyles.title}
-                                    containerStyle={{backgroundColor:"#1a1a1a"}}
+                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
                                     title="New"
                                     onPress={() => {
                                         this.setState({
-                                            sortingParam:'new',
+                                            sortingParam: 'new',
                                             showSortingOverlay: false
-                                        },() => {
+                                        }, () => {
                                             this.onRefresh();
                                         });
                                     }}
                                 />
                                 <ListItem
                                     titleStyle={listStyles.title}
-                                    containerStyle={{backgroundColor:"#1a1a1a"}}
+                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
                                     title="Top"
                                     onPress={() => {
                                         this.setState({
-                                            sortingParam:'top',
+                                            sortingParam: 'top',
                                             showSortingOverlay: false
-                                        },() => {
+                                        }, () => {
                                             this.onRefresh();
                                         });
                                     }}
                                 />
                                 <ListItem
                                     titleStyle={listStyles.title}
-                                    containerStyle={{backgroundColor:"#1a1a1a"}}
+                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
                                     title="Controversial"
                                     onPress={() => {
                                         this.setState({
-                                            sortingParam:'controversial',
+                                            sortingParam: 'controversial',
                                             showSortingOverlay: false
-                                        },() => {
+                                        }, () => {
                                             this.onRefresh();
                                         });
                                     }}
                                 />
                                 <ListItem
                                     titleStyle={listStyles.title}
-                                    containerStyle={{backgroundColor:"#1a1a1a"}}
+                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
                                     title="Rising"
                                     onPress={() => {
                                         this.setState({
-                                            sortingParam:'rising',
+                                            sortingParam: 'rising',
                                             showSortingOverlay: false
-                                        },() => {
+                                        }, () => {
                                             this.onRefresh();
                                         });
                                     }}
                                 />
                             </View>
-                        </Overlay>
+                        </Modal>
 
                         {this.state.posts &&
                             this.state.posts.map((post, i) => (
