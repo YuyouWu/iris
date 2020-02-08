@@ -174,7 +174,8 @@ class PostThumbNail extends Component {
                     onSwipeComplete={() => this.setState({ showImage: false })}
                     swipeDirection={["up", "down"]}
                     hideModalContentWhileAnimating={true}
-                    useNativeDriver={true}
+                    propagateSwipe={true}
+                    backdropOpacity={1}
                     style={{margin:0}}
                 >
                     <PostImage url={this.state.imageURL}/>

@@ -17,7 +17,6 @@ class PostImage extends Component {
                 zoomStep={0.5}
                 initialZoom={1}
                 bindToBorders={true}
-                style={{ backgroundColor: 'black' }}
             >
                 <Image
                     source={{ uri: this.props.url }}
