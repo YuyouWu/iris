@@ -99,11 +99,14 @@ class CommentList extends Component {
                         replies !== "" &&
                         replies.data.children.length > 0 &&
                         replies.data.children.map((reply, i) => {
-                            if (this.state.showSubComments) {
-                                return (
+                            return (
+                                <View
+                                    key={i}
+                                    style={this.state.showSubComments ? { display: "flex" } : { display: "none" }}
+                                >
                                     <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} />
-                                )
-                            }
+                                </View>
+                            )
                         })
                     }
                 </TouchableOpacity>
