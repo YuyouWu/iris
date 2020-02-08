@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, RefreshControl, Image, Dimensions } from 'react-native';
+import { Image, Dimensions } from 'react-native';
 import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 
 const window = Dimensions.get('window');
@@ -20,7 +20,7 @@ class PostImage extends Component {
                 style={{ backgroundColor: 'black' }}
             >
                 <Image
-                    source={{ uri: this.props.navigation.getParam('linkURL') }}
+                    source={{ uri: this.props.url }}
                     style={{ width: window.width, height: window.height }}
                     resizeMode='contain'
                 />

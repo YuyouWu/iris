@@ -1,17 +1,33 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Modal from "react-native-modal";
+
+import PostImage from './PostImage';
 
 class PostThumbNail extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            showImage: false,
+            imageURL: ''
+        }
     }
 
     //show image 
+    //TODO: rename to show image 
     navigateToImage = (linkURL) => {
-        this.props.navigation.navigate('PostImage', {
-            linkURL: linkURL
-        });
+        // this.props.navigation.navigate('PostImage', {
+        //     linkURL: linkURL
+        // });
+        this.setState({ 
+            imageURL: linkURL
+        }, () => {
+            this.setState({
+                showImage: true
+            });
+        })
     }
 
     //show web view of link
@@ -149,9 +165,23 @@ class PostThumbNail extends Component {
 
     render() {
         return (
-            this.renderThumbNail()
-        );
-    }
-};
-
+            <View>
+                {this.renderThumbNail()}
+                <Modal
+                    isVisible={this.state.showImage}
+                    onBackdropPress={() => this.setState({ showImage: false })}
+                    onBackButtonPress={() => this.setState({ showImage: false })}
+                    onSwipeComplete={() => this.setState({ showImage: false })}
+                    swipeDirection={["up", "down"]}
+                    hideModalContentWhileAnimating={true}
+                    useNativeDriver={true}
+                    style={{margin:0}}
+                >
+                    <PostImage url={this.state.imageURL}/>
+                </Modal>
+            </View>
+                );
+            }
+        };
+        
 export default PostThumbNail;
