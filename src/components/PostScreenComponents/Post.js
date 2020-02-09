@@ -3,8 +3,10 @@ import { ScrollView, SafeAreaView, View, Image, Dimensions, Text, TouchableOpaci
 // import { WebView } from 'react-native-webview';
 import { Divider, ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Modal from "react-native-modal";
 import axios from 'axios';
 import CommentList from './CommentList';
+import PostImage from './PostImage';
 
 const window = Dimensions.get('window');
 
@@ -21,7 +23,9 @@ class Post extends Component {
             showImage: false,
             beginningCommentIdx: 0,
             endCommentIdx: 10,
-            endOfComments: false
+            endOfComments: false,
+            showImageModal: false,
+            imageURL: ''
         }
 
         axios.get(`https://www.reddit.com${this.state.postData.permalink}.json`).then((res) => {
@@ -105,9 +109,17 @@ class Post extends Component {
 
 
     handleOnPress = (linkURL) => {
-        this.props.navigation.navigate('PostImage', {
-            linkURL: linkURL
-        });
+        // this.props.navigation.navigate('PostImage', {
+        //     linkURL: linkURL
+        // });
+        //TODO: show image modal here
+        this.setState({
+            imageURL: linkURL
+        }, () => {
+            this.setState({
+                showImageModal: true
+            })
+        })
     }
 
     renderImage = () => {
@@ -211,6 +223,21 @@ class Post extends Component {
                         }
                     </View>
                 </ScrollView>
+
+                <Modal
+                    isVisible={this.state.showImageModal}
+                    // onBackdropPress={() => this.setState({ showImageModal: false })}
+                    onBackButtonPress={() => this.setState({ showImageModal: false })}
+                    onSwipeComplete={() => this.setState({ showImageModal: false })}
+                    swipeDirection={["up", "down"]}
+                    hideModalContentWhileAnimating={true}
+                    propagateSwipe={true}
+                    backdropOpacity={1}
+                    style={{ margin: 0 }}
+                >
+                    <PostImage url={this.state.imageURL} />
+                </Modal>
+
             </SafeAreaView>
         );
     }
