@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { ListItem } from 'react-native-elements';
+import Display from 'react-native-display';
 import Icon from 'react-native-vector-icons/AntDesign';
 import commentStyle from '../../styles/commentStyle'
 
@@ -62,7 +63,7 @@ class CommentList extends Component {
         return (
             <View>
                 {this.props.comment.data.author &&
-                    <TouchableOpacity
+                    <TouchableWithoutFeedback
                         onPress={() => {
                             this.setState({
                                 showSubComments: !this.state.showSubComments
@@ -88,69 +89,81 @@ class CommentList extends Component {
                                 subtitleStyle={commentStyle.commentText}
                             />
                         </View>
-                    </TouchableOpacity>
+                    </TouchableWithoutFeedback>
                 }
 
                 {/*Rendering replies to parents comment*/}
-                <TouchableOpacity>
-                    {
-                        this.state.level < 4 &&
-                        replies !== undefined &&
-                        replies !== "" &&
-                        replies.data.children.length > 0 &&
-                        replies.data.children.map((reply, i) => {
-                            return (
-                                <View
-                                    key={i}
-                                    style={this.state.showSubComments ? { display: "flex" } : { display: "none" }}
-                                >
-                                    <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} />
-                                </View>
-                            )
-                        })
-                    }
-                </TouchableOpacity>
+                <TouchableWithoutFeedback>
+                    <View>
+                        {
+                            this.state.level < 4 &&
+                            replies !== undefined &&
+                            replies !== "" &&
+                            replies.data.children.length > 0 &&
+                            replies.data.children.map((reply, i) => {
+                                return (
+                                    <View
+                                        key={i}
+                                    // style={this.state.showSubComments ? { display: "flex" } : { display: "none" }}
+                                    >
+                                        <Display
+                                            enable={this.state.showSubComments}
+                                            enterDuration={250}
+                                            exitDuration={250}
+                                            exit="fadeOutUp"
+                                            enter="fadeInDown"
+                                        >
+                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} />
+                                        </Display>
+                                    </View>
+                                )
+                            })
+                        }
+                    </View>
+                </TouchableWithoutFeedback>
                 {
                     //For comments nested higher than 4 levels, hide under a show more button
                     this.state.level >= 4 &&
                     replies !== undefined &&
                     replies !== "" &&
                     replies.data.children.length > 0 &&
-                    <TouchableOpacity
+                    <TouchableWithoutFeedback
                         onPress={() => {
                             this.setState({
                                 loadMoreComments: !this.state.loadMoreComments
                             });
                         }}
                     >
-                        {this.state.loadMoreComments ? (
-                            replies.data.children.map((reply, i) => {
-                                if (this.state.showSubComments) {
-                                    return (
-                                        <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} />
-                                    )
-                                }
-                            })
-                        ) : (
-                                <View
-                                    style={{
-                                        marginLeft: this.state.containerMarginLeft + 10,
-                                        borderLeftWidth: borderLeftWidth,
-                                        borderLeftColor: 'grey'
-                                    }}
-                                >
-                                    <ListItem
-                                        title="Load more comments"
-                                        titleStyle={{ color: 'white' }}
-                                        containerStyle={commentStyle.containerBackground}
-                                        topDivider
-                                    />
-                                </View>
+                        <View>
+                            {this.state.loadMoreComments ? (
+                                replies.data.children.map((reply, i) => {
+                                    if (this.state.showSubComments) {
+                                        return (
+                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} />
+                                        )
+                                    }
+                                })
+                            ) : (
+                                    <View
+                                        style={{
+                                            marginLeft: this.state.containerMarginLeft + 10,
+                                            borderLeftWidth: borderLeftWidth,
+                                            borderLeftColor: 'grey'
+                                        }}
+                                    >
+                                        <ListItem
+                                            title="Load more comments"
+                                            titleStyle={{ color: 'white' }}
+                                            containerStyle={commentStyle.containerBackground}
+                                            topDivider
+                                        />
+                                    </View>
 
-                            )
+                                )
 
-                        }
-                    </TouchableOpacity>
+                            }
+                        </View>
+                    </TouchableWithoutFeedback>
                 }
             </View>
         )
