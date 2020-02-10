@@ -16,7 +16,9 @@ class PostTileList extends Component {
             isLoadingMorePost: false,
             refreshing: true,
             showSortingOverlay: false,
+            showSortingOverlayTop: false,
             sortingParam: "",
+            sortingParamTop: "",
             subreddit: props.navigation.getParam('currentSub') || 'all'
         }
 
@@ -24,7 +26,7 @@ class PostTileList extends Component {
     }
 
     getPost = () => {
-        axios.get(`https://old.reddit.com/r/${this.state.subreddit}/${this.state.sortingParam}/.json`).then((res) => {
+        axios.get(`https://old.reddit.com/r/${this.state.subreddit}/${this.state.sortingParam}/.json?${this.state.sortingParamTop}`).then((res) => {
             this.setState({
                 posts: res.data.data.children
             });
@@ -43,7 +45,7 @@ class PostTileList extends Component {
             //Get last post id
             const lastPostID = this.state.posts[this.state.posts.length - 1].data.name;
             //Fetch 25 more post after the last post 
-            axios.get(`https://old.reddit.com/r/${this.state.subreddit}/${this.state.sortingParam}/.json?count=25&after=${lastPostID}`).then((res) => {
+            axios.get(`https://old.reddit.com/r/${this.state.subreddit}/${this.state.sortingParam}/.json?count=25&after=${lastPostID}&${this.state.sortingParamTop}`).then((res) => {
                 let currentPosts = this.state.posts;
                 const newPosts = res.data.data.children;
                 currentPosts.push.apply(currentPosts, newPosts);
@@ -119,10 +121,11 @@ class PostTileList extends Component {
                             isVisible={this.state.showSortingOverlay}
                             onBackdropPress={() => this.setState({ showSortingOverlay: false })}
                             onBackButtonPress={() => this.setState({ showSortingOverlay: false })}
-                            // onSwipeComplete={() => this.setState({ showSortingOverlay: false })}
-                            // swipeDirection={["up", "down"]}
                             hideModalContentWhileAnimating={true}
                             useNativeDriver={true}
+                            animationInTiming={100}
+                            animationIn="fadeIn"
+                            animationOut="fadeOut"
                         >
                             <View style={{overflow:'hidden', borderRadius:10}}>
                                 <ListItem
@@ -171,9 +174,8 @@ class PostTileList extends Component {
                                     onPress={() => {
                                         this.setState({
                                             sortingParam: 'top',
-                                            showSortingOverlay: false
-                                        }, () => {
-                                            this.onRefresh();
+                                            showSortingOverlay: false,
+                                            showSortingOverlayTop: true
                                         });
                                     }}
                                 />
@@ -198,6 +200,98 @@ class PostTileList extends Component {
                                         this.setState({
                                             sortingParam: 'rising',
                                             showSortingOverlay: false
+                                        }, () => {
+                                            this.onRefresh();
+                                        });
+                                    }}
+                                />
+                            </View>
+                        </Modal>
+
+                        <Modal
+                            isVisible={this.state.showSortingOverlayTop}
+                            onBackdropPress={() => this.setState({ showSortingOverlayTop: false })}
+                            onBackButtonPress={() => this.setState({ showSortingOverlayTop: false })}
+                            hideModalContentWhileAnimating={true}
+                            useNativeDriver={true}
+                            animationInTiming={100}
+                            animationIn="fadeIn"
+                            animationOut="fadeOut"
+                        >
+                            <View style={{overflow:'hidden', borderRadius:10}}>
+                                <ListItem
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                    title="Hour"
+                                    onPress={() => {
+                                        this.setState({
+                                            sortingParamTop: 'sort=top&t=hour',
+                                            showSortingOverlayTop: false
+                                        }, () => {
+                                            this.onRefresh();
+                                        });
+                                    }}
+                                />
+                                <ListItem
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                    title="Day"
+                                    onPress={() => {
+                                        this.setState({
+                                            sortingParamTop: 'sort=top&t=day',
+                                            showSortingOverlayTop: false
+                                        }, () => {
+                                            this.onRefresh();
+                                        });
+                                    }}
+                                />
+                                <ListItem
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                    title="Week"
+                                    onPress={() => {
+                                        this.setState({
+                                            sortingParamTop: 'sort=top&t=week',
+                                            showSortingOverlayTop: false
+                                        }, () => {
+                                            this.onRefresh();
+                                        });
+                                    }}
+                                />
+                                <ListItem
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                    title="Month"
+                                    onPress={() => {
+                                        this.setState({
+                                            sortingParamTop: 'sort=top&t=month',
+                                            showSortingOverlayTop: false
+                                        }, () => {
+                                            this.onRefresh();
+                                        });
+                                    }}
+                                />
+                                <ListItem
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                    title="Year"
+                                    onPress={() => {
+                                        this.setState({
+                                            sortingParamTop: 'sort=top&t=year',
+                                            showSortingOverlayTop: false
+                                        }, () => {
+                                            this.onRefresh();
+                                        });
+                                    }}
+                                />
+                                <ListItem
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                    title="All"
+                                    onPress={() => {
+                                        this.setState({
+                                            sortingParamTop: 'sort=top&t=all',
+                                            showSortingOverlayTop: false
                                         }, () => {
                                             this.onRefresh();
                                         });
