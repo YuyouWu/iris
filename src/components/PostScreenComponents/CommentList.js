@@ -110,8 +110,8 @@ class CommentList extends Component {
                                             enable={this.state.showSubComments}
                                             enterDuration={250}
                                             exitDuration={250}
-                                            exit="fadeOutUp"
-                                            enter="fadeInDown"
+                                            exit="fadeOutRight"
+                                            enter="fadeInRight"
                                         >
                                             <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} />
                                         </Display>

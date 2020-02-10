@@ -109,10 +109,6 @@ class Post extends Component {
 
 
     handleOnPress = (linkURL) => {
-        // this.props.navigation.navigate('PostImage', {
-        //     linkURL: linkURL
-        // });
-        //TODO: show image modal here
         this.setState({
             imageURL: linkURL
         }, () => {
@@ -180,6 +176,19 @@ class Post extends Component {
         const iconSize = 30;
         return (
             <SafeAreaView style={{ backgroundColor: "black" }}>
+                <Modal
+                    isVisible={this.state.showImageModal}
+                    onBackButtonPress={() => this.setState({ showImageModal: false })}
+                    onSwipeComplete={() => this.setState({ showImageModal: false })}
+                    swipeDirection={["up", "down"]}
+                    hideModalContentWhileAnimating={true}
+                    // propagateSwipe={true}
+                    backdropOpacity={1}
+                    style={{ margin: 0 }}
+                >
+                    <PostImage url={this.state.imageURL} />
+                </Modal>
+
                 <ScrollView
                     style={{ backgroundColor: 'black', paddingLeft: 10, paddingRight: 10 }}
                     scrollEventThrottle={50}
@@ -223,21 +232,6 @@ class Post extends Component {
                         }
                     </View>
                 </ScrollView>
-
-                <Modal
-                    isVisible={this.state.showImageModal}
-                    // onBackdropPress={() => this.setState({ showImageModal: false })}
-                    onBackButtonPress={() => this.setState({ showImageModal: false })}
-                    onSwipeComplete={() => this.setState({ showImageModal: false })}
-                    swipeDirection={["up", "down"]}
-                    hideModalContentWhileAnimating={true}
-                    propagateSwipe={true}
-                    backdropOpacity={1}
-                    style={{ margin: 0 }}
-                >
-                    <PostImage url={this.state.imageURL} />
-                </Modal>
-
             </SafeAreaView>
         );
     }
