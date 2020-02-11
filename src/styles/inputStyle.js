@@ -11,7 +11,8 @@ export default inputStyle = StyleSheet.create({
     inputContainer: {
         backgroundColor: '#333333',
         borderRadius: 12,
-        margin: 10,
+        marginTop: 10,
+        marginBottom: 10,
         borderBottomWidth: 0 //hide underline for input
     },
     placeHolderColor: {

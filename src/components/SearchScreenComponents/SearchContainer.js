@@ -69,7 +69,7 @@ class SearchContainer extends Component {
                         onChangeText={(text) => this.handleChangeText(text)}
                     />
                     {this.state.query !== '' &&
-                        <View>
+                        <View style={{ borderRadius: 15, overflow: "hidden", marginLeft: 10, marginRight: 10 }}>
                             <TouchableOpacity
                                 onPress={() => {
                                     this.onSearchSubmit("posts");
@@ -78,7 +78,7 @@ class SearchContainer extends Component {
                                 <ListItem
                                     title={`Search posts with "${this.state.query}"`}
                                     titleStyle={listStyles.title}
-                                    containerStyle={listStyles.listBackground}
+                                    containerStyle={{ backgroundColor: "#262626" }}
                                     bottomDivider
                                 />
                             </TouchableOpacity>
@@ -90,7 +90,7 @@ class SearchContainer extends Component {
                                 <ListItem
                                     title={`Search subreddits with "${this.state.query}"`}
                                     titleStyle={listStyles.title}
-                                    containerStyle={listStyles.listBackground}
+                                    containerStyle={{ backgroundColor: "#262626" }}
                                     bottomDivider
                                 />
                             </TouchableOpacity>
@@ -102,25 +102,26 @@ class SearchContainer extends Component {
                                 <ListItem
                                     title={`Search users with "${this.state.query}"`}
                                     titleStyle={listStyles.title}
-                                    containerStyle={listStyles.listBackground}
-                                    bottomDivider
+                                    containerStyle={{ backgroundColor: "#262626" }}
                                 />
                             </TouchableOpacity>
                         </View>
                     }
                     <Text style={{ color: 'grey', margin: 15 }}>Popular Subreddits</Text>
-                    {this.state.subreddits &&
-                        this.state.subreddits.map((subreddit, i) => (
-                            <ListItem
-                                key={i}
-                                title={subreddit.data["display_name"]}
-                                titleStyle={listStyles.title}
-                                containerStyle={listStyles.listBackground}
-                                onPress={() => { this.onPressSubreddit(subreddit.data["display_name"]) }}
-                                bottomDivider
-                            />
-                        ))
-                    }
+                    <View style={{ borderRadius: 15, overflow: "hidden", marginLeft: 10, marginRight: 10 }}>
+                        {this.state.subreddits &&
+                            this.state.subreddits.map((subreddit, i) => (
+                                <ListItem
+                                    key={i}
+                                    title={subreddit.data["display_name"]}
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{ backgroundColor: "#262626" }}
+                                    onPress={() => { this.onPressSubreddit(subreddit.data["display_name"]) }}
+                                    bottomDivider
+                                />
+                            ))
+                        }
+                    </View>
                 </ScrollView>
             </SafeAreaView>
         );
