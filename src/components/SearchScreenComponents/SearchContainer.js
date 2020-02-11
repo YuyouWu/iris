@@ -28,25 +28,18 @@ class SearchContainer extends Component {
 
     handleChangeText = (text) => {
         const query = text;
-        axios.get(`https://www.reddit.com/subreddits/search/.json?q=${query}&include_over_18=on`).then((res) => {
-            this.setState({
-                subreddits: res.data.data.children
-            });
-        });
-
         this.setState({
             query: query
         });
     }
 
-    onSearchSubmit = (e) => {
-        //TODO: Error handling
-        const query = e.nativeEvent.text;
-        axios.get(`https://www.reddit.com/subreddits/search/.json?q=${query}&include_over_18=on`).then((res) => {
-            this.setState({
-                subreddits: res.data.data.children
-            });
-        });
+    onSearchSubmit = (context) => {
+        console.log(context);
+        // axios.get(`https://www.reddit.com/subreddits/search/.json?q=${query}&include_over_18=on`).then((res) => {
+        //     this.setState({
+        //         subreddits: res.data.data.children
+        //     });
+        // });
     }
 
     onPressSubreddit = (subName) => {
@@ -71,33 +64,51 @@ class SearchContainer extends Component {
                         inputStyle={inputStyle.input}
                         inputContainerStyle={inputStyle.inputContainer}
                         placeholderTextColor={inputStyle.placeHolderColor.color}
-                        placeholder='  Search for subreddits, posts, or users'
+                        placeholder='Search for subreddits, posts, or users'
                         // onSubmitEditing={(e) => this.onSearchSubmit(e)}
                         onChangeText={(text) => this.handleChangeText(text)}
                     />
                     {this.state.query !== '' &&
                         <View>
-                            <ListItem
-                                title={`Search posts with "${this.state.query}"`}
-                                titleStyle={listStyles.title}
-                                containerStyle={listStyles.listBackground}
-                                bottomDivider
-                            />
-                            <ListItem
-                                title={`Search subreddits with "${this.state.query}"`}
-                                titleStyle={listStyles.title}
-                                containerStyle={listStyles.listBackground}
-                                bottomDivider
-                            />
-                            <ListItem
-                                title={`Search users with "${this.state.query}"`}
-                                titleStyle={listStyles.title}
-                                containerStyle={listStyles.listBackground}
-                                bottomDivider
-                            />
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.onSearchSubmit("posts");
+                                }}
+                            >
+                                <ListItem
+                                    title={`Search posts with "${this.state.query}"`}
+                                    titleStyle={listStyles.title}
+                                    containerStyle={listStyles.listBackground}
+                                    bottomDivider
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.onSearchSubmit("subreddits");
+                                }}
+                            >
+                                <ListItem
+                                    title={`Search subreddits with "${this.state.query}"`}
+                                    titleStyle={listStyles.title}
+                                    containerStyle={listStyles.listBackground}
+                                    bottomDivider
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.onSearchSubmit("users");
+                                }}
+                            >
+                                <ListItem
+                                    title={`Search users with "${this.state.query}"`}
+                                    titleStyle={listStyles.title}
+                                    containerStyle={listStyles.listBackground}
+                                    bottomDivider
+                                />
+                            </TouchableOpacity>
                         </View>
                     }
-                    <Text style={{ color: 'grey', margin: 15 }}>{this.state.query ? ("Suggested Subreddits") : ("Popular Subreddits")}</Text>
+                    <Text style={{ color: 'grey', margin: 15 }}>Popular Subreddits</Text>
                     {this.state.subreddits &&
                         this.state.subreddits.map((subreddit, i) => (
                             <ListItem
