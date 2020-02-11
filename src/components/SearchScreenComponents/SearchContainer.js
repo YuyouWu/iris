@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, ScrollView, View, TextInput, Dimensions } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 
@@ -14,7 +14,8 @@ class SearchContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            subreddits: []
+            subreddits: [],
+            query: ''
         }
 
         //Grabbing a list of popular subreddit by default
@@ -22,6 +23,19 @@ class SearchContainer extends Component {
             this.setState({
                 subreddits: res.data.data.children
             });
+        });
+    }
+
+    handleChangeText = (text) => {
+        const query = text;
+        axios.get(`https://www.reddit.com/subreddits/search/.json?q=${query}&include_over_18=on`).then((res) => {
+            this.setState({
+                subreddits: res.data.data.children
+            });
+        });
+
+        this.setState({
+            query: query
         });
     }
 
@@ -58,8 +72,32 @@ class SearchContainer extends Component {
                         inputContainerStyle={inputStyle.inputContainer}
                         placeholderTextColor={inputStyle.placeHolderColor.color}
                         placeholder='  Search for subreddits, posts, or users'
-                        onSubmitEditing={(e) => this.onSearchSubmit(e)}
+                        // onSubmitEditing={(e) => this.onSearchSubmit(e)}
+                        onChangeText={(text) => this.handleChangeText(text)}
                     />
+                    {this.state.query !== '' &&
+                        <View>
+                            <ListItem
+                                title={`Search posts with "${this.state.query}"`}
+                                titleStyle={listStyles.title}
+                                containerStyle={listStyles.listBackground}
+                                bottomDivider
+                            />
+                            <ListItem
+                                title={`Search subreddits with "${this.state.query}"`}
+                                titleStyle={listStyles.title}
+                                containerStyle={listStyles.listBackground}
+                                bottomDivider
+                            />
+                            <ListItem
+                                title={`Search users with "${this.state.query}"`}
+                                titleStyle={listStyles.title}
+                                containerStyle={listStyles.listBackground}
+                                bottomDivider
+                            />
+                        </View>
+                    }
+                    <Text style={{ color: 'grey', margin: 15 }}>{this.state.query ? ("Suggested Subreddits") : ("Popular Subreddits")}</Text>
                     {this.state.subreddits &&
                         this.state.subreddits.map((subreddit, i) => (
                             <ListItem
