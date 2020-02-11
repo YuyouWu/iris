@@ -24,8 +24,6 @@ class Post extends Component {
             beginningCommentIdx: 0,
             endCommentIdx: 10,
             endOfComments: false,
-            showImageModal: false,
-            imageURL: ''
         }
 
         axios.get(`https://www.reddit.com${this.state.postData.permalink}.json`).then((res) => {
@@ -109,13 +107,9 @@ class Post extends Component {
 
 
     handleOnPress = (linkURL) => {
-        this.setState({
-            imageURL: linkURL
-        }, () => {
-            this.setState({
-                showImageModal: true
-            })
-        })
+        this.props.navigation.navigate('PostImage', {
+            linkURL: linkURL
+        });
     }
 
     renderImage = () => {
@@ -176,19 +170,6 @@ class Post extends Component {
         const iconSize = 30;
         return (
             <SafeAreaView style={{ backgroundColor: "black" }}>
-                <Modal
-                    isVisible={this.state.showImageModal}
-                    onBackButtonPress={() => this.setState({ showImageModal: false })}
-                    onSwipeComplete={() => this.setState({ showImageModal: false })}
-                    swipeDirection={["up", "down"]}
-                    hideModalContentWhileAnimating={true}
-                    // propagateSwipe={true}
-                    backdropOpacity={1}
-                    style={{ margin: 0 }}
-                >
-                    <PostImage url={this.state.imageURL} />
-                </Modal>
-
                 <ScrollView
                     style={{ backgroundColor: 'black', paddingLeft: 10, paddingRight: 10 }}
                     scrollEventThrottle={50}

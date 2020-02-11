@@ -19,7 +19,7 @@ class PostImage extends Component {
                 bindToBorders={true}
             >
                 <Image
-                    source={{ uri: this.props.url }}
+                    source={{ uri: this.props.navigation.getParam('linkURL') }}
                     style={{ width: window.width, height: window.height }}
                     resizeMode='contain'
                 />

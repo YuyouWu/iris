@@ -10,24 +10,16 @@ class PostThumbNail extends Component {
         super(props);
 
         this.state = {
-            showImage: false,
-            imageURL: ''
+            showImage: false
         }
     }
 
     //show image 
     //TODO: rename to show image 
     navigateToImage = (linkURL) => {
-        // this.props.navigation.navigate('PostImage', {
-        //     linkURL: linkURL
-        // });
-        this.setState({ 
-            imageURL: linkURL
-        }, () => {
-            this.setState({
-                showImage: true
-            });
-        })
+        this.props.navigation.navigate('PostImage', {
+            linkURL: linkURL
+        });
     }
 
     //show web view of link
@@ -167,22 +159,9 @@ class PostThumbNail extends Component {
         return (
             <View>
                 {this.renderThumbNail()}
-                <Modal
-                    isVisible={this.state.showImage}
-                    onBackdropPress={() => this.setState({ showImage: false })}
-                    onBackButtonPress={() => this.setState({ showImage: false })}
-                    onSwipeComplete={() => this.setState({ showImage: false })}
-                    swipeDirection={["up", "down"]}
-                    hideModalContentWhileAnimating={true}
-                    propagateSwipe={true}
-                    backdropOpacity={1}
-                    style={{margin:0}}
-                >
-                    <PostImage url={this.state.imageURL}/>
-                </Modal>
             </View>
-                );
-            }
-        };
-        
+        );
+    }
+};
+
 export default PostThumbNail;

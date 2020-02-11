@@ -2,7 +2,7 @@ import React from 'react';
 import 'react-native-gesture-handler';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator, CardStyleInterpolators, TransitionSpecs } from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import SearchContainer from './SearchScreenComponents/SearchContainer';
@@ -56,7 +56,14 @@ const NavStack = createStackNavigator(
             },
             headerTitleStyle: {
                 color: 'white'
-            }
+            },
+            gestureEnabled: true,
+            gestureDirection: "horizontal",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            transitionSpec: {
+                open: TransitionSpecs.TransitionIOSSpec,
+                close: TransitionSpecs.TransitionIOSSpec,
+              },
         }
     }
 );
