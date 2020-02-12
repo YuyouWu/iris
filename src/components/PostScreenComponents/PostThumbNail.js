@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, TouchableOpacity, View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from "react-native-modal";
-
-import PostImage from './PostImage';
+import GallerySwiper from "react-native-gallery-swiper";
 
 class PostThumbNail extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            showImage: false
+            showImage: false,
+            imageURL: ''
         }
     }
 
     //show image 
     //TODO: rename to show image 
     navigateToImage = (linkURL) => {
-        this.props.navigation.navigate('PostImage', {
-            linkURL: linkURL
+        // this.props.navigation.navigate('PostImage', {
+        //     linkURL: linkURL
+        // });
+        this.setState({
+            showImage: true,
+            imageURL: linkURL
         });
     }
 
@@ -158,6 +162,41 @@ class PostThumbNail extends Component {
     render() {
         return (
             <View>
+                <Modal
+                    isVisible={this.state.showImage}
+                    style={{margin:0}}
+                    animationIn="fadeIn"
+                    animationOut="fadeOut"
+                    onBackButtonPress={() => {
+                        this.setState({
+                            showImage: false
+                        });
+                    }}
+                >
+                    <View 
+                        style={{flex:1}}
+                    >
+                        <GallerySwiper
+                            images={[
+                                {
+                                url: this.state.imageURL
+                                }
+                            ]}
+                            onSwipeUpReleased={() => {
+                                this.setState({
+                                    showImage: false
+                                });        
+                            }}
+                            onSwipeDownReleased={() => {
+                                this.setState({
+                                    showImage: false
+                                });        
+                            }}
+
+                            // enableSwipeDown
+                        />
+                    </View>
+                </Modal>
                 {this.renderThumbNail()}
             </View>
         );

@@ -4,9 +4,9 @@ import { ScrollView, SafeAreaView, View, Image, Dimensions, Text, TouchableOpaci
 import { Divider, ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from "react-native-modal";
+import GallerySwiper from "react-native-gallery-swiper";
 import axios from 'axios';
 import CommentList from './CommentList';
-import PostImage from './PostImage';
 
 const window = Dimensions.get('window');
 
@@ -21,6 +21,8 @@ class Post extends Component {
             imageHeight: 350,
             fetchingData: true,
             showImage: false,
+            showImageModal: false,
+            imageURL: '',
             beginningCommentIdx: 0,
             endCommentIdx: 10,
             endOfComments: false,
@@ -107,8 +109,12 @@ class Post extends Component {
 
 
     handleOnPress = (linkURL) => {
-        this.props.navigation.navigate('PostImage', {
-            linkURL: linkURL
+        // this.props.navigation.navigate('PostImage', {
+        //     linkURL: linkURL
+        // });
+        this.setState({
+            imageURL: linkURL,
+            showImageModal: true
         });
     }
 
@@ -170,6 +176,40 @@ class Post extends Component {
         const iconSize = 30;
         return (
             <SafeAreaView style={{ backgroundColor: "black" }}>
+                <Modal
+                    isVisible={this.state.showImageModal}
+                    style={{ margin: 0 }}
+                    animationIn="fadeIn"
+                    animationOut="fadeOut"
+                    onBackButtonPress={() => {
+                        this.setState({
+                            showImageModal: false
+                        });
+                    }}
+                >
+                    <View
+                        style={{ flex: 1 }}
+                    >
+                        <GallerySwiper
+                            images={[
+                                {
+                                    url: this.state.imageURL
+                                }
+                            ]}
+                            onSwipeUpReleased={() => {
+                                this.setState({
+                                    showImageModal: false
+                                });
+                            }}
+                            onSwipeDownReleased={() => {
+                                this.setState({
+                                    showImageModal: false
+                                });
+                            }}
+                        />
+                    </View>
+                </Modal>
+
                 <ScrollView
                     style={{ backgroundColor: 'black', paddingLeft: 10, paddingRight: 10 }}
                     scrollEventThrottle={50}
