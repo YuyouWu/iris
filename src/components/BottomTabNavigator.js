@@ -42,7 +42,12 @@ const NavStack = createStackNavigator(
                 headerShown: false,
             }
         },
-        PostLinkView: PostLinkView
+        PostLinkView: {
+            screen: PostLinkView,
+            navigationOptions: {
+                title: "Link"
+            }
+        }
     },
     {
         initialRouteName: 'PostTileList',
