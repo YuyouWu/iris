@@ -10,7 +10,8 @@ class PostThumbNail extends Component {
 
         this.state = {
             showImage: false,
-            imageURL: ''
+            imageURL: '',
+            animationOut: 'fadeOut'
         }
     }
 
@@ -166,7 +167,9 @@ class PostThumbNail extends Component {
                     isVisible={this.state.showImage}
                     style={{margin:0}}
                     animationIn="fadeIn"
-                    animationOut="fadeOut"
+                    animationOut={this.state.animationOut}
+                    animationInTiming={200}
+                    animationOutTiming={200}
                     onBackButtonPress={() => {
                         this.setState({
                             showImage: false
@@ -182,18 +185,18 @@ class PostThumbNail extends Component {
                                 url: this.state.imageURL
                                 }
                             ]}
-                            onSwipeUpReleased={() => {
+                            onSwipeUpReleased={(e) => {
                                 this.setState({
-                                    showImage: false
-                                });        
+                                    showImage: false,
+                                    animationOut: "slideOutUp"
+                                });
                             }}
-                            onSwipeDownReleased={() => {
+                            onSwipeDownReleased={(e) => {
                                 this.setState({
-                                    showImage: false
-                                });        
+                                    showImage: false,
+                                    animationOut: "slideOutDown"
+                                });
                             }}
-
-                            // enableSwipeDown
                         />
                     </View>
                 </Modal>

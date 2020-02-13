@@ -22,6 +22,7 @@ class Post extends Component {
             fetchingData: true,
             showImage: false,
             showImageModal: false,
+            animationOut: "fadeOut",
             imageURL: '',
             beginningCommentIdx: 0,
             endCommentIdx: 10,
@@ -180,7 +181,9 @@ class Post extends Component {
                     isVisible={this.state.showImageModal}
                     style={{ margin: 0 }}
                     animationIn="fadeIn"
-                    animationOut="fadeOut"
+                    animationOut={this.state.animationOut}
+                    animationInTiming={200}
+                    animationOutTiming={200}
                     onBackButtonPress={() => {
                         this.setState({
                             showImageModal: false
@@ -198,12 +201,14 @@ class Post extends Component {
                             ]}
                             onSwipeUpReleased={() => {
                                 this.setState({
-                                    showImageModal: false
+                                    showImageModal: false,
+                                    animationOut: "slideOutUp"
                                 });
                             }}
                             onSwipeDownReleased={() => {
                                 this.setState({
-                                    showImageModal: false
+                                    showImageModal: false,
+                                    animationOut: "slideOutDown"
                                 });
                             }}
                         />
