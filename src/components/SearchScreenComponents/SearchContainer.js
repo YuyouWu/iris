@@ -35,6 +35,7 @@ class SearchContainer extends Component {
 
     onSearchSubmit = (context) => {
         console.log(context);
+        this.props.navigation.navigate('SearchResult');
         // axios.get(`https://www.reddit.com/subreddits/search/.json?q=${query}&include_over_18=on`).then((res) => {
         //     this.setState({
         //         subreddits: res.data.data.children
@@ -107,8 +108,8 @@ class SearchContainer extends Component {
                             </TouchableOpacity>
                         </View>
                     }
-                    <Text style={{ color: 'grey', margin: 15 }}>Popular Subreddits</Text>
-                    <View style={{ borderRadius: 15, overflow: "hidden", marginLeft: 10, marginRight: 10 }}>
+                    {/* <Text style={{ color: 'grey', margin: 15 }}>Popular Subreddits</Text>
+                    <View style={{ borderRadius: 15, overflow: "hidden", marginLeft: 10, marginRight: 10, marginBottom: 90 }}>
                         {this.state.subreddits &&
                             this.state.subreddits.map((subreddit, i) => (
                                 <ListItem
@@ -121,7 +122,7 @@ class SearchContainer extends Component {
                                 />
                             ))
                         }
-                    </View>
+                    </View> */}
                 </ScrollView>
             </SafeAreaView>
         );

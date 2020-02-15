@@ -5,13 +5,14 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { createStackNavigator, CardStyleInterpolators, TransitionSpecs } from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import SearchContainer from './SearchScreenComponents/SearchContainer';
 import SubredditListContainer from './SubredditScreenComponents/SubredditListContainer';
 import PostTileList from '../components/PostScreenComponents/PostTileList';
 import Post from '../components/PostScreenComponents/Post';
 import PostImage from '../components/PostScreenComponents/PostImage';
 import PostVideo from '../components/PostScreenComponents/PostVideo';
 import PostLinkView from '../components/PostScreenComponents/PostLinkView';
+import SearchContainer from '../components/SearchScreenComponents/SearchContainer';
+import SearchResult from '../components/SearchScreenComponents/SearchResult';
 
 import bottomTabStyle from '../styles/bottomTabStyle';
 
@@ -82,6 +83,20 @@ NavStack.navigationOptions = ({ navigation }) => {
     }
 }
 
+const SearchStack = createStackNavigator(
+    {
+        SearchContainer: {
+            screen: SearchContainer,
+            navigationOptions: {
+                headerShown: false
+            }
+        },
+        SearchResult: SearchResult
+    }, {
+        initialRouteName: 'SearchContainer',
+    }
+);
+
 const BottomTabs = createBottomTabNavigator(
     {
         SubredditListContainer: {
@@ -98,8 +113,8 @@ const BottomTabs = createBottomTabNavigator(
                 tabBarIcon: ({ tintColor }) => <Icon name="ios-albums" size={bottomTabStyle.icon.fontSize} color={tintColor} />,
             }
         },
-        SearchContainer: {
-            screen: SearchContainer,
+        SearchStack: {
+            screen: SearchStack,
             navigationOptions: {
                 title: 'Search',
                 tabBarIcon: ({ tintColor }) => <Icon name="ios-search" size={bottomTabStyle.icon.fontSize} color={tintColor} />
