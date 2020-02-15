@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
+import Display from 'react-native-display';
 
 import listStyles from '../../styles/listStyle';
 import inputStyle from '../../styles/inputStyle';
@@ -33,14 +34,23 @@ class SearchContainer extends Component {
         });
     }
 
-    onSearchSubmit = (context) => {
-        console.log(context);
-        this.props.navigation.navigate('SearchResult');
-        // axios.get(`https://www.reddit.com/subreddits/search/.json?q=${query}&include_over_18=on`).then((res) => {
-        //     this.setState({
-        //         subreddits: res.data.data.children
-        //     });
-        // });
+    onSearchPosts = () => {
+        this.props.navigation.navigate('PostSearchResult', {
+            query: this.state.query
+        });
+    }
+
+    onSearchSubreddits = () => {
+        this.props.navigation.navigate('SubredditSearchResult', {
+            query: this.state.query,
+            onPressSubreddit: (subName) => this.onPressSubreddit(subName)
+        });
+    }
+
+    onSearchUsers = () => {
+        this.props.navigation.navigate('UserSearchResult', {
+            query: this.state.query
+        });
     }
 
     onPressSubreddit = (subName) => {
@@ -69,11 +79,17 @@ class SearchContainer extends Component {
                         // onSubmitEditing={(e) => this.onSearchSubmit(e)}
                         onChangeText={(text) => this.handleChangeText(text)}
                     />
-                    {this.state.query !== '' &&
+                    <Display
+                        enable={this.state.query !== ''}
+                        enterDuration={200}
+                        exitDuration={200}
+                        exit="fadeOutDown"
+                        enter="fadeInUp"
+                    >
                         <View style={{ borderRadius: 15, overflow: "hidden", marginLeft: 10, marginRight: 10 }}>
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.onSearchSubmit("posts");
+                                    this.onSearchPosts();
                                 }}
                             >
                                 <ListItem
@@ -85,7 +101,7 @@ class SearchContainer extends Component {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.onSearchSubmit("subreddits");
+                                    this.onSearchSubreddits();
                                 }}
                             >
                                 <ListItem
@@ -97,7 +113,7 @@ class SearchContainer extends Component {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.onSearchSubmit("users");
+                                    this.onSearchUsers();
                                 }}
                             >
                                 <ListItem
@@ -107,7 +123,8 @@ class SearchContainer extends Component {
                                 />
                             </TouchableOpacity>
                         </View>
-                    }
+                    </Display>
+
                     {/* <Text style={{ color: 'grey', margin: 15 }}>Popular Subreddits</Text>
                     <View style={{ borderRadius: 15, overflow: "hidden", marginLeft: 10, marginRight: 10, marginBottom: 90 }}>
                         {this.state.subreddits &&

@@ -10,12 +10,11 @@ import axios from 'axios';
 
 const window = Dimensions.get('window');
 
-class SearchResult extends Component {
+class PostSearchResult extends Component {
     constructor(props) {
         super(props);
+        console.log(props.navigation.getParam('query'));
     }
-
-
 
     render() {
         return (
@@ -28,4 +27,4 @@ class SearchResult extends Component {
     }
 };
 
-export default SearchResult;
+export default PostSearchResult;

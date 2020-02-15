@@ -12,7 +12,9 @@ import PostImage from '../components/PostScreenComponents/PostImage';
 import PostVideo from '../components/PostScreenComponents/PostVideo';
 import PostLinkView from '../components/PostScreenComponents/PostLinkView';
 import SearchContainer from '../components/SearchScreenComponents/SearchContainer';
-import SearchResult from '../components/SearchScreenComponents/SearchResult';
+import UserSearchResult from '../components/SearchScreenComponents/UserSearchResult';
+import PostSearchResult from '../components/SearchScreenComponents/PostSearchResult';
+import SubredditSearchResult from '../components/SearchScreenComponents/SubredditSearchResult';
 
 import bottomTabStyle from '../styles/bottomTabStyle';
 
@@ -69,7 +71,7 @@ const NavStack = createStackNavigator(
             transitionSpec: {
                 open: TransitionSpecs.TransitionIOSSpec,
                 close: TransitionSpecs.TransitionIOSSpec,
-              },
+            },
         }
     }
 );
@@ -91,10 +93,46 @@ const SearchStack = createStackNavigator(
                 headerShown: false
             }
         },
-        SearchResult: SearchResult
+        UserSearchResult: {
+            screen: UserSearchResult,
+            navigationOptions: {
+                title: "User Search Result"
+            }
+        },
+        PostSearchResult: {
+            screen: PostSearchResult,
+            navigationOptions: {
+                title: "Post Search Result"
+            }
+        },
+        SubredditSearchResult: {
+            screen: SubredditSearchResult,
+            navigationOptions: {
+                title: "Subreddit Search result"
+            }
+        }
     }, {
-        initialRouteName: 'SearchContainer',
+    initialRouteName: 'SearchContainer',
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: '#1a1a1a',
+        },
+        headerTintColor: 'white',
+        cardStyle: {
+            backgroundColor: 'black'
+        },
+        headerTitleStyle: {
+            color: 'white'
+        },
+        gestureEnabled: true,
+        gestureDirection: "horizontal",
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        transitionSpec: {
+            open: TransitionSpecs.TransitionIOSSpec,
+            close: TransitionSpecs.TransitionIOSSpec,
+        },
     }
+}
 );
 
 const BottomTabs = createBottomTabNavigator(

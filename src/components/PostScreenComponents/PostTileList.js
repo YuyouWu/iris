@@ -89,6 +89,22 @@ class PostTileList extends Component {
     }
 
 
+    shouldComponentUpdate(props, state) {
+        const newSub = props.navigation.getParam('currentSub');
+        const currentSub = state.subreddit;
+        if (newSub !== currentSub) {
+            this.setState({
+                subreddit: newSub
+            }, () => {
+                this.onRefresh();
+                this.scrollToTop();
+            });
+            return true;
+        }
+        return true;
+    }
+
+
     render() {
         return (
             <SafeAreaView style={listStyles.listBackground}>
@@ -116,7 +132,7 @@ class PostTileList extends Component {
                                 Sort By <Icon name='ios-options' color='grey' size={15} />
                             </Text>
                         </TouchableOpacity>
-                        
+
                         <Modal
                             isVisible={this.state.showSortingOverlay}
                             onBackdropPress={() => this.setState({ showSortingOverlay: false })}
@@ -127,7 +143,7 @@ class PostTileList extends Component {
                             animationIn="fadeIn"
                             animationOut="fadeOut"
                         >
-                            <View style={{overflow:'hidden', borderRadius:10}}>
+                            <View style={{ overflow: 'hidden', borderRadius: 10 }}>
                                 <ListItem
                                     titleStyle={listStyles.title}
                                     containerStyle={{ backgroundColor: "#1a1a1a" }}
@@ -218,7 +234,7 @@ class PostTileList extends Component {
                             animationIn="fadeIn"
                             animationOut="fadeOut"
                         >
-                            <View style={{overflow:'hidden', borderRadius:10}}>
+                            <View style={{ overflow: 'hidden', borderRadius: 10 }}>
                                 <ListItem
                                     titleStyle={listStyles.title}
                                     containerStyle={{ backgroundColor: "#1a1a1a" }}
