@@ -92,7 +92,7 @@ class PostTileList extends Component {
     shouldComponentUpdate(props, state) {
         const newSub = props.navigation.getParam('currentSub');
         const currentSub = state.subreddit;
-        if (newSub !== currentSub) {
+        if (newSub && newSub !== currentSub) {
             this.setState({
                 subreddit: newSub
             }, () => {
