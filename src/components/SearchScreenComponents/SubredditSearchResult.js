@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { SafeAreaView, ScrollView, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import { StackActions, NavigationActions } from 'react-navigation';
-
-import listStyles from '../../styles/listStyle';
-
 import axios from 'axios';
 
-const window = Dimensions.get('window');
+import listStyles from '../../styles/listStyle';
 
 class SubredditSearchResult extends Component {
     constructor(props) {
