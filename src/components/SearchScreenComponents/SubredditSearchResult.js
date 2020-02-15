@@ -43,6 +43,8 @@ class SubredditSearchResult extends Component {
                                     key={i}
                                     title={subreddit.data["display_name"]}
                                     titleStyle={listStyles.title}
+                                    subtitle={subreddit.data["public_description"]}
+                                    subtitleStyle={{color: "grey"}}
                                     containerStyle={{ backgroundColor: "#262626" }}
                                     onPress={() => { this.onPressSubreddit(subreddit.data["display_name"]) }}
                                     bottomDivider
