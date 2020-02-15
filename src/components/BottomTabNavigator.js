@@ -108,7 +108,7 @@ const SearchStack = createStackNavigator(
         SubredditSearchResult: {
             screen: SubredditSearchResult,
             navigationOptions: {
-                title: "Subreddit Search result"
+                title: "Subreddit Search Result"
             }
         }
     }, {
