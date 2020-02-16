@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 
@@ -15,11 +15,16 @@ class UserSearchResult extends Component {
         super(props);
         this.state = {
             query: props.navigation.getParam('query'),
+            isLoading: true,
             users: []
         }
         axios.get(`https://www.reddit.com/users/search/.json?q=${this.state.query}&include_over_18=on`).then((res) => {
             this.setState({
                 users: res.data.data.children
+            }, () => {
+                this.setState({
+                    isLoading: false
+                })
             });
         });
     }
@@ -47,6 +52,12 @@ class UserSearchResult extends Component {
                         }
                     </View>
                 </ScrollView>
+                {this.state.isLoading &&
+                    <ListItem
+                        containerStyle={listStyles.listBackground}
+                        title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
+                    />
+                }
             </SafeAreaView>
         );
     }
