@@ -132,7 +132,7 @@ class PostTileList extends Component {
                                 Sort By <Icon name='ios-options' color='grey' size={15} />
                             </Text>
                         </TouchableOpacity>
-
+                        
                         <Modal
                             isVisible={this.state.showSortingOverlay}
                             onBackdropPress={() => this.setState({ showSortingOverlay: false })}

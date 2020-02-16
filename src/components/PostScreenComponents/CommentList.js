@@ -73,7 +73,7 @@ class CommentList extends Component {
                         <View
                             style={{
                                 marginLeft: this.state.containerMarginLeft,
-                                borderLeftWidth: borderLeftWidth,
+                                borderLeftWidth: this.state.level === 1 ? 0 : borderLeftWidth,
                                 borderLeftColor: commentColor
                             }}
                         >

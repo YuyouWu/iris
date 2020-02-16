@@ -249,7 +249,22 @@ class Post extends Component {
                         <Icon color="white" size={iconSize} name="ios-download" />
                         <Icon color="white" size={iconSize} name="md-share" />
                     </View>
+                    <Divider style={{ marginTop: 10 }} />
+                    {/* Render Comments*/}
                     <View>
+                        {/* Sort Button */}
+                        {this.state.postCommentData !== [] &&
+                            <TouchableOpacity
+                                style={{ margin: 15, flexDirection: 'row' }}
+                                onPress={() => {
+                                    // this.setState({ showSortingOverlay: true })
+                                }}
+                            >
+                                <Text style={{ color: "grey", fontSize: 15 }}>
+                                    Sort By <Icon name='ios-options' color='grey' size={15} />
+                                </Text>
+                            </TouchableOpacity>
+                        }
                         {this.renderComments(this.state.postCommentData)}
                         {!this.state.endOfComments &&
                             <View style={{ marginTop: 10 }}>
