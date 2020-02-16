@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { SafeAreaView, ScrollView, View, ActivityIndicator } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import axios from 'axios';
 
@@ -10,23 +10,21 @@ class SubredditSearchResult extends Component {
         super(props);
         this.state = {
             query: props.navigation.getParam('query'),
+            isloading: true,
             subreddits: []
         }
         axios.get(`https://www.reddit.com/subreddits/search/.json?q=${this.state.query}&include_over_18=on`).then((res) => {
             this.setState({
                 subreddits: res.data.data.children
+            }, () => {
+                this.setState({
+                    isloading: false
+                })
             });
         });
     }
 
     onPressSubreddit = (subName) => {
-        // const resetAction = StackActions.reset({
-        //     index: 0,
-        //     actions: [
-        //         NavigationActions.navigate({ routeName: 'PostTileList', params: { currentSub: subName } }),
-        //     ],
-        // });
-
         this.props.navigation.navigate('PostTileList', {
             currentSub: subName
         });
@@ -44,7 +42,7 @@ class SubredditSearchResult extends Component {
                                     title={subreddit.data["display_name"]}
                                     titleStyle={listStyles.title}
                                     subtitle={subreddit.data["public_description"]}
-                                    subtitleStyle={{color: "grey"}}
+                                    subtitleStyle={{ color: "grey" }}
                                     containerStyle={{ backgroundColor: "#262626" }}
                                     onPress={() => { this.onPressSubreddit(subreddit.data["display_name"]) }}
                                     bottomDivider
@@ -52,6 +50,13 @@ class SubredditSearchResult extends Component {
                             ))
                         }
                     </View>
+
+                    {this.state.isloading &&
+                        <ListItem
+                            containerStyle={listStyles.listBackground}
+                            title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
+                        />
+                    }
                 </ScrollView>
             </SafeAreaView>
         );
