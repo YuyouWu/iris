@@ -13,7 +13,6 @@ class CommentList extends Component {
             loadMoreComments: false,
             showSubComments: true,
             level: this.props.level + 1,
-            commentMarginLeft: -5,
             containerMarginLeft: this.props.level * 5,
         }
     }
@@ -146,7 +145,7 @@ class CommentList extends Component {
                             ) : (
                                     <View
                                         style={{
-                                            marginLeft: this.state.containerMarginLeft + 10,
+                                            marginLeft: this.state.containerMarginLeft + 5,
                                             borderLeftWidth: borderLeftWidth,
                                             borderLeftColor: 'grey'
                                         }}
