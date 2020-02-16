@@ -4,26 +4,26 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from "react-native-modal";
 import GallerySwiper from "react-native-gallery-swiper";
 
+import PostVideo from "./PostVideo";
+
 class PostThumbNail extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            showImage: false,
+            showImageModal: false,
+            showVideoModal: false,
             imageURL: '',
+            videoURL: '',
             animationOut: 'fadeOut'
         }
     }
 
-    //show image 
-    //TODO: rename to show image 
-    navigateToImage = (linkURL) => {
-        // this.props.navigation.navigate('PostImage', {
-        //     linkURL: linkURL
-        // });
+    //show image modal
+    displayImageModal = (url) => {
         this.setState({
-            showImage: true,
-            imageURL: linkURL
+            showImageModal: true,
+            imageURL: url
         });
     }
 
@@ -35,10 +35,12 @@ class PostThumbNail extends Component {
     }
 
     //navigate to video 
-    navigateToVideo = (url) => {
-        this.props.navigation.navigate('PostVideo', {
-            url: url
+    displayVideoModal = (url) => {
+        this.setState({
+            showVideoModal: true,
+            videoURL: url
         });
+
     }
 
     //navigate to post for self post
@@ -54,7 +56,7 @@ class PostThumbNail extends Component {
         if (this.props.preview && this.props.preview['reddit_video_preview']) {
             if (this.props.post.data['over_18']) {
                 return (
-                    <TouchableOpacity onPress={() => this.navigateToVideo(this.props.preview['reddit_video_preview']['fallback_url'])}>
+                    <TouchableOpacity onPress={() => this.displayVideoModal(this.props.preview['reddit_video_preview']['fallback_url'])}>
                         <Icon
                             name="alert-circle-outline"
                             color="white"
@@ -65,7 +67,7 @@ class PostThumbNail extends Component {
                 )
             }
             return (
-                <TouchableOpacity onPress={() => this.navigateToVideo(this.props.preview['reddit_video_preview']['fallback_url'])}>
+                <TouchableOpacity onPress={() => this.displayVideoModal(this.props.preview['reddit_video_preview']['fallback_url'])}>
                     <Image
                         source={{ uri: this.props.thumbnailURL }}
                         style={{ width: 100, height: 100, borderRadius: 10, overflow: 'hidden' }}
@@ -77,7 +79,7 @@ class PostThumbNail extends Component {
         if (this.props.secureMedia && this.props.secureMedia['reddit_video']) {
             if (this.props.post.data['over_18']) {
                 return (
-                    <TouchableOpacity onPress={() => this.navigateToVideo(this.props.secureMedia['reddit_video']['fallback_url'])}>
+                    <TouchableOpacity onPress={() => this.displayVideoModal(this.props.secureMedia['reddit_video']['fallback_url'])}>
                         <Icon
                             name="alert-circle-outline"
                             color="white"
@@ -88,7 +90,7 @@ class PostThumbNail extends Component {
                 )
             }
             return (
-                <TouchableOpacity onPress={() => this.navigateToVideo(this.props.secureMedia['reddit_video']['fallback_url'])}>
+                <TouchableOpacity onPress={() => this.displayVideoModal(this.props.secureMedia['reddit_video']['fallback_url'])}>
                     <Image
                         source={{ uri: this.props.thumbnailURL }}
                         style={{ width: 100, height: 100, borderRadius: 10, overflow: 'hidden' }}
@@ -115,7 +117,7 @@ class PostThumbNail extends Component {
         if (this.props.thumbnailURL.includes("http")) {
             if (this.props.post.data['over_18'] && this.props.postHint === 'image') {
                 return (
-                    <TouchableOpacity onPress={() => this.navigateToImage(this.props.linkURL)}>
+                    <TouchableOpacity onPress={() => this.displayImageModal(this.props.linkURL)}>
                         <Icon
                             name="alert-circle-outline"
                             color="white"
@@ -137,7 +139,7 @@ class PostThumbNail extends Component {
                 )
             } else {
                 return (
-                    <TouchableOpacity onPress={() => this.navigateToImage(this.props.linkURL)}>
+                    <TouchableOpacity onPress={() => this.displayImageModal(this.props.linkURL)}>
                         <Image
                             source={{ uri: this.props.thumbnailURL }}
                             style={{ width: 100, height: 100, borderRadius: 10, overflow: 'hidden' }}
@@ -164,41 +166,64 @@ class PostThumbNail extends Component {
         return (
             <View>
                 <Modal
-                    isVisible={this.state.showImage}
-                    style={{margin:0}}
-                    animationIn="fadeIn"
+                    isVisible={this.state.showImageModal}
+                    style={{ margin: 0 }}
+                    animationIn="fadeInUp"
                     animationOut={this.state.animationOut}
                     animationInTiming={200}
                     animationOutTiming={200}
+                    backdropOpacity={1}
                     onBackButtonPress={() => {
                         this.setState({
-                            showImage: false
+                            showImageModal: false
                         });
                     }}
                 >
-                    <View 
-                        style={{flex:1}}
+                    <View
+                        style={{ flex: 1 }}
                     >
                         <GallerySwiper
                             images={[
                                 {
-                                url: this.state.imageURL
+                                    url: this.state.imageURL
                                 }
                             ]}
                             onSwipeUpReleased={(e) => {
                                 this.setState({
-                                    showImage: false,
+                                    showImageModal: false,
                                     animationOut: "slideOutUp"
                                 });
                             }}
                             onSwipeDownReleased={(e) => {
                                 this.setState({
-                                    showImage: false,
+                                    showImageModal: false,
                                     animationOut: "slideOutDown"
                                 });
                             }}
                         />
                     </View>
+                </Modal>
+                <Modal
+                    isVisible={this.state.showVideoModal}
+                    style={{ margin: 0 }}
+                    animationIn="fadeInUp"
+                    animationOut="fadeOut"
+                    animationInTiming={200}
+                    animationOutTiming={200}
+                    backdropOpacity={1}
+                    swipeDirection={["up","down"]}
+                    onSwipeComplete={() => {
+                        this.setState({
+                            showVideoModal: false
+                        });
+                    }}
+                    onBackButtonPress={() => {
+                        this.setState({
+                            showVideoModal: false
+                        });
+                    }}
+                >
+                    <PostVideo videoURL = {this.state.videoURL}/>
                 </Modal>
                 {this.renderThumbNail()}
             </View>

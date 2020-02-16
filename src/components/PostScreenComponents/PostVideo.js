@@ -19,7 +19,7 @@ class PostVideo extends Component {
                         loop
                         autoplay
                         hideControlsOnStart
-                        video={{ uri: this.props.navigation.getParam('url') }}
+                        video={{ uri: this.props.videoURL }}
                         videoWidth={window.width}
                         customStyles={{
                             seekBarKnob: {
