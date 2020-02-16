@@ -76,13 +76,13 @@ class PostSearchResult extends Component {
                             />
                         ))
                     }
+                    {this.state.isLoading &&
+                        <ListItem
+                            containerStyle={listStyles.listBackground}
+                            title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
+                        />
+                    }
                 </ScrollView>
-                {this.state.isLoading &&
-                    <ListItem
-                        containerStyle={listStyles.listBackground}
-                        title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
-                    />
-                }
             </SafeAreaView>
         );
     }
