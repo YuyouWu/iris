@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, View, Text } from 'react-native';
+import { Image, TouchableOpacity, View, Text, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from "react-native-modal";
 import GallerySwiper from "react-native-gallery-swiper";
@@ -19,7 +19,7 @@ class PostThumbNail extends Component {
         }
     }
 
-    //show image modal
+    //Show Image Modal
     displayImageModal = (url) => {
         this.setState({
             showImageModal: true,
@@ -27,20 +27,20 @@ class PostThumbNail extends Component {
         });
     }
 
-    //show web view of link
-    navigateToLink = (url) => {
-        this.props.navigation.navigate('PostLinkView', {
-            url: url
-        });
-    }
-
-    //navigate to video 
+    //Show Video Modal
     displayVideoModal = (url) => {
         this.setState({
             showVideoModal: true,
             videoURL: url
         });
 
+    }
+
+    //Show PostLinkView and display a web page
+    navigateToLink = (url) => {
+        this.props.navigation.navigate('PostLinkView', {
+            url: url
+        });
     }
 
     //navigate to post for self post
@@ -50,24 +50,18 @@ class PostThumbNail extends Component {
         });
     }
 
+    //Open url in external app 
+    //Ex. youtube
+    openLink = (url) => {
+        Linking.openURL(url).catch((err) => console.error('An error occurred', err));
+    }
+
     renderThumbNail = () => {
-        //Display video if preview video/gif exist
-        //TODO: sometimes NSFW video doesnt provide a valid thumbnail URL
-        if (this.props.preview && this.props.preview['reddit_video_preview']) {
-            if (this.props.post.data['over_18']) {
-                return (
-                    <TouchableOpacity onPress={() => this.displayVideoModal(this.props.preview['reddit_video_preview']['fallback_url'])}>
-                        <Icon
-                            name="alert-circle-outline"
-                            color="white"
-                            size={60}
-                            style={{ width: 100, height: 100, textAlign: 'center', textAlignVertical: 'center' }}
-                        />
-                    </TouchableOpacity>
-                )
-            }
+        //Youtube Video
+        //TODO: use linking to navigate to youtube app
+        if (this.props.post.data.media && this.props.post.data.media.type && this.props.post.data.media.type.indexOf("youtube") > -1) {
             return (
-                <TouchableOpacity onPress={() => this.displayVideoModal(this.props.preview['reddit_video_preview']['fallback_url'])}>
+                <TouchableOpacity onPress={() => this.openLink(this.props.linkURL)}>
                     <Image
                         source={{ uri: this.props.thumbnailURL }}
                         style={{ width: 100, height: 100, borderRadius: 10, overflow: 'hidden' }}
@@ -75,11 +69,13 @@ class PostThumbNail extends Component {
                 </TouchableOpacity>
             )
         }
-        //Display video if reddit video exist
-        if (this.props.secureMedia && this.props.secureMedia['reddit_video']) {
+
+        //Display video if preview video/gif exist
+        //TODO: sometimes NSFW video doesnt provide a valid thumbnail URL
+        if (this.props.preview && this.props.preview['reddit_video_preview']) {
             if (this.props.post.data['over_18']) {
                 return (
-                    <TouchableOpacity onPress={() => this.displayVideoModal(this.props.secureMedia['reddit_video']['fallback_url'])}>
+                    <TouchableOpacity onPress={() => this.displayVideoModal(this.props.preview['reddit_video_preview']['hls_url'])}>
                         <Icon
                             name="alert-circle-outline"
                             color="white"
@@ -90,7 +86,31 @@ class PostThumbNail extends Component {
                 )
             }
             return (
-                <TouchableOpacity onPress={() => this.displayVideoModal(this.props.secureMedia['reddit_video']['fallback_url'])}>
+                <TouchableOpacity onPress={() => this.displayVideoModal(this.props.preview['reddit_video_preview']['hls_url'])}>
+                    <Image
+                        source={{ uri: this.props.thumbnailURL }}
+                        style={{ width: 100, height: 100, borderRadius: 10, overflow: 'hidden' }}
+                    />
+                </TouchableOpacity>
+            )
+        }
+
+        //Display video for Reddit Video
+        if (this.props.secureMedia && this.props.secureMedia['reddit_video']) {
+            if (this.props.post.data['over_18']) {
+                return (
+                    <TouchableOpacity onPress={() => this.displayVideoModal(this.props.secureMedia['reddit_video']['hls_url'])}>
+                        <Icon
+                            name="alert-circle-outline"
+                            color="white"
+                            size={60}
+                            style={{ width: 100, height: 100, textAlign: 'center', textAlignVertical: 'center' }}
+                        />
+                    </TouchableOpacity>
+                )
+            }
+            return (
+                <TouchableOpacity onPress={() => this.displayVideoModal(this.props.secureMedia['reddit_video']['hls_url'])}>
                     <Image
                         source={{ uri: this.props.thumbnailURL }}
                         style={{ width: 100, height: 100, borderRadius: 10, overflow: 'hidden' }}
@@ -211,7 +231,7 @@ class PostThumbNail extends Component {
                     animationInTiming={200}
                     animationOutTiming={200}
                     backdropOpacity={1}
-                    swipeDirection={["up","down"]}
+                    swipeDirection={["up", "down"]}
                     onSwipeComplete={() => {
                         this.setState({
                             showVideoModal: false
@@ -223,7 +243,7 @@ class PostThumbNail extends Component {
                         });
                     }}
                 >
-                    <PostVideo videoURL = {this.state.videoURL}/>
+                    <PostVideo videoURL={this.state.videoURL} />
                 </Modal>
                 {this.renderThumbNail()}
             </View>
