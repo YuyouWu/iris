@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -16,12 +16,17 @@ class PostSearchResult extends Component {
         super(props);
         this.state = {
             query: props.navigation.getParam('query'),
+            isLoading: true,
             posts: []
         }
 
         axios.get(`https://www.reddit.com/search/.json?q=${this.state.query}&sort=relevance&t=all&include_over_18=on`).then((res) => {
             this.setState({
                 posts: res.data.data.children
+            }, () => {
+                this.setState({
+                    isLoading: false
+                })
             });
         });
     }
@@ -72,6 +77,12 @@ class PostSearchResult extends Component {
                         ))
                     }
                 </ScrollView>
+                {this.state.isLoading &&
+                    <ListItem
+                        containerStyle={listStyles.listBackground}
+                        title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
+                    />
+                }
             </SafeAreaView>
         );
     }

@@ -10,7 +10,7 @@ class SubredditSearchResult extends Component {
         super(props);
         this.state = {
             query: props.navigation.getParam('query'),
-            isloading: true,
+            isLoading: true,
             subreddits: []
         }
         axios.get(`https://www.reddit.com/subreddits/search/.json?q=${this.state.query}&include_over_18=on`).then((res) => {
@@ -18,7 +18,7 @@ class SubredditSearchResult extends Component {
                 subreddits: res.data.data.children
             }, () => {
                 this.setState({
-                    isloading: false
+                    isLoading: false
                 })
             });
         });
@@ -51,7 +51,7 @@ class SubredditSearchResult extends Component {
                         }
                     </View>
 
-                    {this.state.isloading &&
+                    {this.state.isLoading &&
                         <ListItem
                             containerStyle={listStyles.listBackground}
                             title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
