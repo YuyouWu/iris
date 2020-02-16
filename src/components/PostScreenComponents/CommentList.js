@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { Text, View, TouchableOpacity, TouchableWithoutFeedback, Vibration } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Display from 'react-native-display';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -66,6 +66,8 @@ class CommentList extends Component {
                         onPress={() => {
                             this.setState({
                                 showSubComments: !this.state.showSubComments
+                            }, () => {
+                                Vibration.vibrate(20);
                             });
                         }}
                     >
