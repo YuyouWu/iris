@@ -70,6 +70,7 @@ class Post extends Component {
         this.setState({
             beginningCommentIdx: 0,
             endCommentIdx: 10,
+            endOfComments: false,
             fetchingData: true
         }, () => {
             this.getPostAndComments();
