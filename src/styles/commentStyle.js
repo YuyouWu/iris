@@ -13,7 +13,8 @@ export default commentStyle = StyleSheet.create({
     commentText: {
         color: 'white', 
         fontSize: 15,
-        marginLeft: -5
+        marginLeft: -5,
+        marginTop: 5
     },
     containerBackground: {
         backgroundColor: 'black'

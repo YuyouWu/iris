@@ -88,13 +88,12 @@ class CommentList extends Component {
                                         exit="fadeOutRight"
                                         enter="fadeInRight"
                                     >
-                                        <Text style={{ color: "white" }}>{this.props.comment.data.body}</Text>
+                                        <Text style={commentStyle.commentText}>{this.props.comment.data.body}</Text>
                                     </Display>
 
                                 }
                                 topDivider
                                 containerStyle={commentStyle.containerBackground}
-                                subtitleStyle={commentStyle.commentText}
                             />
                         </View>
                     </TouchableWithoutFeedback>
