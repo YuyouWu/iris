@@ -68,6 +68,8 @@ class Post extends Component {
 
     onRefresh = () => {
         this.setState({
+            beginningCommentIdx: 0,
+            endCommentIdx: 10,
             fetchingData: true
         }, () => {
             this.getPostAndComments();
