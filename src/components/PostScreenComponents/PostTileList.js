@@ -129,7 +129,7 @@ class PostTileList extends Component {
                             }}
                         >
                             <Text style={{ color: "grey", fontSize: 15 }}>
-                                Sort By <Icon name='ios-options' color='grey' size={15} />
+                                Sort By <Icon name='md-funnel' color='grey' size={15} />
                             </Text>
                         </TouchableOpacity>
                         

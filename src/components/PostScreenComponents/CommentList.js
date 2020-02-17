@@ -81,9 +81,16 @@ class CommentList extends Component {
                             <ListItem
                                 title={this.renderAuthor()}
                                 subtitle={
-                                    this.state.showSubComments ? (
-                                        this.props.comment.data.body
-                                    ) : (null)
+                                    <Display
+                                        enable={this.state.showSubComments}
+                                        enterDuration={200}
+                                        exitDuration={200}
+                                        exit="fadeOutRight"
+                                        enter="fadeInRight"
+                                    >
+                                        <Text style={{ color: "white" }}>{this.props.comment.data.body}</Text>
+                                    </Display>
+
                                 }
                                 topDivider
                                 containerStyle={commentStyle.containerBackground}
@@ -109,8 +116,8 @@ class CommentList extends Component {
                                     >
                                         <Display
                                             enable={this.state.showSubComments}
-                                            enterDuration={250}
-                                            exitDuration={250}
+                                            enterDuration={200}
+                                            exitDuration={200}
                                             exit="fadeOutRight"
                                             enter="fadeInRight"
                                         >
