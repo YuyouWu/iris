@@ -56,6 +56,12 @@ class Post extends Component {
                 //DO not fetch all the comments then slice 
                 //Use same approach as loading posts  
                 postCommentData: res.data[1].data.children.slice(this.state.beginningCommentIdx, this.state.endCommentIdx)
+            }, () => {
+                if (this.state.endCommentIdx > this.state.allComments.length) {
+                    this.setState({
+                        endOfComments: true
+                    })
+                }
             });
         }).then(() => {
             this.setState({
