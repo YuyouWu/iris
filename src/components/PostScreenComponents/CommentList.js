@@ -145,11 +145,17 @@ class CommentList extends Component {
                         <View>
                             {this.state.loadMoreComments ? (
                                 replies.data.children.map((reply, i) => {
-                                    if (this.state.showSubComments) {
-                                        return (
+                                    return (
+                                        <Display
+                                            enable={this.state.showSubComments}
+                                            enterDuration={200}
+                                            exitDuration={200}
+                                            exit="fadeOutRight"
+                                            enter="fadeInRight"
+                                        >
                                             <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} />
-                                        )
-                                    }
+                                        </Display>
+                                    )
                                 })
                             ) : (
                                     <View
