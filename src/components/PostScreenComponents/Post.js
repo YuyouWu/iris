@@ -8,6 +8,8 @@ import GallerySwiper from "react-native-gallery-swiper";
 import axios from 'axios';
 import CommentList from './CommentList';
 
+import listStyles from '../../styles/listStyle';
+
 const window = Dimensions.get('window');
 
 class Post extends Component {
@@ -23,13 +25,29 @@ class Post extends Component {
             showImage: false,
             showImageModal: false,
             animationOut: "fadeOut",
-            imageURL: '',
+            imageURL: props.navigation.getParam('post').data.url,
             beginningCommentIdx: 0,
             endCommentIdx: 10,
             endOfComments: false,
+            showSortModal: false,
+            sortingParam: '?sort=confidence'
         }
 
-        axios.get(`https://www.reddit.com${this.state.postData.permalink}.json`).then((res) => {
+        this.getPostAndComments();
+
+        Image.getSize(this.state.postData.url, () => {
+            this.setState({
+                showImage: true
+            });
+        }, () => {
+            this.setState({
+                showImage: false
+            });
+        });
+    }
+
+    getPostAndComments = () => {
+        axios.get(`https://www.reddit.com${this.state.postData.permalink}.json${this.state.sortingParam}`).then((res) => {
             this.setState({
                 postContentData: res.data[0].data.children[0].data,
                 selftext: res.data[0].data.children[0].data.selftext,
@@ -46,16 +64,13 @@ class Post extends Component {
         }).catch(e => {
             console.log(e);
         });
+    }
 
-
-        Image.getSize(this.state.postData.url, () => {
-            this.setState({
-                showImage: true
-            });
+    onRefresh = () => {
+        this.setState({
+            fetchingData: true
         }, () => {
-            this.setState({
-                showImage: false
-            });
+            this.getPostAndComments();
         });
     }
 
@@ -108,14 +123,15 @@ class Post extends Component {
         )
     }
 
-
-    handleOnPress = (linkURL) => {
-        // this.props.navigation.navigate('PostImage', {
-        //     linkURL: linkURL
-        // });
+    displayImageModal = () => {
         this.setState({
-            imageURL: linkURL,
             showImageModal: true
+        });
+    }
+
+    displaySortModal = () => {
+        this.setState({
+            showSortModal: true
         });
     }
 
@@ -124,7 +140,7 @@ class Post extends Component {
             return (
                 <TouchableOpacity
                     onPress={() => {
-                        this.handleOnPress(this.state.postData.url);
+                        this.displayImageModal();
                     }}
                     style={{
                         alignItems: 'center'
@@ -215,6 +231,105 @@ class Post extends Component {
                     </View>
                 </Modal>
 
+                <Modal
+                    isVisible={this.state.showSortModal}
+                    animationIn="fadeIn"
+                    animationOut={this.state.animationOut}
+                    animationInTiming={200}
+                    animationOutTiming={200}
+                    onBackdropPress={() => {
+                        this.setState({
+                            showSortModal: false
+                        });
+                    }}
+                    onBackButtonPress={() => {
+                        this.setState({
+                            showSortModal: false
+                        });
+                    }}
+                >
+                    <View style={{ overflow: 'hidden', borderRadius: 10 }}>
+                        <ListItem
+                            titleStyle={listStyles.title}
+                            containerStyle={{ backgroundColor: "#1a1a1a" }}
+                            title="Best"
+                            onPress={() => {
+                                this.setState({
+                                    sortingParam: '?sort=confidence',
+                                    showSortModal: false
+                                }, () => {
+                                    this.onRefresh();
+                                });
+                            }}
+                        />
+                        <ListItem
+                            titleStyle={listStyles.title}
+                            containerStyle={{ backgroundColor: "#1a1a1a" }}
+                            title="Top"
+                            onPress={() => {
+                                this.setState({
+                                    sortingParam: '?sort=top',
+                                    showSortModal: false
+                                }, () => {
+                                    this.onRefresh();
+                                });
+                            }}
+                        />
+                        <ListItem
+                            titleStyle={listStyles.title}
+                            containerStyle={{ backgroundColor: "#1a1a1a" }}
+                            title="New"
+                            onPress={() => {
+                                this.setState({
+                                    sortingParam: '?sort=new',
+                                    showSortModal: false
+                                }, () => {
+                                    this.onRefresh();
+                                });
+                            }}
+                        />
+                        <ListItem
+                            titleStyle={listStyles.title}
+                            containerStyle={{ backgroundColor: "#1a1a1a" }}
+                            title="Old"
+                            onPress={() => {
+                                this.setState({
+                                    sortingParam: '?sort=old',
+                                    showSortModal: false
+                                }, () => {
+                                    this.onRefresh();
+                                });
+                            }}
+                        />
+                        <ListItem
+                            titleStyle={listStyles.title}
+                            containerStyle={{ backgroundColor: "#1a1a1a" }}
+                            title="Controversial"
+                            onPress={() => {
+                                this.setState({
+                                    sortingParam: '?sort=controversial',
+                                    showSortModal: false
+                                }, () => {
+                                    this.onRefresh();
+                                });
+                            }}
+                        />
+                        <ListItem
+                            titleStyle={listStyles.title}
+                            containerStyle={{ backgroundColor: "#1a1a1a" }}
+                            title="Q&A"
+                            onPress={() => {
+                                this.setState({
+                                    sortingParam: '?sort=qa',
+                                    showSortModal: false
+                                }, () => {
+                                    this.onRefresh();
+                                });
+                            }}
+                        />
+                    </View>
+                </Modal>
+
                 <ScrollView
                     style={{ backgroundColor: 'black', paddingLeft: 10, paddingRight: 10 }}
                     scrollEventThrottle={50}
@@ -257,7 +372,7 @@ class Post extends Component {
                             <TouchableOpacity
                                 style={{ margin: 15, flexDirection: 'row' }}
                                 onPress={() => {
-                                    // this.setState({ showSortingOverlay: true })
+                                    this.setState({ showSortModal: true })
                                 }}
                             >
                                 <Text style={{ color: "grey", fontSize: 15 }}>
@@ -265,7 +380,7 @@ class Post extends Component {
                                 </Text>
                             </TouchableOpacity>
                         }
-                        {this.renderComments(this.state.postCommentData)}
+                        {!this.state.fetchingData && this.renderComments(this.state.postCommentData)}
                         {!this.state.endOfComments &&
                             <View style={{ marginTop: 10 }}>
                                 <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />
