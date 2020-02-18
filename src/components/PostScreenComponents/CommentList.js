@@ -62,7 +62,7 @@ class CommentList extends Component {
         return (
             <View>
                 {this.props.comment.data.author &&
-                    <TouchableWithoutFeedback
+                    <TouchableOpacity
                         onPress={() => {
                             this.setState({
                                 showSubComments: !this.state.showSubComments
@@ -96,11 +96,11 @@ class CommentList extends Component {
                                 containerStyle={commentStyle.containerBackground}
                             />
                         </View>
-                    </TouchableWithoutFeedback>
+                    </TouchableOpacity>
                 }
 
                 {/*Rendering replies to parents comment*/}
-                <TouchableWithoutFeedback>
+                <TouchableOpacity>
                     <View>
                         {
                             this.state.level < 4 &&
@@ -127,14 +127,14 @@ class CommentList extends Component {
                             })
                         }
                     </View>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
                 {
                     //For comments nested higher than 4 levels, hide under a show more button
                     this.state.level >= 4 &&
                     replies !== undefined &&
                     replies !== "" &&
                     replies.data.children.length > 0 &&
-                    <TouchableWithoutFeedback
+                    <TouchableOpacity
                         onPress={() => {
                             this.setState({
                                 loadMoreComments: !this.state.loadMoreComments
@@ -176,7 +176,7 @@ class CommentList extends Component {
 
                             }
                         </View>
-                    </TouchableWithoutFeedback>
+                    </TouchableOpacity>
                 }
             </View>
         )

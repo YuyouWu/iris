@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, ScrollView, View, ActivityIndicator } from 'react-native';
+import { SafeAreaView, ScrollView, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import axios from 'axios';
 
@@ -37,16 +37,19 @@ class SubredditSearchResult extends Component {
                     <View style={{ borderRadius: 15, overflow: "hidden", margin: 10 }}>
                         {this.state.subreddits &&
                             this.state.subreddits.map((subreddit, i) => (
-                                <ListItem
+                                <TouchableOpacity
                                     key={i}
-                                    title={subreddit.data["display_name"]}
-                                    titleStyle={listStyles.title}
-                                    subtitle={subreddit.data["public_description"]}
-                                    subtitleStyle={{ color: "grey" }}
-                                    containerStyle={{ backgroundColor: "#262626" }}
                                     onPress={() => { this.onPressSubreddit(subreddit.data["display_name"]) }}
-                                    bottomDivider
-                                />
+                                >
+                                    <ListItem
+                                        title={subreddit.data["display_name"]}
+                                        titleStyle={listStyles.title}
+                                        subtitle={subreddit.data["public_description"]}
+                                        subtitleStyle={{ color: "grey" }}
+                                        containerStyle={{ backgroundColor: "#262626" }}
+                                        bottomDivider
+                                    />
+                                </TouchableOpacity>
                             ))
                         }
                     </View>
