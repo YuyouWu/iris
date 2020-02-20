@@ -90,8 +90,7 @@ class CommentList extends Component {
                                     >
                                         <Text style={commentStyle.commentText}>{this.props.comment.data.body}</Text>
                                     </Display>
-
-                                }
+                                } 
                                 topDivider
                                 containerStyle={commentStyle.containerBackground}
                             />
@@ -173,7 +172,6 @@ class CommentList extends Component {
                                     </View>
 
                                 )
-
                             }
                         </View>
                     </TouchableOpacity>

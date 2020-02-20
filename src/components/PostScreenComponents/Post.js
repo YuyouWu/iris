@@ -99,7 +99,6 @@ class Post extends Component {
             } else {
                 newComments = this.state.allComments.slice(this.state.beginningCommentIdx, this.state.endCommentIdx);
             }
-            //TODO: handle cases when we've reached the end of comments
             currentComments.push.apply(currentComments, newComments);
             this.setState({
                 postCommentData: currentComments,
@@ -344,9 +343,6 @@ class Post extends Component {
                     scrollEventThrottle={50}
                     onScroll={({ nativeEvent }) => {
                         if (this.isCloseToBottom(nativeEvent) && this.state.fetchingData === false && !this.state.endOfComments) {
-                            this.setState({
-                                fetchingData: true
-                            });
                             this.loadMoreComments();
                         }
                     }}
