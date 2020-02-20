@@ -58,7 +58,6 @@ class PostThumbNail extends Component {
 
     renderThumbNail = () => {
         //Youtube Video
-        //TODO: use linking to navigate to youtube app
         if (this.props.post.data.media && this.props.post.data.media.type && this.props.post.data.media.type.indexOf("youtube") > -1) {
             return (
                 <TouchableOpacity onPress={() => this.openLink(this.props.linkURL)}>
@@ -119,8 +118,8 @@ class PostThumbNail extends Component {
             )
         }
 
+        //Open the post if it's a self post
         if (this.props.thumbnailURL === "self" || this.props.post.data['is_self']) {
-            //TODO: if this is a self post open Post component 
             return (
                 <TouchableOpacity onPress={() => this.navigateToPost()}>
                     <Icon
