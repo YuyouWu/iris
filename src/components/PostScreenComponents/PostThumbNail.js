@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Image, TouchableOpacity, View, Text, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { ListItem } from 'react-native-elements';
 import Modal from "react-native-modal";
 import GallerySwiper from "react-native-gallery-swiper";
 
 import PostVideo from "./PostVideo";
+
+import listStyles from '../../styles/listStyle';
 
 class PostThumbNail extends Component {
     constructor(props) {
@@ -13,6 +16,7 @@ class PostThumbNail extends Component {
         this.state = {
             showImageModal: false,
             showVideoModal: false,
+            showDownloadModal: false,
             imageURL: '',
             videoURL: '',
             animationOut: 'fadeOut'
@@ -201,6 +205,36 @@ class PostThumbNail extends Component {
                     <View
                         style={{ flex: 1 }}
                     >
+                        <Modal
+                            isVisible={this.state.showDownloadModal}
+                            animationIn="fadeIn"
+                            animationOut={this.state.animationOut}
+                            animationInTiming={200}
+                            animationOutTiming={200}
+                            backdropOpacity={0.3}
+                            onBackdropPress={() => {
+                                this.setState({
+                                    showDownloadModal: false
+                                });
+                            }}
+                            onBackButtonPress={() => {
+                                this.setState({
+                                    showDownloadModal: false
+                                });
+                            }}
+                        >
+                            <View style={{ overflow: 'hidden', borderRadius: 10 }}>
+                                <ListItem
+                                    titleStyle={listStyles.title}
+                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                    title="Save Image"
+                                    onPress={() => {
+                                        console.log("download");
+                                    }}
+                                />
+                            </View>
+                        </Modal>
+
                         <GallerySwiper
                             images={[
                                 {
@@ -217,6 +251,11 @@ class PostThumbNail extends Component {
                                 this.setState({
                                     showImageModal: false,
                                     animationOut: "slideOutDown"
+                                });
+                            }}
+                            onLongPress={(e) => {
+                                this.setState({
+                                    showDownloadModal: true
                                 });
                             }}
                         />
