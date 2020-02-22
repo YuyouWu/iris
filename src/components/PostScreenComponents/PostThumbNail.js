@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, View, Text, Linking, Platform, PermissionsAndroid } from 'react-native';
+import { Image, TouchableOpacity, View, Text, Linking, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ListItem } from 'react-native-elements';
 import Modal from "react-native-modal";
@@ -231,13 +231,14 @@ class PostThumbNail extends Component {
                                     containerStyle={{ backgroundColor: "#1a1a1a" }}
                                     title="Save Image"
                                     onPress={() => {
-                                        if(Platform.OS === "android") {
-                                            const imagePath = `${RNFetchBlob.fs.dirs.PictureDir}/${new Date().toISOString()}.jpg`.replace(/:/g, '');
-                                            RNFS.readdir(`${RNFetchBlob.fs.dirs.PictureDir}`).then(res => {
+                                        if (Platform.OS === "android") {
+                                            //Use RNFetchBlob for picture directory
+                                            const imagePath = `${RNFetchBlob.fs.dirs.PictureDir}/Iris/${new Date().toISOString()}.jpg`.replace(/:/g, '');
+                                            RNFS.readdir(`${RNFetchBlob.fs.dirs.PictureDir}/Iris`).then(res => {
                                                 //Do nothing if dir already exist
                                             }).catch(e => {
                                                 //Create dir if it doesn't exist
-                                                RNFS.mkdir(`${RNFetchBlob.fs.dirs.PictureDir}`);
+                                                RNFS.mkdir(`${RNFetchBlob.fs.dirs.PictureDir}/Iris`);
                                             });
                                             //Save file to image path 
                                             RNFS.downloadFile({
@@ -248,6 +249,21 @@ class PostThumbNail extends Component {
                                                 RNFS.scanFile(imagePath).then(res => {
                                                     console.log(res);
                                                 })
+                                            }).catch(e => {
+                                                console.log("Error");
+                                                console.log(e);
+                                            });
+                                        }
+                                        if (Platform.OS === "ios") {
+                                            console.log("IOS");
+                                            const imagePath = `${RNFS.LibraryDirectoryPath}/${new Date().toISOString()}.jpg`.replace(/:/g, '');
+                                            RNFS.downloadFile({
+                                                fromUrl: this.state.imageURL,
+                                                toFile: imagePath
+                                            }).promise.then(res => {
+                                                // CameraRoll.saveToCameraRoll(imagePath).then(res => {
+                                                //     console.log(res);
+                                                // });
                                             }).catch(e => {
                                                 console.log("Error");
                                                 console.log(e);
