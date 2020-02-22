@@ -17,6 +17,7 @@
     "react-native": "0.61.5",
     "react-native-display": "^1.0.8",
     "react-native-elements": "^1.2.7",
+    "react-native-flash-message": "^0.1.15",
     "react-native-fs": "^2.16.6",
     "react-native-gallery-swiper": "^1.25.2",
     "react-native-gesture-handler": "^1.5.3",
