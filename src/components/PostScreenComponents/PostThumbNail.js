@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, View, Text, Linking } from 'react-native';
+import { Image, TouchableOpacity, View, Text, Linking, Platform, PermissionsAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ListItem } from 'react-native-elements';
 import Modal from "react-native-modal";
 import GallerySwiper from "react-native-gallery-swiper";
+import RNFetchBlob from 'rn-fetch-blob';
+import * as RNFS from 'react-native-fs';
 
 import PostVideo from "./PostVideo";
 
@@ -208,7 +210,7 @@ class PostThumbNail extends Component {
                         <Modal
                             isVisible={this.state.showDownloadModal}
                             animationIn="fadeIn"
-                            animationOut={this.state.animationOut}
+                            animationOut="fadeOut"
                             animationInTiming={200}
                             animationOutTiming={200}
                             backdropOpacity={0.3}
@@ -229,7 +231,31 @@ class PostThumbNail extends Component {
                                     containerStyle={{ backgroundColor: "#1a1a1a" }}
                                     title="Save Image"
                                     onPress={() => {
-                                        console.log("download");
+                                        if(Platform.OS === "android") {
+                                            const imagePath = `${RNFetchBlob.fs.dirs.PictureDir}/${new Date().toISOString()}.jpg`.replace(/:/g, '');
+                                            RNFS.readdir(`${RNFetchBlob.fs.dirs.PictureDir}`).then(res => {
+                                                //Do nothing if dir already exist
+                                            }).catch(e => {
+                                                //Create dir if it doesn't exist
+                                                RNFS.mkdir(`${RNFetchBlob.fs.dirs.PictureDir}`);
+                                            });
+                                            //Save file to image path 
+                                            RNFS.downloadFile({
+                                                fromUrl: this.state.imageURL,
+                                                toFile: imagePath
+                                            }).promise.then(res => {
+                                                //Scane file with media scanner
+                                                RNFS.scanFile(imagePath).then(res => {
+                                                    console.log(res);
+                                                })
+                                            }).catch(e => {
+                                                console.log("Error");
+                                                console.log(e);
+                                            });
+                                        }
+                                        this.setState({
+                                            showDownloadModal: false
+                                        });
                                     }}
                                 />
                             </View>
