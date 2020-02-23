@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 import GallerySwiper from "react-native-gallery-swiper";
 import axios from 'axios';
 import CommentList from './CommentList';
-
+import PostImage from './PostImage';
 import listStyles from '../../styles/listStyle';
 
 const window = Dimensions.get('window');
@@ -197,6 +197,14 @@ class Post extends Component {
         }
     }
 
+    //Used by PostImage to set showImageModal state and modal animation 
+    setImageModalState = (modalState, animation) => {
+        this.setState({
+            showImageModal: modalState,
+            animationOut: animation
+        });
+    }
+
     render() {
         const iconSize = 30;
         return (
@@ -214,29 +222,10 @@ class Post extends Component {
                         });
                     }}
                 >
-                    <View
-                        style={{ flex: 1 }}
-                    >
-                        <GallerySwiper
-                            images={[
-                                {
-                                    url: this.state.imageURL
-                                }
-                            ]}
-                            onSwipeUpReleased={() => {
-                                this.setState({
-                                    showImageModal: false,
-                                    animationOut: "slideOutUp"
-                                });
-                            }}
-                            onSwipeDownReleased={() => {
-                                this.setState({
-                                    showImageModal: false,
-                                    animationOut: "slideOutDown"
-                                });
-                            }}
-                        />
-                    </View>
+                    <PostImage
+                        imageURL={this.state.imageURL}
+                        setImageModalState={this.setImageModalState}
+                    />
                 </Modal>
 
                 <Modal

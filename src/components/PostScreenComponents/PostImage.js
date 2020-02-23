@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PermissionsAndroid, View } from 'react-native';
+import { PermissionsAndroid, View, TouchableHighlight } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
@@ -33,14 +33,19 @@ class PostImage extends Component {
             RNFS.downloadFile({
                 fromUrl: this.props.imageURL,
                 toFile: imagePath
-            }).promise.then(res => {
+            }).promise.then(() => {
                 //Scane file with media scanner
-                RNFS.scanFile(imagePath).then(res => {
+                RNFS.scanFile(imagePath).then(() => {
                     showMessage({
                         message: "Image Saved",
                         type: "info"
                     })
-                })
+                }, () => {
+                    showMessage({
+                        message: "Failed to save image",
+                        type: "warning"
+                    });    
+                });
             }).catch(e => {
                 showMessage({
                     message: "Failed to save image",
@@ -90,10 +95,7 @@ class PostImage extends Component {
                     }}
                 >
                     <View style={{ overflow: 'hidden', borderRadius: 10 }}>
-                        <ListItem
-                            titleStyle={listStyles.title}
-                            containerStyle={{ backgroundColor: "#1a1a1a" }}
-                            title="Save Image"
+                        <TouchableHighlight
                             onPress={() => {
                                 //check if the app has permission to write 
                                 if (Platform.OS === "android") {
@@ -124,7 +126,25 @@ class PostImage extends Component {
                                     showDownloadModal: false
                                 });
                             }}
-                        />
+                        >
+                            <ListItem
+                                titleStyle={listStyles.title}
+                                containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                title="Save Image"
+                            />
+                        </TouchableHighlight>
+                        <TouchableHighlight>
+                            <ListItem
+                                titleStyle={listStyles.title}
+                                containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                title="Share"
+                                onPress={() => {
+                                    this.setState({
+                                        showDownloadModal: false
+                                    });
+                                }}
+                            />
+                        </TouchableHighlight>
                     </View>
                 </Modal>
 
