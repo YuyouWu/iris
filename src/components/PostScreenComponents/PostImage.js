@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { PermissionsAndroid, View, TouchableHighlight } from 'react-native';
+import { PermissionsAndroid, View, TouchableHighlight, Platform } from 'react-native';
+import CameraRoll from "@react-native-community/cameraroll";
 import { ListItem } from 'react-native-elements';
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
@@ -60,12 +61,23 @@ class PostImage extends Component {
                 fromUrl: this.props.imageURL,
                 toFile: imagePath
             }).promise.then(res => {
-                // CameraRoll.saveToCameraRoll(imagePath).then(res => {
-                //     console.log(res);
-                // });
-            }).catch(e => {
-                console.log("Error");
-                console.log(e);
+                CameraRoll.saveToCameraRoll(imagePath).then(res => {
+                    showMessage({
+                        message: "Image Saved",
+                        type: "info"
+                    })
+                }, () => {
+                    showMessage({
+                        message: "Failed to save image. Please check if Iris has permission to Photos",
+                        type: "warning"
+                    });
+
+                });
+            }, () => {
+                showMessage({
+                    message: "Failed to save image. Please check if Iris has permission to Photos",
+                    type: "warning"
+                });
             });
         }
     }
@@ -121,6 +133,8 @@ class PostImage extends Component {
                                             }
                                         }
                                     });
+                                } else if (Platform.OS === "ios") {
+                                    this.downloadImage();
                                 }
                                 this.setState({
                                     showDownloadModal: false
