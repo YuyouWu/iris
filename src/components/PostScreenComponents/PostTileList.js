@@ -111,8 +111,14 @@ class PostTileList extends Component {
                 <View style={listStyles.containerBackground}>
                     <Modal
                         isVisible={this.state.showSortingOverlay}
-                        onBackdropPress={() => this.setState({ showSortingOverlay: false })}
-                        onBackButtonPress={() => this.setState({ showSortingOverlay: false })}
+                        onBackdropPress={() => this.setState({
+                            showSortingOverlay: false,
+                            showSortingOverlayTop: false
+                        })}
+                        onBackButtonPress={() => this.setState({
+                            showSortingOverlay: false,
+                            showSortingOverlayTop: false
+                        })}
                         useNativeDriver={true}
                         animationInTiming={100}
                         animationIn="fadeIn"
@@ -201,6 +207,7 @@ class PostTileList extends Component {
                                     title="All"
                                     onPress={() => {
                                         this.setState({
+                                            sortingParam: 'top',
                                             sortingParamTop: 'sort=top&t=all',
                                             showSortingOverlay: false,
                                             showSortingOverlayTop: false
