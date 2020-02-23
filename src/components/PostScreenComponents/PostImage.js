@@ -44,9 +44,9 @@ class PostImage extends Component {
                     showMessage({
                         message: "Failed to save image",
                         type: "warning"
-                    });    
+                    });
                 });
-            }).catch(e => {
+            }, () => {
                 showMessage({
                     message: "Failed to save image",
                     type: "warning"
