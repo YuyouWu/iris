@@ -21,7 +21,13 @@ class CommentList extends Component {
     renderAuthor = () => {
         return (
             <View style={{ flexDirection: 'row' }}>
-                <Text style={commentStyle.authorText}>{this.props.comment.data.author} </Text>
+                <Text
+                    style={this.props.author === this.props.comment.data.author ?
+                        commentStyle.opText : commentStyle.authorText
+                    }
+                >
+                    {this.props.comment.data.author}
+                </Text>
                 <Text style={commentStyle.scoreText}>
                     <Icon name='arrowup' color='grey' />{this.props.comment.data.score}
                 </Text>
@@ -90,7 +96,7 @@ class CommentList extends Component {
                                     >
                                         <Text style={commentStyle.commentText}>{this.props.comment.data.body}</Text>
                                     </Display>
-                                } 
+                                }
                                 topDivider
                                 containerStyle={commentStyle.containerBackground}
                             />
@@ -119,7 +125,7 @@ class CommentList extends Component {
                                             exit="fadeOutRight"
                                             enter="fadeInRight"
                                         >
-                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} />
+                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} author={this.props.author}/>
                                         </Display>
                                     </View>
                                 )
@@ -151,7 +157,7 @@ class CommentList extends Component {
                                             exit="fadeOutRight"
                                             enter="fadeInRight"
                                         >
-                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} />
+                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} author={this.props.author}/>
                                         </Display>
                                     )
                                 })

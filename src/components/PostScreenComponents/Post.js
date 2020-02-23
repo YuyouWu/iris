@@ -124,6 +124,7 @@ class Post extends Component {
                         key={i}
                         level={0}
                         comment={comment}
+                        author={this.state.postData.author}
                     />
                 )
             })
