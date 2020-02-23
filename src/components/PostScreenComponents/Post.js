@@ -4,7 +4,6 @@ import { ScrollView, SafeAreaView, View, Image, Dimensions, Text, TouchableOpaci
 import { Divider, ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from "react-native-modal";
-import GallerySwiper from "react-native-gallery-swiper";
 import axios from 'axios';
 import CommentList from './CommentList';
 import PostImage from './PostImage';
@@ -137,13 +136,87 @@ class Post extends Component {
         });
     }
 
+    displayVideoModal = () => {
+        console.log("TODO: add video modal");
+    }
+
     displaySortModal = () => {
         this.setState({
             showSortModal: true
         });
     }
 
-    renderImage = () => {
+    renderContent = () => {
+        //Youtube video 
+        if (this.state.postData.media && this.state.postData.media.type && this.state.postData.media.type.indexOf("youtube") > -1) {
+            return (
+                <TouchableOpacity onPress={() => this.openLink(this.props.linkURL)}>
+                    <Image
+                        source={{ uri: this.props.thumbnailURL }}
+                        style={{ width: window.width, height: this.state.imageHeight }}
+                        resizeMode={'contain'}
+                    />
+                </TouchableOpacity>
+            )
+        }
+
+        if (this.state.postData.preview && this.state.postData.preview['reddit_video_preview']) {
+            if (this.state.postData['over_18']) {
+                return (
+                    <TouchableOpacity onPress={() => this.displayVideoModal(this.state.postData.preview['reddit_video_preview']['hls_url'])}>
+                        <Icon
+                            name="alert-circle-outline"
+                            color="white"
+                            size={60}
+                            style={{ width: 100, height: 100, textAlign: 'center', textAlignVertical: 'center' }}
+                        />
+                    </TouchableOpacity>
+                )
+            }
+            return (
+                <TouchableOpacity 
+                    onPress={() => this.displayVideoModal(this.state.postData.preview['reddit_video_preview']['hls_url'])}
+                    style={{
+                        alignItems: 'center'
+                    }}
+                >
+                    <Image
+                        source={{ uri: this.state.postData.thumbnail }}
+                        style={{ width: window.width, height: this.state.imageHeight }}
+                        resizeMode={'contain'}
+                    />
+                </TouchableOpacity>
+            )
+        }
+
+        if (this.state.postData.secureMedia && this.state.postData.secureMedia['reddit_video']) {
+            if (this.state.postData['over_18']) {
+                return (
+                    <TouchableOpacity onPress={() => this.displayVideoModal(this.state.postData.secureMedia['reddit_video']['hls_url'])}>
+                        <Icon
+                            name="alert-circle-outline"
+                            color="white"
+                            size={60}
+                            style={{ width: 100, height: 100, textAlign: 'center', textAlignVertical: 'center' }}
+                        />
+                    </TouchableOpacity>
+                )
+            }
+            return (
+                <TouchableOpacity onPress={() => this.displayVideoModal(this.state.postData.secureMedia['reddit_video']['hls_url'])}>
+                    <Image
+                        source={{ uri: this.state.postData.thumbnail }}
+                        style={{ width: window.width, height: this.state.imageHeight }}
+                        resizeMode={'contain'}
+                    />
+                </TouchableOpacity>
+            )
+        }
+
+        if (this.state.postData.thumbnail === "self" || this.state.postData['is_self']) {
+
+        }
+
         if (this.state.postData['post_hint'] === "image") {
             return (
                 <TouchableOpacity
@@ -162,9 +235,7 @@ class Post extends Component {
                 </TouchableOpacity>
             )
         }
-    }
 
-    renderLink = () => {
         //Check if url is a link or image, check if it's a reddit link
         if (!this.state.postData['is_self'] && this.state.postData['post_hint'] === "link") {
             return (
@@ -209,6 +280,7 @@ class Post extends Component {
         const iconSize = 30;
         return (
             <SafeAreaView style={{ backgroundColor: "black" }}>
+                {/* Image Modal */}
                 <Modal
                     isVisible={this.state.showImageModal}
                     style={{ margin: 0 }}
@@ -228,6 +300,7 @@ class Post extends Component {
                     />
                 </Modal>
 
+                {/* Sort Modal*/}
                 <Modal
                     isVisible={this.state.showSortModal}
                     animationIn="fadeIn"
@@ -336,8 +409,7 @@ class Post extends Component {
                         }
                     }}
                 >
-                    {this.renderImage()}
-                    {this.renderLink()}
+                    {this.renderContent()}
                     <Text style={{ fontSize: 20, color: 'white', paddingTop: 5 }}>{this.state.postData.title}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={{ color: 'grey' }}>{`in r/${this.state.postData.subreddit} `}</Text>
