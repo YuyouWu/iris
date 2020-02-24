@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { PermissionsAndroid, View, TouchableHighlight, Platform, Clipboard } from 'react-native';
 import CameraRoll from "@react-native-community/cameraroll";
 import { ListItem } from 'react-native-elements';
+import Share from 'react-native-share';
 import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
 import GallerySwiper from "react-native-gallery-swiper";
@@ -82,6 +83,16 @@ class PostImage extends Component {
         }
     }
 
+    shareImageURL = () => {
+        const shareOptions = {
+            url: this.props.imageURL,
+        };
+
+        Share.open(shareOptions).catch(e => {
+            console.log(e);
+        })
+    }
+
     render() {
         return (
             <View
@@ -154,6 +165,10 @@ class PostImage extends Component {
                                 title="Copy Image URL"
                                 onPress={() => {
                                     Clipboard.setString(this.props.imageURL);
+                                    showMessage({
+                                        message: "URL copied",
+                                        type: "info"
+                                    });
                                     this.setState({
                                         showDownloadModal: false
                                     });
@@ -164,8 +179,9 @@ class PostImage extends Component {
                             <ListItem
                                 titleStyle={listStyles.title}
                                 containerStyle={{ backgroundColor: "#1a1a1a" }}
-                                title="Share Image File"
+                                title="Share Image URL"
                                 onPress={() => {
+                                    this.shareImageURL();
                                     this.setState({
                                         showDownloadModal: false
                                     });

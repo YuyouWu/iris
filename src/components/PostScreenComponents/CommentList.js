@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, TouchableWithoutFeedback, Vibration } from 'react-native';
+import { Text, View, TouchableOpacity, Vibration, Platform } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Display from 'react-native-display';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -73,7 +73,9 @@ class CommentList extends Component {
                             this.setState({
                                 showSubComments: !this.state.showSubComments
                             }, () => {
-                                Vibration.vibrate(20);
+                                if (Platform.OS === 'android') {
+                                    Vibration.vibrate(20);
+                                }
                             });
                         }}
                     >
@@ -125,7 +127,7 @@ class CommentList extends Component {
                                             exit="fadeOutRight"
                                             enter="fadeInRight"
                                         >
-                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} author={this.props.author}/>
+                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} author={this.props.author} />
                                         </Display>
                                     </View>
                                 )
@@ -157,7 +159,7 @@ class CommentList extends Component {
                                             exit="fadeOutRight"
                                             enter="fadeInRight"
                                         >
-                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} author={this.props.author}/>
+                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} author={this.props.author} />
                                         </Display>
                                     )
                                 })
