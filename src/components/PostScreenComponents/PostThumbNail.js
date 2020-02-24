@@ -225,6 +225,7 @@ class PostThumbNail extends Component {
                     backdropOpacity={1}
                     swipeDirection={["up", "down"]}
                     useNativeDriver={true}
+                    propagateSwipe={true}
                     onSwipeComplete={() => {
                         this.setState({
                             showVideoModal: false

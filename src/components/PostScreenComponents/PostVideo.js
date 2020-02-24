@@ -16,11 +16,11 @@ class PostVideo extends Component {
             <SafeAreaView>
                 <View style={{ backgroundColor: 'black' }}>
                     <VideoPlayer
-                        loop
                         autoplay
                         hideControlsOnStart
                         video={{ uri: this.props.videoURL }}
                         videoWidth={window.width}
+                        repeat={true}
                         customStyles={{
                             seekBarKnob: {
                                 backgroundColor: "white"
