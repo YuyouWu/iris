@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PermissionsAndroid, View, TouchableHighlight, Platform } from 'react-native';
+import { PermissionsAndroid, View, TouchableHighlight, Platform, Clipboard } from 'react-native';
 import CameraRoll from "@react-native-community/cameraroll";
 import { ListItem } from 'react-native-elements';
 import FlashMessage from "react-native-flash-message";
@@ -151,7 +151,20 @@ class PostImage extends Component {
                             <ListItem
                                 titleStyle={listStyles.title}
                                 containerStyle={{ backgroundColor: "#1a1a1a" }}
-                                title="Share"
+                                title="Copy Image URL"
+                                onPress={() => {
+                                    Clipboard.setString(this.props.imageURL);
+                                    this.setState({
+                                        showDownloadModal: false
+                                    });
+                                }}
+                            />
+                        </TouchableHighlight>
+                        <TouchableHighlight>
+                            <ListItem
+                                titleStyle={listStyles.title}
+                                containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                title="Share Image File"
                                 onPress={() => {
                                     this.setState({
                                         showDownloadModal: false
