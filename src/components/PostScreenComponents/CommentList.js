@@ -4,6 +4,7 @@ import { ListItem } from 'react-native-elements';
 import Display from 'react-native-display';
 import Icon from 'react-native-vector-icons/AntDesign';
 import commentStyle from '../../styles/commentStyle'
+import { kFormatter } from '../utils/numUtils';
 
 class CommentList extends Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class CommentList extends Component {
                     {this.props.comment.data.author}
                 </Text>
                 <Text style={commentStyle.scoreText}>
-                    <Icon name='arrowup' color='grey' />{this.props.comment.data.score}
+                    <Icon name='arrowup' color='grey' />{kFormatter(this.props.comment.data.score)}
                 </Text>
             </View>
         )

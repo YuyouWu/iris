@@ -8,6 +8,7 @@ import axios from 'axios';
 import CommentList from './CommentList';
 import PostImage from './PostImage';
 import listStyles from '../../styles/listStyle';
+import { kFormatter } from '../utils/numUtils';
 
 const window = Dimensions.get('window');
 
@@ -417,7 +418,7 @@ class Post extends Component {
                         <Text style={{ color: 'grey' }}>{`by ${this.state.postData.author}`}</Text>
                     </View>
                     <Text style={{ color: 'grey' }}>
-                        <Icon name='md-arrow-up' color='grey' />{`${this.state.postData.score}`}
+                        <Icon name='md-arrow-up' color='grey' />{`${kFormatter(this.state.postData.score)}`}
                     </Text>
                     {this.state.selftext !== "" && (
                         <Text style={{ color: 'white' }}>

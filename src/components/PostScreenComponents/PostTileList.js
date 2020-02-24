@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 
 import listStyles from '../../styles/listStyle';
+import { kFormatter } from '../utils/numUtils';
 import PostThumbNail from './PostThumbNail';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
@@ -22,7 +23,6 @@ class PostTileList extends Component {
             sortingParamTop: "",
             subreddit: props.navigation.getParam('currentSub') || 'all'
         }
-
         this.getPost();
     }
 
@@ -73,13 +73,14 @@ class PostTileList extends Component {
     }
 
     renderPostSubtitle = (subreddit, score) => {
+        const formattedScore = kFormatter(score);
         return (
             <View style={{ flexDirection: 'row' }}>
                 <Text style={{ color: 'grey' }}>
                     {subreddit}
                 </Text>
                 <Text style={{ color: 'grey', marginLeft: 15 }}>
-                    <Icon name='ios-arrow-round-up' color='grey' size={15} /> {score}
+                    <Icon name='ios-arrow-round-up' color='grey' size={15} /> {formattedScore}
                 </Text>
             </View>
         );
