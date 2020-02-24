@@ -3,6 +3,7 @@ import { Text, View, ScrollView, StatusBar, SafeAreaView, RefreshControl, Activi
 import { ListItem } from 'react-native-elements';
 import Modal from "react-native-modal";
 import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
 
 import listStyles from '../../styles/listStyle';
@@ -72,15 +73,20 @@ class PostTileList extends Component {
         });
     }
 
-    renderPostSubtitle = (subreddit, score) => {
+    renderPostSubtitle = (subreddit, score, numComments) => {
         const formattedScore = kFormatter(score);
         return (
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', marginTop: 15 }}>
                 <Text style={{ color: 'grey' }}>
                     {subreddit}
                 </Text>
-                <Text style={{ color: 'grey', marginLeft: 15 }}>
-                    <Icon name='ios-arrow-round-up' color='grey' size={15} /> {formattedScore}
+                <MaterialIcons name='arrow-upward' color='grey' size={18} style={{ marginLeft: 15, marginRight: 5 }} />
+                <Text style={{ color: 'grey' }}>
+                    {formattedScore}
+                </Text>
+                <MaterialIcons name='chat-bubble' color='grey' size={18} style={{ marginLeft: 15, marginRight: 5 }} />
+                <Text style={{ color: 'grey' }}>
+                    {numComments}
                 </Text>
             </View>
         );
@@ -327,7 +333,7 @@ class PostTileList extends Component {
                                 <ListItem
                                     key={i}
                                     title={post.data.title}
-                                    subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score)}
+                                    subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score, post.data['num_comments'])}
                                     topDivider
                                     titleStyle={listStyles.title}
                                     containerStyle={listStyles.listBackground}
