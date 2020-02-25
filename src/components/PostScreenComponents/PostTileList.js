@@ -110,17 +110,9 @@ class PostTileList extends Component {
 
     renderPostTitle = (title, post) => {
         return (
-            <TouchableOpacity
-            // onPress={() => {
-            //     this.props.navigation.navigate('Post', {
-            //         post: post
-            //     });
-            // }}
-            >
-                <Text style={listStyles.title}>
-                    {title}
-                </Text>
-            </TouchableOpacity>
+            <Text style={listStyles.title}>
+                {title}
+            </Text>
         );
     }
 
