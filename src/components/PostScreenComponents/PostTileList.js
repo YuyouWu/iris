@@ -5,6 +5,7 @@ import Modal from "react-native-modal";
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
+import { StackActions } from 'react-navigation';
 
 import listStyles from '../../styles/listStyle';
 import { kFormatter } from '../utils/numUtils';
@@ -75,11 +76,26 @@ class PostTileList extends Component {
 
     renderPostSubtitle = (subreddit, score, numComments) => {
         const formattedScore = kFormatter(score);
+        const pushSubredditPostTileList = StackActions.push({
+            routeName: 'PostTileList',
+            params: {
+                currentSub: subreddit
+            }
+        });
+
         return (
             <View style={{ flexDirection: 'row', marginTop: 15 }}>
-                <Text style={{ color: 'grey' }}>
-                    {subreddit}
-                </Text>
+                <TouchableOpacity
+                    onPress={() => {
+                        if (subreddit !== this.state.subreddit) {
+                            this.props.navigation.dispatch(pushSubredditPostTileList);
+                        }
+                    }}
+                >
+                    <Text style={{ color: 'grey' }}>
+                        {subreddit}
+                    </Text>
+                </TouchableOpacity>
                 <MaterialIcons name='arrow-upward' color='grey' size={18} style={{ marginLeft: 15, marginRight: 5 }} />
                 <Text style={{ color: 'grey' }}>
                     {formattedScore}
@@ -89,6 +105,22 @@ class PostTileList extends Component {
                     {numComments}
                 </Text>
             </View>
+        );
+    }
+
+    renderPostTitle = (title, post) => {
+        return (
+            <TouchableOpacity
+            // onPress={() => {
+            //     this.props.navigation.navigate('Post', {
+            //         post: post
+            //     });
+            // }}
+            >
+                <Text style={listStyles.title}>
+                    {title}
+                </Text>
+            </TouchableOpacity>
         );
     }
 
@@ -332,10 +364,9 @@ class PostTileList extends Component {
                             this.state.posts.map((post, i) => (
                                 <ListItem
                                     key={i}
-                                    title={post.data.title}
+                                    title={this.renderPostTitle(post.data.title, post)}
                                     subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score, post.data['num_comments'])}
                                     topDivider
-                                    titleStyle={listStyles.title}
                                     containerStyle={listStyles.listBackground}
                                     leftElement={
                                         <PostThumbNail
