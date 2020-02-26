@@ -15,7 +15,7 @@ import SearchContainer from '../components/SearchScreenComponents/SearchContaine
 import UserSearchResult from '../components/SearchScreenComponents/UserSearchResult';
 import PostSearchResult from '../components/SearchScreenComponents/PostSearchResult';
 import SubredditSearchResult from '../components/SearchScreenComponents/SubredditSearchResult';
-
+import SettingContainer from '../components/SettingScreenComponents/SettingContainer';
 import bottomTabStyle from '../styles/bottomTabStyle';
 
 const NavStack = createStackNavigator(
@@ -162,6 +162,13 @@ const BottomTabs = createBottomTabNavigator(
             navigationOptions: {
                 title: 'Search',
                 tabBarIcon: ({ tintColor }) => <Icon name="ios-search" size={bottomTabStyle.icon.fontSize} color={tintColor} />
+            }
+        },
+        SettingStack: {
+            screen: SettingContainer,
+            navigationOptions: {
+                title: 'Search',
+                tabBarIcon: ({ tintColor }) => <Icon name="md-settings" size={bottomTabStyle.icon.fontSize} color={tintColor} />
             }
         }
     },
