@@ -16,7 +16,7 @@ class Post extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            postData: props.navigation.getParam('post').data,
+            postData: props.route.params.post.data,
             postContentData: "",
             postCommentData: [],
             selftext: "",
@@ -25,13 +25,14 @@ class Post extends Component {
             showImage: false,
             showImageModal: false,
             animationOut: "fadeOut",
-            imageURL: props.navigation.getParam('post').data.url,
+            imageURL: props.route.params.post.data.url,
             beginningCommentIdx: 0,
             endCommentIdx: 10,
             endOfComments: false,
             showSortModal: false,
             sortingParam: '?sort=confidence'
         }
+        console.log(this.state.postData.permalink);
 
         this.getPostAndComments();
 

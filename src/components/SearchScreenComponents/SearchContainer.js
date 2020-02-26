@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { CommonActions } from '@react-navigation/native';
 import Display from 'react-native-display';
 
 import listStyles from '../../styles/listStyle';
@@ -55,10 +55,10 @@ class SearchContainer extends Component {
 
     onPressSubreddit = (subName) => {
         //Reset stack with currentSub param 
-        const resetAction = StackActions.reset({
+        const resetAction = CommonActions.reset({
             index: 0,
             actions: [
-                NavigationActions.navigate({ routeName: 'PostTileList', params: { currentSub: subName } }),
+                CommonActions.navigate({ routeName: 'PostTileList', params: { currentSub: subName } }),
             ],
         });
 

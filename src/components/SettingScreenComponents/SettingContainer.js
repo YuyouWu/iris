@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions } from '@react-navigation/native';
 import Display from 'react-native-display';
 
 import listStyles from '../../styles/listStyle';

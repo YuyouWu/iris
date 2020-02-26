@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import PostThumbNail from '../PostScreenComponents/PostThumbNail';
@@ -15,7 +15,7 @@ class PostSearchResult extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            query: props.navigation.getParam('query'),
+            query: props.route.params.query,
             isLoading: true,
             posts: []
         }

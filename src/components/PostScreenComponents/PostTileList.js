@@ -5,7 +5,7 @@ import Modal from "react-native-modal";
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
-import { StackActions } from 'react-navigation';
+import { StackActions } from '@react-navigation/native';
 
 import listStyles from '../../styles/listStyle';
 import { kFormatter } from '../utils/numUtils';
@@ -23,7 +23,7 @@ class PostTileList extends Component {
             showSortingOverlayTop: false,
             sortingParam: "",
             sortingParamTop: "",
-            subreddit: props.navigation.getParam('currentSub') || 'all'
+            subreddit: props.route.params?.currentSub ?? 'all'
         }
         this.getPost();
     }
@@ -76,12 +76,12 @@ class PostTileList extends Component {
 
     renderPostSubtitle = (subreddit, score, numComments) => {
         const formattedScore = kFormatter(score);
-        const pushSubredditPostTileList = StackActions.push({
-            routeName: 'PostTileList',
-            params: {
+        const pushSubredditPostTileList = StackActions.push(
+            'PostTileList',
+            {
                 currentSub: subreddit
             }
-        });
+        );
 
         return (
             <View style={{ flexDirection: 'row', marginTop: 15 }}>
@@ -121,7 +121,7 @@ class PostTileList extends Component {
     }
 
     shouldComponentUpdate(props, state) {
-        const newSub = props.navigation.getParam('currentSub');
+        const newSub = props.route.params?.currentSub;
         const currentSub = state.subreddit;
         if (newSub && newSub !== currentSub) {
             this.setState({

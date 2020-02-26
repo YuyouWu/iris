@@ -5,7 +5,7 @@ import { WebView } from 'react-native-webview';
 const PostLinkView = (props) => {
     return (
         <SafeAreaView style={{ width: '100%', height: '100%' }}>
-                <WebView source={{ uri: props.navigation.getParam('url') }} />
+                <WebView source={{ uri: props.route.params.url}} />
         </SafeAreaView>
     );
 };
