@@ -32,8 +32,7 @@ class Post extends Component {
             showSortModal: false,
             sortingParam: '?sort=confidence'
         }
-        console.log(this.state.postData.permalink);
-
+        
         this.getPostAndComments();
 
         Image.getSize(this.state.postData.url, () => {
