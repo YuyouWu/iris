@@ -6,7 +6,6 @@ export default inputStyle = StyleSheet.create({
     },
     input: {
         color: 'white',
-        marginLeft: 10
     },
     inputContainer: {
         backgroundColor: '#333333',

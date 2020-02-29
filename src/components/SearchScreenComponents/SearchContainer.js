@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import { Input, ListItem } from 'react-native-elements';
+import { ListItem, SearchBar } from 'react-native-elements';
 import { CommonActions } from '@react-navigation/native';
 import Display from 'react-native-display';
 
@@ -70,14 +70,14 @@ class SearchContainer extends Component {
         return (
             <SafeAreaView style={listStyles.listBackground}>
                 <ScrollView style={{ backgroundColor: 'black', height: window.height }}>
-                    <Input
+                    <SearchBar
                         containerStyle={inputStyle.container}
                         inputStyle={inputStyle.input}
                         inputContainerStyle={inputStyle.inputContainer}
                         placeholderTextColor={inputStyle.placeHolderColor.color}
                         placeholder='Search for subreddits, posts, or users'
-                        // onSubmitEditing={(e) => this.onSearchSubmit(e)}
                         onChangeText={(text) => this.handleChangeText(text)}
+                        value={this.state.query}
                     />
                     <Display
                         enable={this.state.query !== ''}

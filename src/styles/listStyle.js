@@ -9,5 +9,9 @@ export default listStyles = StyleSheet.create({
     },
     containerBackground: {
         color: 'black'
+    },
+    label: {
+        color: 'white',
+        margin: 15
     }
 });
