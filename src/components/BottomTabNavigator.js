@@ -16,6 +16,8 @@ import UserSearchResult from '../components/SearchScreenComponents/UserSearchRes
 import PostSearchResult from '../components/SearchScreenComponents/PostSearchResult';
 import SubredditSearchResult from '../components/SearchScreenComponents/SubredditSearchResult';
 import SettingContainer from '../components/SettingScreenComponents/SettingContainer';
+import ProfileContainer from '../components/ProfileComponents/ProfileContainer';
+
 import bottomTabStyle from '../styles/bottomTabStyle';
 
 // PostTileStack.navigationOptions = ({ navigation }) => {
@@ -181,6 +183,14 @@ class BottomTabNavigator extends React.Component {
                         options={{
                             title: "Posts",
                             tabBarIcon: ({ color }) => <Icon name="ios-albums" size={bottomTabStyle.icon.fontSize} color={color} />
+                        }}
+                    />
+                    <BottomTabs.Screen
+                        name="Profile"
+                        component={ProfileContainer}
+                        options={{
+                            title: "Profile",
+                            tabBarIcon: ({ color }) => <Icon name="md-person" size={bottomTabStyle.icon.fontSize} color={color} />
                         }}
                     />
                     <BottomTabs.Screen
