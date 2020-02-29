@@ -20,15 +20,6 @@ import ProfileContainer from '../components/ProfileComponents/ProfileContainer';
 
 import bottomTabStyle from '../styles/bottomTabStyle';
 
-// PostTileStack.navigationOptions = ({ navigation }) => {
-//     const routeName = navigation.state.routes[navigation.state.index].routeName;
-//     if (routeName === "PostVideo" || routeName === "PostImage" || routeName === "PostLinkView") {
-//         return {
-//             tabBarVisible: false,
-//         }
-//     }
-// }
-
 const SearchStack = createStackNavigator();
 
 function RenderSearchStack() {
@@ -165,8 +156,9 @@ class BottomTabNavigator extends React.Component {
                         activeTintColor: "white",
                         inactiveTintColor: 'grey',
                         style: {
-                            backgroundColor: '#1a1a1a'
-                        }
+                            backgroundColor: '#1a1a1a',
+                        },
+                        keyboardHidesTabBar: true
                     }}
                 >
                     <BottomTabs.Screen
