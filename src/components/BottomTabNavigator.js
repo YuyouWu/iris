@@ -19,6 +19,7 @@ import SettingContainer from '../components/SettingScreenComponents/SettingConta
 import ProfileContainer from '../components/ProfileComponents/ProfileContainer';
 
 import bottomTabStyle from '../styles/bottomTabStyle';
+import postTileStackStyle from '../styles/postTileStackStyle';
 
 const SearchStack = createStackNavigator();
 
@@ -27,16 +28,10 @@ function RenderSearchStack() {
         <SearchStack.Navigator
             initialRouteName="SearchContainer"
             screenOptions={{
-                headerStyle: {
-                    backgroundColor: '#1a1a1a',
-                },
-                headerTintColor: 'white',
-                cardStyle: {
-                    backgroundColor: 'black'
-                },
-                headerTitleStyle: {
-                    color: 'white'
-                },
+                headerStyle: postTileStackStyle.headerStyle,
+                headerTintColor: postTileStackStyle.headerTintColor.color,
+                cardStyle: postTileStackStyle.cardStyle,
+                headerTitleStyle: postTileStackStyle.headerTitleStyle,
                 gestureEnabled: true,
                 gestureDirection: "horizontal",
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -83,16 +78,10 @@ function RenderPostTileStack() {
         <PostTileStack.Navigator
             initialRouteName="PostTileList"
             screenOptions={{
-                headerStyle: {
-                    backgroundColor: '#1a1a1a',
-                },
-                headerTintColor: 'white',
-                cardStyle: {
-                    backgroundColor: 'black'
-                },
-                headerTitleStyle: {
-                    color: 'white'
-                },
+                headerStyle: postTileStackStyle.headerStyle,
+                headerTintColor: postTileStackStyle.headerTintColor.color,
+                cardStyle: postTileStackStyle.cardStyle,
+                headerTitleStyle: postTileStackStyle.headerTitleStyle,
                 gestureEnabled: true,
                 gestureDirection: "horizontal",
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -153,11 +142,9 @@ class BottomTabNavigator extends React.Component {
                 <BottomTabs.Navigator
                     initialRouteName="Posts"
                     tabBarOptions={{
-                        activeTintColor: "white",
-                        inactiveTintColor: 'grey',
-                        style: {
-                            backgroundColor: '#1a1a1a',
-                        },
+                        activeTintColor: bottomTabStyle.activeTintColor.color,
+                        inactiveTintColor: bottomTabStyle.inactiveTintColor.color,
+                        style: bottomTabStyle.tabBar,
                         keyboardHidesTabBar: true
                     }}
                 >
