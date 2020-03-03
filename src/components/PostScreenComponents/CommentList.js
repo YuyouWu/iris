@@ -6,6 +6,12 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import commentStyle from '../../styles/commentStyle'
 import { kFormatter } from '../utils/numUtils';
 
+const blue = '#289EFE';
+const green = '#9DFF48';
+const yellow = '#FFFA48';
+const orange = '#FF9F48';
+const red = '#FF6D6E';
+
 class CommentList extends Component {
     constructor(props) {
         super(props);
@@ -45,22 +51,22 @@ class CommentList extends Component {
         }
         switch (this.props.commentColor) {
             case 'black':
-                commentColor = '#289EFE';
+                commentColor = blue;
                 break;
-            case '#289EFE':
-                commentColor = '#9DFF48';
+            case blue:
+                commentColor = green;
                 break;
-            case '#9DFF48':
-                commentColor = '#FFFA48';
+            case green:
+                commentColor = yellow;
                 break;
-            case '#FFFA48':
-                commentColor = '#FF9F48';
+            case yellow:
+                commentColor = orange;
                 break;
-            case '#FF9F48':
-                commentColor = '#FF6D6E';
+            case orange:
+                commentColor = red;
                 break;
-            case '#FF6D6E':
-                commentColor = '#289EFE';
+            case red:
+                commentColor = blue;
                 break;
             default:
                 commentColor = 'black';
