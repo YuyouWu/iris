@@ -86,7 +86,7 @@ class SearchContainer extends Component {
                         exit="fadeOutDown"
                         enter="fadeInUp"
                     >
-                        <View style={{ borderRadius: 15, overflow: "hidden", marginLeft: 10, marginRight: 10 }}>
+                        <View style={listStyles.listContainer}>
                             <TouchableOpacity
                                 onPress={() => {
                                     this.onSearchPosts();

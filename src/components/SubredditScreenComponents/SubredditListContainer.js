@@ -47,7 +47,7 @@ class SubredditListContainer extends Component {
                             value={this.state.query}
                         />
 
-                        <View style={{ borderRadius: 15, overflow: "hidden", marginLeft: 10, marginRight: 10 }}>
+                        <View style={listStyles.listContainer}>
                             <ListItem
                                 key="home"
                                 title="Home"
