@@ -9,6 +9,7 @@ import inputStyle from '../../styles/inputStyle';
 
 import axios from 'axios';
 
+const window = Dimensions.get('window');
 
 class SettingContainer extends Component {
     constructor(props) {
@@ -17,8 +18,19 @@ class SettingContainer extends Component {
 
     render() {
         return (
-            <SafeAreaView>
-                <Text>This is the Setting Container</Text>
+            <SafeAreaView style={listStyles.listBackground}>
+                <ScrollView style={{ backgroundColor: 'black', height: window.height, marginTop: 10 }}>
+                    <View style={listStyles.listContainer}>
+                        <TouchableOpacity>
+                            <ListItem
+                                title="Theme"
+                                titleStyle={listStyles.title}
+                                containerStyle={{ backgroundColor: "#262626" }}
+                                bottomDivider
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
             </SafeAreaView>
         );
     }

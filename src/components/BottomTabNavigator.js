@@ -16,6 +16,7 @@ import UserSearchResult from '../components/SearchScreenComponents/UserSearchRes
 import PostSearchResult from '../components/SearchScreenComponents/PostSearchResult';
 import SubredditSearchResult from '../components/SearchScreenComponents/SubredditSearchResult';
 import SettingContainer from '../components/SettingScreenComponents/SettingContainer';
+import SettingStackNavigator from '../components/SettingScreenComponents/SettingStackNavigator';
 import ProfileContainer from '../components/ProfileComponents/ProfileContainer';
 
 import bottomTabStyle from '../styles/bottomTabStyle';
@@ -181,10 +182,10 @@ class BottomTabNavigator extends React.Component {
                         }}
                     />
                     <BottomTabs.Screen
-                        name="Setting"
-                        component={SettingContainer}
+                        name="Settings"
+                        component={SettingStackNavigator}
                         options={{
-                            title: "Setting",
+                            title: "Settings",
                             tabBarIcon: ({ color }) => <Icon name="md-settings" size={bottomTabStyle.icon.fontSize} color={color} />
                         }}
                     />
