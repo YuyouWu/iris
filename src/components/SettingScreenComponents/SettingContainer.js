@@ -1,34 +1,93 @@
 import React, { Component } from 'react';
-import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableHighlight } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
+import Modal from "react-native-modal";
 import { StackActions, NavigationActions } from '@react-navigation/native';
-import Display from 'react-native-display';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import listStyles from '../../styles/listStyle';
 import inputStyle from '../../styles/inputStyle';
-
-import axios from 'axios';
 
 const window = Dimensions.get('window');
 
 class SettingContainer extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            showThemeModal: false
+        }
     }
+
+    saveSetting = async (theme) => {
+        try {
+            await AsyncStorage.setItem('@theme', theme)
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
 
     render() {
         return (
             <SafeAreaView style={listStyles.listBackground}>
                 <ScrollView style={{ backgroundColor: 'black', height: window.height, marginTop: 10 }}>
                     <View style={listStyles.listContainer}>
-                        <TouchableOpacity>
+                        <TouchableHighlight
+                            onPress={() => this.setState({
+                                showThemeModal: true
+                            })}
+                        >
                             <ListItem
                                 title="Theme"
                                 titleStyle={listStyles.title}
                                 containerStyle={{ backgroundColor: "#262626" }}
                                 bottomDivider
                             />
-                        </TouchableOpacity>
+                        </TouchableHighlight>
+                        <Modal
+                            isVisible={this.state.showThemeModal}
+                            onBackdropPress={() => this.setState({
+                                showThemeModal: false
+                            })}
+                            onBackButtonPress={() => this.setState({
+                                showThemeModal: false
+                            })}
+                            useNativeDriver={true}
+                            animationInTiming={100}
+                            animationIn="fadeIn"
+                            animationOut="fadeOut"
+                        >
+                            <View style={{ overflow: 'hidden', borderRadius: 10 }}>
+                                <TouchableHighlight
+                                    onPress={()=> {
+                                        this.saveSetting("light");
+                                        this.setState({
+                                            showThemeModal: false
+                                        });
+                                    }}
+                                >
+                                    <ListItem
+                                        titleStyle={listStyles.title}
+                                        containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                        title="Light"
+                                    />
+                                </TouchableHighlight>
+                                <TouchableHighlight
+                                    onPress={()=> {
+                                        this.saveSetting("dark");
+                                        this.setState({
+                                            showThemeModal: false
+                                        });
+                                    }}
+                                >
+                                    <ListItem
+                                        titleStyle={listStyles.title}
+                                        containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                        title="Dark"
+                                    />
+                                </TouchableHighlight>
+                            </View>
+                        </Modal>
                     </View>
                 </ScrollView>
             </SafeAreaView>

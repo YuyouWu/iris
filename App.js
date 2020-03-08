@@ -27,7 +27,8 @@ class App extends React.Component {
 
   initSetting = async () => {
     try {
-      const theme = await AsyncStorage.getItem('@theme')
+      const theme = await AsyncStorage.getItem('@theme');
+      console.log(theme);
       if(theme === null) {
         this.saveSetting();
       }
