@@ -1,11 +1,17 @@
 import { StyleSheet } from 'react-native'
 
 export default listStyles = StyleSheet.create({
-    title: {
+    darkTitle: {
         color: 'white',
+    },
+    lightTitle: {
+        color: 'black'
     },
     darkListBackground: {
         backgroundColor: 'black'
+    },
+    lightListBackground: {
+        backgroundColor: 'white'
     },
     listContainer: {
         borderRadius: 10,

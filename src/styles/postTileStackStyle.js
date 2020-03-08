@@ -1,16 +1,28 @@
 import { StyleSheet } from 'react-native'
 
 export default postTileStackStyle = StyleSheet.create({
-    headerStyle: {
-        backgroundColor: "#1a1a1a" 
+    lightHeaderStyle: {
+        backgroundColor: "#F8F8F8"
     },
-    headerTintColor: {
-        color: "white" 
+    darkHeaderStyle: {
+        backgroundColor: "#1a1a1a"
     },
-    cardStyle: {
+    lightHeaderTintColor: {
+        color: "black"
+    },
+    darkHeaderTintColor: {
+        color: "white"
+    },
+    lightCardStyle: {
+        backgroundColor: "white"
+    },
+    darkCardStyle: {
         backgroundColor: "black"
     },
-    headerTitleStyle: {
+    lightHeaderTitleStyle: {
+        color: 'black'
+    },
+    darkHeaderTitleStyle: {
         color: 'white'
     }
 });

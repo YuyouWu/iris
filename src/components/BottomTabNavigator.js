@@ -3,20 +3,17 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator, CardStyleInterpolators, TransitionSpecs } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import SubredditListContainer from './SubredditScreenComponents/SubredditListContainer';
-import PostTileList from '../components/PostScreenComponents/PostTileList';
 import Post from '../components/PostScreenComponents/Post';
-import PostImage from '../components/PostScreenComponents/PostImage';
-import PostVideo from '../components/PostScreenComponents/PostVideo';
-import PostLinkView from '../components/PostScreenComponents/PostLinkView';
 import SearchContainer from '../components/SearchScreenComponents/SearchContainer';
 import UserSearchResult from '../components/SearchScreenComponents/UserSearchResult';
 import PostSearchResult from '../components/SearchScreenComponents/PostSearchResult';
 import SubredditSearchResult from '../components/SearchScreenComponents/SubredditSearchResult';
-import SettingContainer from '../components/SettingScreenComponents/SettingContainer';
 import SettingStackNavigator from '../components/SettingScreenComponents/SettingStackNavigator';
+import PostTileStackNavigator from '../components/PostScreenComponents/PostTileStackNavigator';
 import ProfileContainer from '../components/ProfileComponents/ProfileContainer';
 
 import bottomTabStyle from '../styles/bottomTabStyle';
@@ -29,10 +26,6 @@ function RenderSearchStack() {
         <SearchStack.Navigator
             initialRouteName="SearchContainer"
             screenOptions={{
-                headerStyle: postTileStackStyle.headerStyle,
-                headerTintColor: postTileStackStyle.headerTintColor.color,
-                cardStyle: postTileStackStyle.cardStyle,
-                headerTitleStyle: postTileStackStyle.headerTitleStyle,
                 gestureEnabled: true,
                 gestureDirection: "horizontal",
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -72,80 +65,37 @@ function RenderSearchStack() {
     );
 }
 
-const PostTileStack = createStackNavigator();
-
-function RenderPostTileStack() {
-    return (
-        <PostTileStack.Navigator
-            initialRouteName="PostTileList"
-            screenOptions={{
-                headerStyle: postTileStackStyle.headerStyle,
-                headerTintColor: postTileStackStyle.headerTintColor.color,
-                cardStyle: postTileStackStyle.cardStyle,
-                headerTitleStyle: postTileStackStyle.headerTitleStyle,
-                gestureEnabled: true,
-                gestureDirection: "horizontal",
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-                transitionSpec: {
-                    open: TransitionSpecs.TransitionIOSSpec,
-                    close: TransitionSpecs.TransitionIOSSpec,
-                }
-            }}
-        >
-            <PostTileStack.Screen
-                name="PostTileList"
-                component={PostTileList}
-                options={({ route }) => {
-                    let currentSub = 'all'
-                    if (route.params?.currentSub) {
-                        currentSub = route.params.currentSub;
-                    }
-                    return ({
-                        title: `r/${currentSub}`
-                    })
-                }}
-            />
-            <PostTileStack.Screen
-                name="Post"
-                component={Post}
-            />
-            <PostTileStack.Screen
-                name="PostImage"
-                component={PostImage}
-                options={{
-                    headerShown: false
-                }}
-            />
-            <PostTileStack.Screen
-                name="PostVideo"
-                component={PostVideo}
-                options={{
-                    headerShown: false
-                }}
-            />
-            <PostTileStack.Screen
-                name="PostLinkView"
-                component={PostLinkView}
-                options={{
-                    title: "Link"
-                }}
-            />
-        </PostTileStack.Navigator>
-    )
-}
-
 const BottomTabs = createBottomTabNavigator();
 
 class BottomTabNavigator extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            theme: "dark"
+        }
+        this.loadTheme();
+    }
+
+    loadTheme = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('@theme');
+            this.setState({
+                theme
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     render() {
         return (
             <NavigationContainer>
                 <BottomTabs.Navigator
                     initialRouteName="Posts"
                     tabBarOptions={{
-                        activeTintColor: bottomTabStyle.activeTintColor.color,
+                        activeTintColor: this.state.theme === "light" ? bottomTabStyle.lightActiveTintColor.color : bottomTabStyle.darkActiveTintColor.color,
                         inactiveTintColor: bottomTabStyle.inactiveTintColor.color,
-                        style: bottomTabStyle.tabBar,
+                        style: this.state.theme === "light" ? bottomTabStyle.lightTabBar : bottomTabStyle.darkTabBar,
                         keyboardHidesTabBar: true
                     }}
                 >
@@ -159,7 +109,7 @@ class BottomTabNavigator extends React.Component {
                     />
                     <BottomTabs.Screen
                         name="Posts"
-                        component={RenderPostTileStack}
+                        component={PostTileStackNavigator}
                         options={{
                             title: "Posts",
                             tabBarIcon: ({ color }) => <Icon name="ios-albums" size={bottomTabStyle.icon.fontSize} color={color} />

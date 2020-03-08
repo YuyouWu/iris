@@ -4,13 +4,19 @@ export default bottomTabStyle = StyleSheet.create({
     icon: {
         fontSize: 24, 
     },
-    activeTintColor: {
+    darkActiveTintColor: {
         color: "white"
     },
+    lightActiveTintColor: {
+        color: "#0978FD"
+    },  
     inactiveTintColor: {
         color: "grey"
     },
-    tabBar: {
+    darkTabBar: {
         backgroundColor: "#1a1a1a"
+    },
+    lightTabBar: {
+        backgroundColor: "#F8F8F8"
     }
 });

@@ -6,16 +6,19 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
 import { StackActions } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import listStyles from '../../styles/listStyle';
+import modalStyle from '../../styles/modalStyle';
+
 import { kFormatter } from '../utils/numUtils';
 import PostThumbNail from './PostThumbNail';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 
 class PostTileList extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            theme: "dark",
             posts: [],
             isLoadingMorePost: false,
             refreshing: true,
@@ -25,7 +28,19 @@ class PostTileList extends Component {
             sortingParamTop: "",
             subreddit: props.route.params?.currentSub ?? 'all'
         }
+        this.loadTheme();
         this.getPost();
+    }
+
+    loadTheme = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('@theme');
+            this.setState({
+                theme
+            });
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     getPost = () => {
@@ -110,7 +125,7 @@ class PostTileList extends Component {
 
     renderPostTitle = (title, post) => {
         return (
-            <Text style={listStyles.title}>
+            <Text style={this.state.theme === 'light'? listStyles.lightTitle : listStyles.darkTitle}>
                 {title}
             </Text>
         );
@@ -137,7 +152,7 @@ class PostTileList extends Component {
 
     render() {
         return (
-            <SafeAreaView style={listStyles.darkListBackground}>
+            <SafeAreaView style={this.state.theme === "light" ? listStyles.lightListBackground : listStyles.darkListBackground}>
                 <StatusBar backgroundColor="black" barStyle="light-content" />
                 <View style={listStyles.containerBackground}>
                     <Modal
@@ -158,8 +173,8 @@ class PostTileList extends Component {
                         {this.state.showSortingOverlayTop ? (
                             <View style={{ overflow: 'hidden', borderRadius: 10 }}>
                                 <ListItem
-                                    titleStyle={listStyles.title}
-                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                    titleStyle={this.state.theme === 'light'? listStyles.lightTitle : listStyles.darkTitle}
+                                    containerStyle={this.state.theme === 'light'? modalStyle.lightModalContainer : modalStyle.darkModalContainer}
                                     title="Hour"
                                     onPress={() => {
                                         this.setState({
@@ -173,8 +188,8 @@ class PostTileList extends Component {
                                     }}
                                 />
                                 <ListItem
-                                    titleStyle={listStyles.title}
-                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                    titleStyle={this.state.theme === 'light'? listStyles.lightTitle : listStyles.darkTitle}
+                                    containerStyle={this.state.theme === 'light'? modalStyle.lightModalContainer : modalStyle.darkModalContainer}
                                     title="Day"
                                     onPress={() => {
                                         this.setState({
@@ -188,8 +203,8 @@ class PostTileList extends Component {
                                     }}
                                 />
                                 <ListItem
-                                    titleStyle={listStyles.title}
-                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                    titleStyle={this.state.theme === 'light'? listStyles.lightTitle : listStyles.darkTitle}
+                                    containerStyle={this.state.theme === 'light'? modalStyle.lightModalContainer : modalStyle.darkModalContainer}
                                     title="Week"
                                     onPress={() => {
                                         this.setState({
@@ -203,8 +218,8 @@ class PostTileList extends Component {
                                     }}
                                 />
                                 <ListItem
-                                    titleStyle={listStyles.title}
-                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                    titleStyle={this.state.theme === 'light'? listStyles.lightTitle : listStyles.darkTitle}
+                                    containerStyle={this.state.theme === 'light'? modalStyle.lightModalContainer : modalStyle.darkModalContainer}
                                     title="Month"
                                     onPress={() => {
                                         this.setState({
@@ -218,8 +233,8 @@ class PostTileList extends Component {
                                     }}
                                 />
                                 <ListItem
-                                    titleStyle={listStyles.title}
-                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                    titleStyle={this.state.theme === 'light'? listStyles.lightTitle : listStyles.darkTitle}
+                                    containerStyle={this.state.theme === 'light'? modalStyle.lightModalContainer : modalStyle.darkModalContainer}
                                     title="Year"
                                     onPress={() => {
                                         this.setState({
@@ -233,8 +248,8 @@ class PostTileList extends Component {
                                     }}
                                 />
                                 <ListItem
-                                    titleStyle={listStyles.title}
-                                    containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                    titleStyle={this.state.theme === 'light'? listStyles.lightTitle : listStyles.darkTitle}
+                                    containerStyle={this.state.theme === 'light'? modalStyle.lightModalContainer : modalStyle.darkModalContainer}
                                     title="All"
                                     onPress={() => {
                                         this.setState({
@@ -251,8 +266,8 @@ class PostTileList extends Component {
                         ) : (
                                 <View style={{ overflow: 'hidden', borderRadius: 10 }}>
                                     <ListItem
-                                        titleStyle={listStyles.title}
-                                        containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                        titleStyle={this.state.theme === 'light'? listStyles.lightTitle : listStyles.darkTitle}
+                                        containerStyle={this.state.theme === 'light'? modalStyle.lightModalContainer : modalStyle.darkModalContainer}
                                         title="Best"
                                         onPress={() => {
                                             this.setState({
@@ -264,8 +279,8 @@ class PostTileList extends Component {
                                         }}
                                     />
                                     <ListItem
-                                        titleStyle={listStyles.title}
-                                        containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                        titleStyle={this.state.theme === 'light'? listStyles.lightTitle : listStyles.darkTitle}
+                                        containerStyle={this.state.theme === 'light'? modalStyle.lightModalContainer : modalStyle.darkModalContainer}
                                         title="Hot"
                                         onPress={() => {
                                             this.setState({
@@ -277,8 +292,8 @@ class PostTileList extends Component {
                                         }}
                                     />
                                     <ListItem
-                                        titleStyle={listStyles.title}
-                                        containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                        titleStyle={this.state.theme === 'light'? listStyles.lightTitle : listStyles.darkTitle}
+                                        containerStyle={this.state.theme === 'light'? modalStyle.lightModalContainer : modalStyle.darkModalContainer}
                                         title="New"
                                         onPress={() => {
                                             this.setState({
@@ -290,8 +305,8 @@ class PostTileList extends Component {
                                         }}
                                     />
                                     <ListItem
-                                        titleStyle={listStyles.title}
-                                        containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                        titleStyle={this.state.theme === 'light'? listStyles.lightTitle : listStyles.darkTitle}
+                                        containerStyle={this.state.theme === 'light'? modalStyle.lightModalContainer : modalStyle.darkModalContainer}
                                         title="Top"
                                         onPress={() => {
                                             this.setState({
@@ -300,8 +315,8 @@ class PostTileList extends Component {
                                         }}
                                     />
                                     <ListItem
-                                        titleStyle={listStyles.title}
-                                        containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                        titleStyle={this.state.theme === 'light'? listStyles.lightTitle : listStyles.darkTitle}
+                                        containerStyle={this.state.theme === 'light'? modalStyle.lightModalContainer : modalStyle.darkModalContainer}
                                         title="Controversial"
                                         onPress={() => {
                                             this.setState({
@@ -313,8 +328,8 @@ class PostTileList extends Component {
                                         }}
                                     />
                                     <ListItem
-                                        titleStyle={listStyles.title}
-                                        containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                        titleStyle={this.state.theme === 'light'? listStyles.lightTitle : listStyles.darkTitle}
+                                        containerStyle={this.state.theme === 'light'? modalStyle.lightModalContainer : modalStyle.darkModalContainer}
                                         title="Rising"
                                         onPress={() => {
                                             this.setState({
@@ -359,7 +374,7 @@ class PostTileList extends Component {
                                     title={this.renderPostTitle(post.data.title, post)}
                                     subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score, post.data['num_comments'])}
                                     topDivider
-                                    containerStyle={listStyles.darkListBackground}
+                                    containerStyle={this.state.theme === "light" ? listStyles.lightListBackground : listStyles.darkListBackground}
                                     leftElement={
                                         <PostThumbNail
                                             preview={post.data.preview}
@@ -382,13 +397,13 @@ class PostTileList extends Component {
 
                         {this.state.isLoadingMorePost ? (
                             <ListItem
-                                containerStyle={listStyles.darkListBackground}
+                                containerStyle={this.state.theme === "light" ? listStyles.lightListBackground : listStyles.darkListBackground}
                                 title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
                             />
                         ) : (
                                 <ListItem
                                     title=""
-                                    containerStyle={listStyles.darkListBackground}
+                                    containerStyle={this.state.theme === "light" ? listStyles.lightListBackground : listStyles.darkListBackground}
                                 />
                             )
                         }
