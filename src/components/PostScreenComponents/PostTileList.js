@@ -137,7 +137,7 @@ class PostTileList extends Component {
 
     render() {
         return (
-            <SafeAreaView style={listStyles.listBackground}>
+            <SafeAreaView style={listStyles.darkListBackground}>
                 <StatusBar backgroundColor="black" barStyle="light-content" />
                 <View style={listStyles.containerBackground}>
                     <Modal
@@ -359,7 +359,7 @@ class PostTileList extends Component {
                                     title={this.renderPostTitle(post.data.title, post)}
                                     subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score, post.data['num_comments'])}
                                     topDivider
-                                    containerStyle={listStyles.listBackground}
+                                    containerStyle={listStyles.darkListBackground}
                                     leftElement={
                                         <PostThumbNail
                                             preview={post.data.preview}
@@ -382,13 +382,13 @@ class PostTileList extends Component {
 
                         {this.state.isLoadingMorePost ? (
                             <ListItem
-                                containerStyle={listStyles.listBackground}
+                                containerStyle={listStyles.darkListBackground}
                                 title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
                             />
                         ) : (
                                 <ListItem
                                     title=""
-                                    containerStyle={listStyles.listBackground}
+                                    containerStyle={listStyles.darkListBackground}
                                 />
                             )
                         }

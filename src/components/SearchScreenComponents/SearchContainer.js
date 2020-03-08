@@ -68,7 +68,7 @@ class SearchContainer extends Component {
     //TODO: go to post view when user click on a list item 
     render() {
         return (
-            <SafeAreaView style={listStyles.listBackground}>
+            <SafeAreaView style={listStyles.darkListBackground}>
                 <ScrollView style={{ backgroundColor: 'black', height: window.height }}>
                     <SearchBar
                         containerStyle={inputStyle.container}

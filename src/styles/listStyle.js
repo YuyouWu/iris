@@ -4,7 +4,7 @@ export default listStyles = StyleSheet.create({
     title: {
         color: 'white',
     },
-    listBackground: {
+    darkListBackground: {
         backgroundColor: 'black'
     },
     listContainer: {

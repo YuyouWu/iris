@@ -33,9 +33,9 @@ class SubredditListContainer extends Component {
 
     render() {
         return (
-            <SafeAreaView style={listStyles.listBackground}>
+            <SafeAreaView style={listStyles.darkListBackground}>
                 <ScrollView style={{ backgroundColor: 'black', height: window.height }}>
-                    <View style={listStyles.listBackground}>
+                    <View style={listStyles.darkListBackground}>
 
                         <SearchBar
                             containerStyle={inputStyle.container}

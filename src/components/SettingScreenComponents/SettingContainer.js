@@ -29,7 +29,7 @@ class SettingContainer extends Component {
 
     render() {
         return (
-            <SafeAreaView style={listStyles.listBackground}>
+            <SafeAreaView style={listStyles.darkListBackground}>
                 <ScrollView style={{ backgroundColor: 'black', height: window.height, marginTop: 10 }}>
                     <View style={listStyles.listContainer}>
                         <TouchableHighlight

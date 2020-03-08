@@ -46,7 +46,7 @@ class PostSearchResult extends Component {
 
     render() {
         return (
-            <SafeAreaView style={listStyles.listBackground}>
+            <SafeAreaView style={listStyles.darkListBackground}>
                 <ScrollView style={{ backgroundColor: 'black' }}>
                     {this.state.posts &&
                         this.state.posts.map((post, i) => (
@@ -56,7 +56,7 @@ class PostSearchResult extends Component {
                                 subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score)}
                                 topDivider
                                 titleStyle={listStyles.title}
-                                containerStyle={listStyles.listBackground}
+                                containerStyle={listStyles.darkListBackground}
                                 leftElement={
                                     <PostThumbNail
                                         preview={post.data.preview}
@@ -78,7 +78,7 @@ class PostSearchResult extends Component {
                     }
                     {this.state.isLoading &&
                         <ListItem
-                            containerStyle={listStyles.listBackground}
+                            containerStyle={listStyles.darkListBackground}
                             title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
                         />
                     }

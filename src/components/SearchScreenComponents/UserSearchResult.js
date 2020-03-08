@@ -35,7 +35,7 @@ class UserSearchResult extends Component {
 
     render() {
         return (
-            <SafeAreaView style={listStyles.listBackground}>
+            <SafeAreaView style={listStyles.darkListBackground}>
                 <ScrollView style={{ backgroundColor: 'black' }}>
                     <View style={{ borderRadius: 15, overflow: "hidden", margin: 10 }}>
                         {this.state.users &&
@@ -53,7 +53,7 @@ class UserSearchResult extends Component {
                     </View>
                     {this.state.isLoading &&
                         <ListItem
-                            containerStyle={listStyles.listBackground}
+                            containerStyle={listStyles.darkListBackground}
                             title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
                         />
                     }
