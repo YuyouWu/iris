@@ -3,6 +3,7 @@ import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity } fr
 import { ListItem, SearchBar } from 'react-native-elements';
 import { CommonActions } from '@react-navigation/native';
 import Display from 'react-native-display';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import listStyles from '../../styles/listStyle';
 import inputStyle from '../../styles/inputStyle';
@@ -19,12 +20,25 @@ class SearchContainer extends Component {
             query: ''
         }
 
+        this.loadTheme();
+
         //Grabbing a list of popular subreddit by default
         axios.get("https://www.reddit.com/subreddits/popular.json").then((res) => {
             this.setState({
                 subreddits: res.data.data.children
             });
         });
+    }
+
+    loadTheme = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('@theme');
+            this.setState({
+                theme
+            })
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     handleChangeText = (text) => {
@@ -94,7 +108,7 @@ class SearchContainer extends Component {
                             >
                                 <ListItem
                                     title={`Search posts with "${this.state.query}"`}
-                                    titleStyle={listStyles.title}
+                                    titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                                     containerStyle={{ backgroundColor: "#262626" }}
                                     bottomDivider
                                 />
@@ -106,7 +120,7 @@ class SearchContainer extends Component {
                             >
                                 <ListItem
                                     title={`Search subreddits with "${this.state.query}"`}
-                                    titleStyle={listStyles.title}
+                                    titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                                     containerStyle={{ backgroundColor: "#262626" }}
                                     bottomDivider
                                 />
@@ -118,28 +132,12 @@ class SearchContainer extends Component {
                             >
                                 <ListItem
                                     title={`Search users with "${this.state.query}"`}
-                                    titleStyle={listStyles.title}
+                                    titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                                     containerStyle={{ backgroundColor: "#262626" }}
                                 />
                             </TouchableOpacity>
                         </View>
                     </Display>
-
-                    {/* <Text style={{ color: 'grey', margin: 15 }}>Popular Subreddits</Text>
-                    <View style={{ borderRadius: 15, overflow: "hidden", marginLeft: 10, marginRight: 10, marginBottom: 90 }}>
-                        {this.state.subreddits &&
-                            this.state.subreddits.map((subreddit, i) => (
-                                <ListItem
-                                    key={i}
-                                    title={subreddit.data["display_name"]}
-                                    titleStyle={listStyles.title}
-                                    containerStyle={{ backgroundColor: "#262626" }}
-                                    onPress={() => { this.onPressSubreddit(subreddit.data["display_name"]) }}
-                                    bottomDivider
-                                />
-                            ))
-                        }
-                    </View> */}
                 </ScrollView>
             </SafeAreaView>
         );

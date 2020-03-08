@@ -9,6 +9,7 @@ import GallerySwiper from "react-native-gallery-swiper";
 import Modal from "react-native-modal";
 import RNFetchBlob from 'rn-fetch-blob';
 import * as RNFS from 'react-native-fs';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import listStyles from '../../styles/listStyle';
 
@@ -18,6 +19,19 @@ class PostImage extends Component {
 
         this.state = {
             showDownloadModal: false,
+        }
+
+        this.loadTheme();
+    }
+
+    loadTheme = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('@theme');
+            this.setState({
+                theme
+            })
+        } catch (e) {
+            console.log(e);
         }
     }
 
@@ -153,14 +167,14 @@ class PostImage extends Component {
                             }}
                         >
                             <ListItem
-                                titleStyle={listStyles.title}
+                                titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                                 containerStyle={{ backgroundColor: "#1a1a1a" }}
                                 title="Save Image"
                             />
                         </TouchableHighlight>
                         <TouchableHighlight>
                             <ListItem
-                                titleStyle={listStyles.title}
+                                titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                                 containerStyle={{ backgroundColor: "#1a1a1a" }}
                                 title="Copy Image URL"
                                 onPress={() => {
@@ -177,7 +191,7 @@ class PostImage extends Component {
                         </TouchableHighlight>
                         <TouchableHighlight>
                             <ListItem
-                                titleStyle={listStyles.title}
+                                titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                                 containerStyle={{ backgroundColor: "#1a1a1a" }}
                                 title="Share Image URL"
                                 onPress={() => {

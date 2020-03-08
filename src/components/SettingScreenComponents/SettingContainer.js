@@ -14,8 +14,10 @@ class SettingContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showThemeModal: false
+            showThemeModal: false,
+            theme: "dark"
         }
+        this.loadTheme();
     }
 
     saveSetting = async (theme) => {
@@ -26,6 +28,16 @@ class SettingContainer extends Component {
         }
     }
 
+    loadTheme = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('@theme');
+            this.setState({
+                theme
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     render() {
         return (
@@ -39,7 +51,7 @@ class SettingContainer extends Component {
                         >
                             <ListItem
                                 title="Theme"
-                                titleStyle={listStyles.title}
+                                titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                                 containerStyle={{ backgroundColor: "#262626" }}
                                 bottomDivider
                             />
@@ -59,7 +71,7 @@ class SettingContainer extends Component {
                         >
                             <View style={{ overflow: 'hidden', borderRadius: 10 }}>
                                 <TouchableHighlight
-                                    onPress={()=> {
+                                    onPress={() => {
                                         this.saveSetting("light");
                                         this.setState({
                                             showThemeModal: false
@@ -67,13 +79,13 @@ class SettingContainer extends Component {
                                     }}
                                 >
                                     <ListItem
-                                        titleStyle={listStyles.title}
+                                        titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                                         containerStyle={{ backgroundColor: "#1a1a1a" }}
                                         title="Light"
                                     />
                                 </TouchableHighlight>
                                 <TouchableHighlight
-                                    onPress={()=> {
+                                    onPress={() => {
                                         this.saveSetting("dark");
                                         this.setState({
                                             showThemeModal: false
@@ -81,7 +93,7 @@ class SettingContainer extends Component {
                                     }}
                                 >
                                     <ListItem
-                                        titleStyle={listStyles.title}
+                                        titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                                         containerStyle={{ backgroundColor: "#1a1a1a" }}
                                         title="Dark"
                                     />

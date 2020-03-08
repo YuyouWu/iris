@@ -3,6 +3,7 @@ import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity, Act
 import { Input, ListItem } from 'react-native-elements';
 import { StackActions, NavigationActions } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import PostThumbNail from '../PostScreenComponents/PostThumbNail';
 import listStyles from '../../styles/listStyle';
@@ -20,6 +21,8 @@ class PostSearchResult extends Component {
             posts: []
         }
 
+        this.loadTheme();
+
         axios.get(`https://www.reddit.com/search/.json?q=${this.state.query}&sort=relevance&t=all&include_over_18=on`).then((res) => {
             this.setState({
                 posts: res.data.data.children
@@ -29,6 +32,17 @@ class PostSearchResult extends Component {
                 })
             });
         });
+    }
+
+    loadTheme = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('@theme');
+            this.setState({
+                theme
+            })
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     renderPostSubtitle = (subreddit, score) => {
@@ -55,7 +69,7 @@ class PostSearchResult extends Component {
                                 title={post.data.title}
                                 subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score)}
                                 topDivider
-                                titleStyle={listStyles.title}
+                                titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                                 containerStyle={listStyles.darkListBackground}
                                 leftElement={
                                     <PostThumbNail

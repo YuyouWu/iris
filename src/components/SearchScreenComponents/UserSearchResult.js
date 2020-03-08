@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
 import { StackActions, NavigationActions } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import listStyles from '../../styles/listStyle';
 import inputStyle from '../../styles/inputStyle';
@@ -18,6 +19,9 @@ class UserSearchResult extends Component {
             isLoading: true,
             users: []
         }
+
+        this.loadTheme();
+
         axios.get(`https://www.reddit.com/users/search/.json?q=${this.state.query}&include_over_18=on`).then((res) => {
             this.setState({
                 users: res.data.data.children
@@ -28,6 +32,18 @@ class UserSearchResult extends Component {
             });
         });
     }
+
+    loadTheme = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('@theme');
+            this.setState({
+                theme
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
 
     onPressUser = (userName) => {
         console.log(userName);
@@ -43,7 +59,7 @@ class UserSearchResult extends Component {
                                 <ListItem
                                     key={i}
                                     title={user.data["name"]}
-                                    titleStyle={listStyles.title}
+                                    titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                                     containerStyle={{ backgroundColor: "#262626" }}
                                     onPress={() => { this.onPressUser(user.data["name"]) }}
                                     bottomDivider

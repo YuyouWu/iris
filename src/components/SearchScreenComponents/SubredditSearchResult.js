@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { SafeAreaView, ScrollView, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { ListItem } from 'react-native-elements';
+import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 
 import listStyles from '../../styles/listStyle';
@@ -11,8 +12,12 @@ class SubredditSearchResult extends Component {
         this.state = {
             query: props.route.params.query,
             isLoading: true,
-            subreddits: []
+            subreddits: [],
+            theme: 'dark'
         }
+        
+        this.loadTheme();
+
         axios.get(`https://www.reddit.com/subreddits/search/.json?q=${this.state.query}&include_over_18=on`).then((res) => {
             this.setState({
                 subreddits: res.data.data.children
@@ -29,6 +34,17 @@ class SubredditSearchResult extends Component {
             currentSub: subName
         });
     }
+    
+    loadTheme = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('@theme');
+            this.setState({
+                theme
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     render() {
         return (
@@ -43,7 +59,7 @@ class SubredditSearchResult extends Component {
                                 >
                                     <ListItem
                                         title={subreddit.data["display_name"]}
-                                        titleStyle={listStyles.title}
+                                        titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                                         subtitle={subreddit.data["public_description"]}
                                         subtitleStyle={{ color: "grey" }}
                                         containerStyle={{ backgroundColor: "#262626" }}

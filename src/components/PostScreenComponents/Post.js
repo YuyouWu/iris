@@ -5,6 +5,7 @@ import { Divider, ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from "react-native-modal";
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 import CommentList from './CommentList';
 import PostImage from './PostImage';
 import listStyles from '../../styles/listStyle';
@@ -32,7 +33,8 @@ class Post extends Component {
             showSortModal: false,
             sortingParam: '?sort=confidence'
         }
-        
+        this.loadTheme();
+
         this.getPostAndComments();
 
         Image.getSize(this.state.postData.url, () => {
@@ -44,6 +46,17 @@ class Post extends Component {
                 showImage: false
             });
         });
+    }
+
+    loadTheme = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('@theme');
+            this.setState({
+                theme
+            })
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     getPostAndComments = () => {
@@ -176,7 +189,7 @@ class Post extends Component {
                 )
             }
             return (
-                <TouchableOpacity 
+                <TouchableOpacity
                     onPress={() => this.displayVideoModal(this.state.postData.preview['reddit_video_preview']['hls_url'])}
                     style={{
                         alignItems: 'center'
@@ -322,7 +335,7 @@ class Post extends Component {
                 >
                     <View style={{ overflow: 'hidden', borderRadius: 10 }}>
                         <ListItem
-                            titleStyle={listStyles.title}
+                            titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                             containerStyle={{ backgroundColor: "#1a1a1a" }}
                             title="Best"
                             onPress={() => {
@@ -335,7 +348,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={listStyles.title}
+                            titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                             containerStyle={{ backgroundColor: "#1a1a1a" }}
                             title="Top"
                             onPress={() => {
@@ -348,7 +361,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={listStyles.title}
+                            titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                             containerStyle={{ backgroundColor: "#1a1a1a" }}
                             title="New"
                             onPress={() => {
@@ -361,7 +374,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={listStyles.title}
+                            titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                             containerStyle={{ backgroundColor: "#1a1a1a" }}
                             title="Old"
                             onPress={() => {
@@ -374,7 +387,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={listStyles.title}
+                            titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                             containerStyle={{ backgroundColor: "#1a1a1a" }}
                             title="Controversial"
                             onPress={() => {
@@ -387,7 +400,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={listStyles.title}
+                            titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
                             containerStyle={{ backgroundColor: "#1a1a1a" }}
                             title="Q&A"
                             onPress={() => {
