@@ -8,16 +8,25 @@ export default listStyles = StyleSheet.create({
         color: 'black'
     },
     darkListBackground: {
-        backgroundColor: 'black'
+        backgroundColor: 'black',
     },
     lightListBackground: {
         backgroundColor: 'white'
+    },
+    listContainerBackground: {
+        backgroundColor: "#F2F3F8",
     },
     listContainer: {
         borderRadius: 10,
         overflow: "hidden",
         marginLeft: 10,
         marginRight: 10,
+    },
+    lightListItem: {
+        backgroundColor: "white"
+    },
+    darkListItem: {
+        backgroundColor: "#262626"
     },
     containerBackground: {
         color: 'black'

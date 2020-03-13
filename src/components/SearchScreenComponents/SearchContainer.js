@@ -82,12 +82,16 @@ class SearchContainer extends Component {
     //TODO: go to post view when user click on a list item 
     render() {
         return (
-            <SafeAreaView style={listStyles.darkListBackground}>
-                <ScrollView style={{ backgroundColor: 'black', height: window.height }}>
+            <SafeAreaView style={this.state.theme === "light" ? listStyles.listContainerBackground : listStyles.darkListBackground}>
+                <ScrollView style={{
+                    backgroundColor: this.state.theme === "light" ? listStyles.listContainerBackground.backgroundColor
+                        :
+                        listStyles.darkListBackground.backgroundColor, height: window.height
+                }}>
                     <SearchBar
-                        containerStyle={inputStyle.container}
+                        containerStyle={this.state.theme === "light" ? inputStyle.lightContainer : inputStyle.darkContainer}
                         inputStyle={inputStyle.input}
-                        inputContainerStyle={inputStyle.inputContainer}
+                        inputContainerStyle={this.state.theme === "light" ? inputStyle.lightInputContainer : inputStyle.darkInputContainer}
                         placeholderTextColor={inputStyle.placeHolderColor.color}
                         placeholder='Search for subreddits, posts, or users'
                         onChangeText={(text) => this.handleChangeText(text)}
@@ -109,7 +113,7 @@ class SearchContainer extends Component {
                                 <ListItem
                                     title={`Search posts with "${this.state.query}"`}
                                     titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                    containerStyle={{ backgroundColor: "#262626" }}
+                                    containerStyle={this.state.theme === "light"  ? listStyles.lightListItem : listStyles.darkListItem}
                                     bottomDivider
                                 />
                             </TouchableOpacity>
@@ -121,7 +125,7 @@ class SearchContainer extends Component {
                                 <ListItem
                                     title={`Search subreddits with "${this.state.query}"`}
                                     titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                    containerStyle={{ backgroundColor: "#262626" }}
+                                    containerStyle={this.state.theme === "light"  ? listStyles.lightListItem : listStyles.darkListItem}
                                     bottomDivider
                                 />
                             </TouchableOpacity>
@@ -133,7 +137,7 @@ class SearchContainer extends Component {
                                 <ListItem
                                     title={`Search users with "${this.state.query}"`}
                                     titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                    containerStyle={{ backgroundColor: "#262626" }}
+                                    containerStyle={this.state.theme === "light"  ? listStyles.lightListItem : listStyles.darkListItem}
                                 />
                             </TouchableOpacity>
                         </View>

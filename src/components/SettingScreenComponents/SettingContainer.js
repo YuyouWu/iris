@@ -41,8 +41,8 @@ class SettingContainer extends Component {
 
     render() {
         return (
-            <SafeAreaView style={listStyles.darkListBackground}>
-                <ScrollView style={{ backgroundColor: 'black', height: window.height, marginTop: 10 }}>
+            <SafeAreaView style={this.state.theme === "light" ? listStyles.listContainerBackground : listStyles.darkListBackground}>
+                <ScrollView style={{ backgroundColor: this.state.theme === "light" ? listStyles.listContainerBackground.backgroundColor : "black", height: window.height, marginTop: 10 }}>
                     <View style={listStyles.listContainer}>
                         <TouchableHighlight
                             onPress={() => this.setState({
@@ -52,7 +52,7 @@ class SettingContainer extends Component {
                             <ListItem
                                 title="Theme"
                                 titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                containerStyle={{ backgroundColor: "#262626" }}
+                                containerStyle={this.state.theme === "light" ? listStyles.lightListItem : listStyles.darkListItem}
                                 bottomDivider
                             />
                         </TouchableHighlight>

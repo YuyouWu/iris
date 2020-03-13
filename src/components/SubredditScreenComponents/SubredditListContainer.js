@@ -7,8 +7,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import listStyles from '../../styles/listStyle';
 import inputStyle from '../../styles/inputStyle';
 
-const window = Dimensions.get('window');
-
 class SubredditListContainer extends Component {
     constructor(props) {
         super(props);
@@ -47,12 +45,12 @@ class SubredditListContainer extends Component {
     render() {
         return (
             <SafeAreaView style={this.state.theme === "light" ? listStyles.lightListBackground : listStyles.darkListBackground}>
-                <ScrollView style={{ backgroundColor: 'black', height: '100%' }}>
-                    <View style={this.state.theme === "light" ? listStyles.lightListBackground : listStyles.darkListBackground}>
+                <ScrollView style={{ backgroundColor: this.state.theme === 'light' ? listStyles.listContainerBackground.backgroundColor : "black", height: '100%' }}>
+                    <View style={this.state.theme === "light" ? listStyles.listContainerBackground : listStyles.darkListBackground}>
                         <SearchBar
-                            containerStyle={inputStyle.container}
+                            containerStyle={this.state.theme === "light" ? inputStyle.lightContainer : inputStyle.darkContainer}
                             inputStyle={inputStyle.input}
-                            inputContainerStyle={inputStyle.inputContainer}
+                            inputContainerStyle={inputStyle.lightInputContainer}
                             placeholderTextColor={inputStyle.placeHolderColor.color}
                             placeholder='Filter Subreddits'
                             onChangeText={(text) => this.handleChangeText(text)}
@@ -64,14 +62,14 @@ class SubredditListContainer extends Component {
                                 key="home"
                                 title="Home"
                                 titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                containerStyle={{ backgroundColor: "#262626" }}
+                                containerStyle={this.state.theme === "light" ? listStyles.lightListItem : listStyles.darkListItem}
                                 bottomDivider
                             />
                             <ListItem
                                 key="popular"
                                 title="Popular"
                                 titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                containerStyle={{ backgroundColor: "#262626" }}
+                                containerStyle={this.state.theme === "light" ? listStyles.lightListItem : listStyles.darkListItem}
                                 bottomDivider
                                 onPress={() => { this.onPressSubreddit("popular") }}
                             />
@@ -79,8 +77,7 @@ class SubredditListContainer extends Component {
                                 key="all"
                                 title="All"
                                 titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                containerStyle={{ backgroundColor: "#262626" }}
-                                bottomDivider
+                                containerStyle={this.state.theme === "light" ? listStyles.lightListItem : listStyles.darkListItem}
                                 onPress={() => { this.onPressSubreddit("all") }}
                             />
                         </View>
