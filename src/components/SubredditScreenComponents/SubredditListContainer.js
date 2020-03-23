@@ -50,7 +50,7 @@ class SubredditListContainer extends Component {
                         <SearchBar
                             containerStyle={this.state.theme === "light" ? inputStyle.lightContainer : inputStyle.darkContainer}
                             inputStyle={inputStyle.input}
-                            inputContainerStyle={inputStyle.lightInputContainer}
+                            inputContainerStyle={this.state.theme === "light" ? inputStyle.lightInputContainer : inputStyle.darkInputContainer}
                             placeholderTextColor={inputStyle.placeHolderColor.color}
                             placeholder='Filter Subreddits'
                             onChangeText={(text) => this.handleChangeText(text)}
