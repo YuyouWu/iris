@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Dimensions, SafeAreaView, Button } from 'react-native';
-import Video from 'react-native-video';
 import VideoPlayer from 'react-native-video-player';
 
 const window = Dimensions.get('window');
