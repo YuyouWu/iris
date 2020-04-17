@@ -17,7 +17,6 @@ import PostTileStackNavigator from '../components/PostScreenComponents/PostTileS
 import ProfileContainer from '../components/ProfileComponents/ProfileContainer';
 
 import bottomTabStyle from '../styles/bottomTabStyle';
-import postTileStackStyle from '../styles/postTileStackStyle';
 
 const SearchStack = createStackNavigator();
 
