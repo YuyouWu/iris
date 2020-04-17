@@ -223,18 +223,19 @@ class PostThumbNail extends Component {
                     animationInTiming={200}
                     animationOutTiming={200}
                     backdropOpacity={1}
-                    swipeDirection={["up", "down"]}
                     useNativeDriver={true}
-                    onSwipeComplete={() => {
-                        this.setState({
-                            showVideoModal: false
-                        });
-                    }}
+                    // swipeDirection={["up", "down"]}
+                    // onSwipeComplete={() => {
+                    //     this.setState({
+                    //         showVideoModal: false
+                    //     });
+                    // }}
                     onBackButtonPress={() => {
                         this.setState({
                             showVideoModal: false
                         });
                     }}
+                    propagateSwipe={true}
                 >
                     <PostVideo videoURL={this.state.videoURL} />
                 </Modal>
