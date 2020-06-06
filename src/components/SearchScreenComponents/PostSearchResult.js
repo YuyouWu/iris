@@ -7,7 +7,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { useTheme } from '@react-navigation/native';
 
 import PostThumbNail from '../PostScreenComponents/PostThumbNail';
-import listStyles from '../../styles/listStyle';
 
 import axios from 'axios';
 
@@ -95,7 +94,7 @@ class PostSearchResult extends Component {
                     }
                     {this.state.isLoading &&
                         <ListItem
-                            containerStyle={listStyles.darkListBackground}
+                            containerStyle={this.props.theme.colors.tileBackground}
                             title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
                         />
                     }

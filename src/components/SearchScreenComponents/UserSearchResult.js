@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
+import { useTheme } from '@react-navigation/native';
 import { StackActions, NavigationActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
-
-import listStyles from '../../styles/listStyle';
-import inputStyle from '../../styles/inputStyle';
 
 import axios from 'axios';
 
@@ -51,17 +49,17 @@ class UserSearchResult extends Component {
 
     render() {
         return (
-            <SafeAreaView style={listStyles.darkListBackground}>
-                <ScrollView style={{ backgroundColor: 'black' }}>
+            <SafeAreaView>
+                <ScrollView style={{ backgroundColor: this.props.theme.colors.containerBackgound }}>
                     <View style={{ borderRadius: 15, overflow: "hidden", margin: 10 }}>
                         {this.state.users &&
                             this.state.users.map((user, i) => (
                                 <ListItem
                                     key={i}
                                     title={user.data["name"]}
-                                    titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
+                                    titleStyle={{ color: this.props.theme.colors.primaryText }}
                                     containerStyle={{ backgroundColor: "#262626" }}
-                                    onPress={() => { this.onPressUser(user.data["name"]) }}
+                                    containerStyle={this.props.theme.colors.tileBackground}
                                     bottomDivider
                                 />
                             ))
@@ -69,7 +67,7 @@ class UserSearchResult extends Component {
                     </View>
                     {this.state.isLoading &&
                         <ListItem
-                            containerStyle={listStyles.darkListBackground}
+                            containerStyle={{ backgroundColor: this.props.theme.colors.containerBackgound }}
                             title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
                         />
                     }
@@ -79,4 +77,7 @@ class UserSearchResult extends Component {
     }
 };
 
-export default UserSearchResult;
+export default function (props) {
+    const theme = useTheme();
+    return <UserSearchResult {...props} theme={theme} />
+}
