@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { ScrollView, SafeAreaView, View, Text, Dimensions } from 'react-native';
+import { ScrollView, SafeAreaView, View, Text, Dimensions, StyleSheet } from 'react-native';
 import { SearchBar, ListItem } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
+import { useTheme } from '@react-navigation/native';
 
-
-import listStyles from '../../styles/listStyle';
-import inputStyle from '../../styles/inputStyle';
-
+const window = Dimensions.get('window');
 class SubredditListContainer extends Component {
     constructor(props) {
         super(props);
@@ -44,49 +42,74 @@ class SubredditListContainer extends Component {
 
     render() {
         return (
-            <SafeAreaView style={this.state.theme === "light" ? listStyles.lightListBackground : listStyles.darkListBackground}>
-                <ScrollView style={{ backgroundColor: this.state.theme === 'light' ? listStyles.listContainerBackground.backgroundColor : "black", height: '100%' }}>
-                    <View style={this.state.theme === "light" ? listStyles.listContainerBackground : listStyles.darkListBackground}>
-                        <SearchBar
-                            containerStyle={this.state.theme === "light" ? inputStyle.lightContainer : inputStyle.darkContainer}
-                            inputStyle={inputStyle.input}
-                            inputContainerStyle={this.state.theme === "light" ? inputStyle.lightInputContainer : inputStyle.darkInputContainer}
-                            placeholderTextColor={inputStyle.placeHolderColor.color}
-                            placeholder='Filter Subreddits'
-                            onChangeText={(text) => this.handleChangeText(text)}
-                            value={this.state.query}
-                        />
+            <SafeAreaView>
+                <ScrollView style={{
+                    backgroundColor: this.props.theme.colors.containerBackground,
+                    height: window.height
+                }}>
+                    <SearchBar
+                        containerStyle={{
+                            backgroundColor: this.props.theme.colors.tileBackground,
+                            borderBottomColor: this.props.theme.colors.tileBackground
+                        }}
+                        inputStyle={{ color: this.props.theme.colors.primaryText }}
+                        inputContainerStyle={{
+                            backgroundColor: this.props.theme.colors.inputBackground,
+                            borderRadius: 10,
+                            marginTop: 10,
+                            marginBottom: 10
+                        }}
+                        placeholderTextColor={styles.placeHolder}
+                        placeholder='Search for subreddits, posts, or users'
+                        onChangeText={(text) => this.handleChangeText(text)}
+                        value={this.state.query}
+                    />
 
-                        <View style={listStyles.listContainer}>
-                            <ListItem
-                                key="home"
-                                title="Home"
-                                titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                containerStyle={this.state.theme === "light" ? listStyles.lightListItem : listStyles.darkListItem}
-                                bottomDivider
-                            />
-                            <ListItem
-                                key="popular"
-                                title="Popular"
-                                titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                containerStyle={this.state.theme === "light" ? listStyles.lightListItem : listStyles.darkListItem}
-                                bottomDivider
-                                onPress={() => { this.onPressSubreddit("popular") }}
-                            />
-                            <ListItem
-                                key="all"
-                                title="All"
-                                titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                containerStyle={this.state.theme === "light" ? listStyles.lightListItem : listStyles.darkListItem}
-                                onPress={() => { this.onPressSubreddit("all") }}
-                            />
-                        </View>
-                        <Text style={listStyles.label}>Subscription</Text>
+                    <View style={styles.listContainer}>
+                        <ListItem
+                            key="home"
+                            title="Home"
+                            titleStyle={{ color: this.props.theme.colors.primaryText }}
+                            containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
+                            bottomDivider
+                        />
+                        <ListItem
+                            key="popular"
+                            title="Popular"
+                            titleStyle={{ color: this.props.theme.colors.primaryText }}
+                            containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
+                            bottomDivider
+                            onPress={() => { this.onPressSubreddit("popular") }}
+                        />
+                        <ListItem
+                            key="all"
+                            title="All"
+                            titleStyle={{ color: this.props.theme.colors.primaryText }}
+                            containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
+                            onPress={() => { this.onPressSubreddit("all") }}
+                        />
                     </View>
+                    <Text style={{ color: this.props.theme.colors.primaryText }}>Subscription</Text>
                 </ScrollView>
             </SafeAreaView>
         );
     }
 };
 
-export default SubredditListContainer;
+export default function (props) {
+    const theme = useTheme();
+    return <SubredditListContainer {...props} theme={theme} />
+}
+
+const styles = StyleSheet.create({
+    listContainer: {
+        borderRadius: 10,
+        overflow: "hidden",
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 10
+    },
+    placeHolder: {
+        color: '#b3b3b3'
+    }
+})

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableHighlight } from 'react-native';
 import { Input, ListItem } from 'react-native-elements';
+import { useTheme } from '@react-navigation/native';
 import Modal from "react-native-modal";
 import { StackActions, NavigationActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
-
-import listStyles from '../../styles/listStyle';
-import inputStyle from '../../styles/inputStyle';
 
 const window = Dimensions.get('window');
 
@@ -41,9 +39,12 @@ class SettingContainer extends Component {
 
     render() {
         return (
-            <SafeAreaView style={this.state.theme === "light" ? listStyles.listContainerBackground : listStyles.darkListBackground}>
-                <ScrollView style={{ backgroundColor: this.state.theme === "light" ? listStyles.listContainerBackground.backgroundColor : "black", height: window.height, marginTop: 10 }}>
-                    <View style={listStyles.listContainer}>
+            <SafeAreaView>
+                <ScrollView style={{
+                    backgroundColor: this.props.theme.colors.containerBackground,
+                    height: window.height
+                }}>
+                    <View style={{ borderRadius: 15, overflow: "hidden", margin: 10 }}>
                         <TouchableHighlight
                             onPress={() => this.setState({
                                 showThemeModal: true
@@ -51,8 +52,10 @@ class SettingContainer extends Component {
                         >
                             <ListItem
                                 title="Theme"
-                                titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                containerStyle={this.state.theme === "light" ? listStyles.lightListItem : listStyles.darkListItem}
+                                titleStyle={{ color: this.props.theme.colors.primaryText }}
+                                containerStyle={{
+                                    backgroundColor: this.props.theme.colors.tileBackground
+                                }}
                                 bottomDivider
                             />
                         </TouchableHighlight>
@@ -79,8 +82,10 @@ class SettingContainer extends Component {
                                     }}
                                 >
                                     <ListItem
-                                        titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                        containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                        titleStyle={{color: this.props.theme.colors.primaryText}}
+                                        containerStyle={{
+                                            backgroundColor: this.props.theme.colors.tileBackground
+                                        }}
                                         title="Light"
                                     />
                                 </TouchableHighlight>
@@ -93,8 +98,10 @@ class SettingContainer extends Component {
                                     }}
                                 >
                                     <ListItem
-                                        titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                        containerStyle={{ backgroundColor: "#1a1a1a" }}
+                                        titleStyle={{color: this.props.theme.colors.primaryText}}
+                                        containerStyle={{
+                                            backgroundColor: this.props.theme.colors.tileBackground
+                                        }}
                                         title="Dark"
                                     />
                                 </TouchableHighlight>
@@ -107,4 +114,7 @@ class SettingContainer extends Component {
     }
 };
 
-export default SettingContainer;
+export default function (props) {
+    const theme = useTheme();
+    return <SettingContainer {...props} theme={theme} />
+}

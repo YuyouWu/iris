@@ -476,7 +476,7 @@ class Post extends Component {
                         {!this.state.fetchingData && this.renderComments(this.state.postCommentData)}
                         {!this.state.endOfComments &&
                             <View style={{ marginTop: 10 }}>
-                                <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />
+                                <ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color={this.props.theme.colors.primaryText} />
                             </View>
                         }
                     </View>

@@ -446,7 +446,7 @@ class PostTileList extends Component {
                                 containerStyle={{
                                     backgroundColor: this.props.theme.colors.tileBackground
                                 }}
-                                title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
+                                title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color={this.props.theme.colors.primaryText} />}
                             />
                         ) : (
                                 <ListItem

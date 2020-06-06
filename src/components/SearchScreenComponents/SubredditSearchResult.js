@@ -72,7 +72,7 @@ class SubredditSearchResult extends Component {
                     {this.state.isLoading &&
                         <ListItem
                             containerStyle={{ backgroundColor: this.props.theme.colors.containerBackgound }}
-                            title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color="white" />}
+                            title={<ActivityIndicator stye={{ width: 50, height: 50, paddingTop: 10 }} size="large" color={this.props.theme.colors.primaryText} />}
                         />
                     }
                 </ScrollView>
