@@ -7,11 +7,10 @@ import FlashMessage from "react-native-flash-message";
 import { showMessage } from "react-native-flash-message";
 import GallerySwiper from "react-native-gallery-swiper";
 import Modal from "react-native-modal";
+import { useTheme } from '@react-navigation/native';
 import RNFetchBlob from 'rn-fetch-blob';
 import * as RNFS from 'react-native-fs';
 import AsyncStorage from '@react-native-community/async-storage';
-
-import listStyles from '../../styles/listStyle';
 
 class PostImage extends Component {
     constructor(props) {
@@ -167,14 +166,18 @@ class PostImage extends Component {
                             }}
                         >
                             <ListItem
-                                titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
+                                titleStyle={{
+                                    color: this.props.theme.colors.primaryText
+                                }}
                                 containerStyle={{ backgroundColor: "#1a1a1a" }}
                                 title="Save Image"
                             />
                         </TouchableHighlight>
                         <TouchableHighlight>
                             <ListItem
-                                titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
+                                titleStyle={{
+                                    color: this.props.theme.colors.primaryText
+                                }}
                                 containerStyle={{ backgroundColor: "#1a1a1a" }}
                                 title="Copy Image URL"
                                 onPress={() => {
@@ -191,7 +194,9 @@ class PostImage extends Component {
                         </TouchableHighlight>
                         <TouchableHighlight>
                             <ListItem
-                                titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
+                                titleStyle={{
+                                    color: this.props.theme.colors.primaryText
+                                }}
                                 containerStyle={{ backgroundColor: "#1a1a1a" }}
                                 title="Share Image URL"
                                 onPress={() => {
@@ -230,4 +235,7 @@ class PostImage extends Component {
     }
 };
 
-export default PostImage;
+export default function (props) {
+    const theme = useTheme();
+    return <PostImage {...props} theme={theme} />
+}
