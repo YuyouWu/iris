@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Vibration, Platform } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { Text, View, TouchableOpacity, Vibration, Platform, StyleSheet } from 'react-native';
+import { ListItem, Divider } from 'react-native-elements';
 import Display from 'react-native-display';
 import Icon from 'react-native-vector-icons/AntDesign';
 import commentStyle from '../../styles/commentStyle'
 import { kFormatter } from '../utils/numUtils';
+import { RNFetchBlobSession } from 'rn-fetch-blob';
 
 const blue = '#289EFE';
 const green = '#9DFF48';
@@ -93,6 +94,12 @@ class CommentList extends Component {
                                 borderLeftColor: commentColor
                             }}
                         >
+                            <Divider
+                                style={{
+                                    backgroundColor: this.props.theme.colors.divider,
+                                    ...styles.divider
+                                }}
+                            />
                             <ListItem
                                 title={this.renderAuthor()}
                                 subtitle={
@@ -103,11 +110,19 @@ class CommentList extends Component {
                                         exit="fadeOutRight"
                                         enter="fadeInRight"
                                     >
-                                        <Text style={commentStyle.commentText}>{this.props.comment.data.body}</Text>
+                                        <Text
+                                            style={{
+                                                ...commentStyle.commentText,
+                                                color: this.props.theme.colors.primaryText
+                                            }}
+                                        >
+                                            {this.props.comment.data.body}
+                                        </Text>
                                     </Display>
                                 }
-                                topDivider
-                                containerStyle={commentStyle.containerBackground}
+                                containerStyle={{
+                                    backgroundColor: this.props.theme.colors.tileBackground
+                                }}
                             />
                         </View>
                     </TouchableOpacity>
@@ -134,7 +149,7 @@ class CommentList extends Component {
                                             exit="fadeOutRight"
                                             enter="fadeInRight"
                                         >
-                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} author={this.props.author} />
+                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} author={this.props.author} theme={this.props.theme} />
                                         </Display>
                                     </View>
                                 )
@@ -166,7 +181,7 @@ class CommentList extends Component {
                                             exit="fadeOutRight"
                                             enter="fadeInRight"
                                         >
-                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} author={this.props.author} />
+                                            <CommentList key={i} comment={reply} level={this.state.level} commentColor={commentColor} author={this.props.author} theme={this.props.theme} />
                                         </Display>
                                     )
                                 })
@@ -180,8 +195,10 @@ class CommentList extends Component {
                                     >
                                         <ListItem
                                             title="Load more comments"
-                                            titleStyle={{ color: 'white' }}
-                                            containerStyle={commentStyle.containerBackground}
+                                            titleStyle={{ color: this.props.theme.colors.primaryText }}
+                                            containerStyle={{
+                                                backgroundColor: this.props.theme.colors.tileBackground
+                                            }}
                                             topDivider
                                         />
                                     </View>
@@ -197,3 +214,10 @@ class CommentList extends Component {
 }
 
 export default CommentList;
+
+const styles = StyleSheet.create({
+    divider: {
+        width: "100%",
+        alignSelf: "center"
+    }
+})

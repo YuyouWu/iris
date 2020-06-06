@@ -16,7 +16,6 @@ export default commentStyle = StyleSheet.create({
         fontSize: 15
     },
     commentText: {
-        color: 'white', 
         fontSize: 15,
         marginLeft: -5,
         marginTop: 5

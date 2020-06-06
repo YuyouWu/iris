@@ -37,10 +37,6 @@ class RenderPostTileStack extends Component {
             <PostTileStack.Navigator
                 initialRouteName="PostTileList"
                 screenOptions={{
-                    headerStyle: this.state.theme === "light" ? postTileStackStyle.lightHeaderStyle : postTileStackStyle.darkHeaderStyle,
-                    headerTintColor: this.state.theme === "light" ? postTileStackStyle.lightHeaderTintColor.color : postTileStackStyle.darkHeaderTintColor.color,
-                    cardStyle: this.state.theme === "light" ? postTileStackStyle.lightCardStyle : postTileStackStyle.darkCardStyle,
-                    headerTitleStyle: this.state.theme === "light" ? postTileStackStyle.lightHeaderTitleStyle : postTileStackStyle.darkHeaderTitleStyle,
                     gestureEnabled: true,
                     gestureDirection: "horizontal",
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,

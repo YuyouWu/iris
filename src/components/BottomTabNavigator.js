@@ -1,6 +1,6 @@
 import React from 'react';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator, CardStyleInterpolators, TransitionSpecs } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -17,6 +17,7 @@ import PostTileStackNavigator from '../components/PostScreenComponents/PostTileS
 import ProfileContainer from '../components/ProfileComponents/ProfileContainer';
 
 import bottomTabStyle from '../styles/bottomTabStyle';
+import Theme from './../styles/Theme';
 
 const SearchStack = createStackNavigator();
 
@@ -70,7 +71,7 @@ class BottomTabNavigator extends React.Component {
     constructor() {
         super();
         this.state = {
-            theme: "dark"
+            navigationTheme: Theme().DarkTheme
         }
         this.loadTheme();
     }
@@ -78,9 +79,15 @@ class BottomTabNavigator extends React.Component {
     loadTheme = async () => {
         try {
             const theme = await AsyncStorage.getItem('@theme');
-            this.setState({
-                theme
-            })
+            if (theme === "dark") {
+                this.setState({
+                    navigationTheme: Theme().darkTheme
+                });
+            } else {
+                this.setState({
+                    navigationTheme: Theme().lightTheme
+                });
+            }
         } catch (e) {
             console.log(e);
         }
@@ -88,13 +95,12 @@ class BottomTabNavigator extends React.Component {
 
     render() {
         return (
-            <NavigationContainer>
+            <NavigationContainer
+                theme={this.state.navigationTheme}
+            >
                 <BottomTabs.Navigator
                     initialRouteName="Posts"
                     tabBarOptions={{
-                        activeTintColor: this.state.theme === "light" ? bottomTabStyle.lightActiveTintColor.color : bottomTabStyle.darkActiveTintColor.color,
-                        inactiveTintColor: bottomTabStyle.inactiveTintColor.color,
-                        style: this.state.theme === "light" ? bottomTabStyle.lightTabBar : bottomTabStyle.darkTabBar,
                         keyboardHidesTabBar: true
                     }}
                 >

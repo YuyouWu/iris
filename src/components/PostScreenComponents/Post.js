@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { ScrollView, SafeAreaView, View, Image, Dimensions, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { ScrollView, SafeAreaView, View, Image, Dimensions, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 // import { WebView } from 'react-native-webview';
 import { Divider, ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from "react-native-modal";
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+import { useTheme } from '@react-navigation/native';
+
 import CommentList from './CommentList';
 import PostImage from './PostImage';
-import listStyles from '../../styles/listStyle';
 import { kFormatter } from '../utils/numUtils';
 
 const window = Dimensions.get('window');
@@ -139,6 +140,7 @@ class Post extends Component {
                         level={0}
                         comment={comment}
                         author={this.state.postData.author}
+                        theme={this.props.theme}
                     />
                 )
             })
@@ -335,7 +337,7 @@ class Post extends Component {
                 >
                     <View style={{ overflow: 'hidden', borderRadius: 10 }}>
                         <ListItem
-                            titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
+                            titleStyle={this.props.theme.colors.primaryText}
                             containerStyle={{ backgroundColor: "#1a1a1a" }}
                             title="Best"
                             onPress={() => {
@@ -348,7 +350,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
+                            titleStyle={this.props.theme.colors.primaryText}
                             containerStyle={{ backgroundColor: "#1a1a1a" }}
                             title="Top"
                             onPress={() => {
@@ -361,7 +363,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
+                            titleStyle={this.props.theme.colors.primaryText}
                             containerStyle={{ backgroundColor: "#1a1a1a" }}
                             title="New"
                             onPress={() => {
@@ -374,7 +376,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
+                            titleStyle={this.props.theme.colors.primaryText}
                             containerStyle={{ backgroundColor: "#1a1a1a" }}
                             title="Old"
                             onPress={() => {
@@ -387,7 +389,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
+                            titleStyle={this.props.theme.colors.primaryText}
                             containerStyle={{ backgroundColor: "#1a1a1a" }}
                             title="Controversial"
                             onPress={() => {
@@ -400,7 +402,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
+                            titleStyle={this.props.theme.colors.primaryText}
                             containerStyle={{ backgroundColor: "#1a1a1a" }}
                             title="Q&A"
                             onPress={() => {
@@ -416,7 +418,7 @@ class Post extends Component {
                 </Modal>
 
                 <ScrollView
-                    style={{ backgroundColor: 'black', paddingLeft: 10, paddingRight: 10 }}
+                    style={{ backgroundColor: this.props.theme.colors.tileBackground, paddingLeft: 10, paddingRight: 10 }}
                     scrollEventThrottle={50}
                     onScroll={({ nativeEvent }) => {
                         if (this.isCloseToBottom(nativeEvent) && this.state.fetchingData === false && !this.state.endOfComments) {
@@ -425,7 +427,7 @@ class Post extends Component {
                     }}
                 >
                     {this.renderContent()}
-                    <Text style={{ fontSize: 20, color: 'white', paddingTop: 5 }}>{this.state.postData.title}</Text>
+                    <Text style={{ fontSize: 20, color: this.props.theme.colors.primaryText, paddingTop: 5 }}>{this.state.postData.title}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={{ color: 'grey' }}>{`in r/${this.state.postData.subreddit} `}</Text>
                         <Text style={{ color: 'grey' }}>{`by ${this.state.postData.author}`}</Text>
@@ -438,14 +440,24 @@ class Post extends Component {
                             {this.state.selftext}
                         </Text>
                     )}
-                    <Divider style={{ marginTop: 10 }} />
+                    <Divider
+                        style={{
+                            backgroundColor: this.props.theme.colors.divider,
+                            ...styles.divider
+                        }}
+                    />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 15 }}>
                         <Icon color="white" size={iconSize} name="md-arrow-up" />
                         <Icon color="white" size={iconSize} name="md-arrow-down" />
                         <Icon color="white" size={iconSize} name="ios-download" />
                         <Icon color="white" size={iconSize} name="md-share" />
                     </View>
-                    <Divider style={{ marginTop: 10 }} />
+                    <Divider
+                        style={{
+                            backgroundColor: this.props.theme.colors.divider,
+                            ...styles.divider
+                        }}
+                    />
                     {/* Render Comments*/}
                     <View>
                         {/* Sort Button */}
@@ -474,4 +486,16 @@ class Post extends Component {
     }
 };
 
-export default Post;
+export default function (props) {
+    const theme = useTheme();
+    return <Post {...props} theme={theme} />
+}
+
+const styles = StyleSheet.create({
+    divider: {
+        width: "100%",
+        marginTop: 10,
+        alignSelf: "center"
+    }
+})
+
