@@ -4,9 +4,6 @@ import { Input, ListItem } from 'react-native-elements';
 import { StackActions, NavigationActions } from '@react-navigation/native';
 import Display from 'react-native-display';
 
-import listStyles from '../../styles/listStyle';
-import inputStyle from '../../styles/inputStyle';
-
 import axios from 'axios';
 
 

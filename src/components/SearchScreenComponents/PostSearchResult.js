@@ -4,6 +4,7 @@ import { Input, ListItem } from 'react-native-elements';
 import { StackActions, NavigationActions } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-community/async-storage';
+import { useTheme } from '@react-navigation/native';
 
 import PostThumbNail from '../PostScreenComponents/PostThumbNail';
 import listStyles from '../../styles/listStyle';
@@ -60,7 +61,9 @@ class PostSearchResult extends Component {
 
     render() {
         return (
-            <SafeAreaView style={listStyles.darkListBackground}>
+            <SafeAreaView style={{
+                backgroundColor: this.props.theme.colors.tileBackground
+            }}>
                 <ScrollView style={{ backgroundColor: 'black' }}>
                     {this.state.posts &&
                         this.state.posts.map((post, i) => (
@@ -69,8 +72,8 @@ class PostSearchResult extends Component {
                                 title={post.data.title}
                                 subtitle={this.renderPostSubtitle(post.data.subreddit, post.data.score)}
                                 topDivider
-                                titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                containerStyle={listStyles.darkListBackground}
+                                titleStyle={{ color: this.props.theme.colors.primaryText }}
+                                containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
                                 leftElement={
                                     <PostThumbNail
                                         preview={post.data.preview}
@@ -102,4 +105,7 @@ class PostSearchResult extends Component {
     }
 };
 
-export default PostSearchResult;
+export default function (props) {
+    const theme = useTheme();
+    return <PostSearchResult {...props} theme={theme} />
+}

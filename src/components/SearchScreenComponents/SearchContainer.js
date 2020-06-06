@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text, Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
 import { CommonActions } from '@react-navigation/native';
 import Display from 'react-native-display';
 import AsyncStorage from '@react-native-community/async-storage';
-
-import listStyles from '../../styles/listStyle';
-import inputStyle from '../../styles/inputStyle';
+import { useTheme } from '@react-navigation/native';
 
 import axios from 'axios';
 
@@ -82,17 +80,26 @@ class SearchContainer extends Component {
     //TODO: go to post view when user click on a list item 
     render() {
         return (
-            <SafeAreaView style={this.state.theme === "light" ? listStyles.listContainerBackground : listStyles.darkListBackground}>
+            <SafeAreaView style={{
+                backgroundColor: this.props.theme.colors.tileBackground
+            }}>
                 <ScrollView style={{
-                    backgroundColor: this.state.theme === "light" ? listStyles.listContainerBackground.backgroundColor
-                        :
-                        listStyles.darkListBackground.backgroundColor, height: window.height
+                    backgroundColor: this.props.theme.colors.containerBackground,
+                    height: window.height
                 }}>
                     <SearchBar
-                        containerStyle={this.state.theme === "light" ? inputStyle.lightContainer : inputStyle.darkContainer}
-                        inputStyle={inputStyle.input}
-                        inputContainerStyle={this.state.theme === "light" ? inputStyle.lightInputContainer : inputStyle.darkInputContainer}
-                        placeholderTextColor={inputStyle.placeHolderColor.color}
+                        containerStyle={{
+                            backgroundColor: this.props.theme.colors.tileBackground,
+                            borderBottomColor: this.props.theme.colors.tileBackground
+                        }}
+                        inputStyle={{ color: this.props.theme.colors.primaryText }}
+                        inputContainerStyle={{
+                            backgroundColor: this.props.theme.colors.inputBackground,
+                            borderRadius: 10,
+                            marginTop: 10,
+                            marginBottom: 10
+                        }}
+                        placeholderTextColor={styles.placeHolder}
                         placeholder='Search for subreddits, posts, or users'
                         onChangeText={(text) => this.handleChangeText(text)}
                         value={this.state.query}
@@ -104,7 +111,7 @@ class SearchContainer extends Component {
                         exit="fadeOutDown"
                         enter="fadeInUp"
                     >
-                        <View style={listStyles.listContainer}>
+                        <View style={styles.listContainer}>
                             <TouchableOpacity
                                 onPress={() => {
                                     this.onSearchPosts();
@@ -112,8 +119,8 @@ class SearchContainer extends Component {
                             >
                                 <ListItem
                                     title={`Search posts with "${this.state.query}"`}
-                                    titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                    containerStyle={this.state.theme === "light"  ? listStyles.lightListItem : listStyles.darkListItem}
+                                    titleStyle={{color: this.props.theme.colors.primaryText}}
+                                    containerStyle={{backgroundColor: this.props.theme.colors.tileBackground}}
                                     bottomDivider
                                 />
                             </TouchableOpacity>
@@ -124,8 +131,8 @@ class SearchContainer extends Component {
                             >
                                 <ListItem
                                     title={`Search subreddits with "${this.state.query}"`}
-                                    titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                    containerStyle={this.state.theme === "light"  ? listStyles.lightListItem : listStyles.darkListItem}
+                                    titleStyle={{color: this.props.theme.colors.primaryText}}
+                                    containerStyle={{backgroundColor: this.props.theme.colors.tileBackground}}
                                     bottomDivider
                                 />
                             </TouchableOpacity>
@@ -136,8 +143,8 @@ class SearchContainer extends Component {
                             >
                                 <ListItem
                                     title={`Search users with "${this.state.query}"`}
-                                    titleStyle={this.state.theme === "light" ? listStyles.lightTitle : listStyles.darkTitle}
-                                    containerStyle={this.state.theme === "light"  ? listStyles.lightListItem : listStyles.darkListItem}
+                                    titleStyle={{color: this.props.theme.colors.primaryText}}
+                                    containerStyle={{backgroundColor: this.props.theme.colors.tileBackground}}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -148,4 +155,21 @@ class SearchContainer extends Component {
     }
 };
 
-export default SearchContainer;
+export default function (props) {
+    const theme = useTheme();
+    return <SearchContainer {...props} theme={theme} />
+}
+
+const styles = StyleSheet.create({
+    listContainer: {
+        borderRadius: 10,
+        overflow: "hidden",
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 10
+    },
+    placeHolder: {
+        color: '#b3b3b3'
+    }
+})
+
