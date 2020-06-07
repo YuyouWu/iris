@@ -171,7 +171,7 @@ class Post extends Component {
     }
 
     renderContent = () => {
-        //Youtube video 
+        //Youtube Video 
         if (this.state.postData.media && this.state.postData.media.type && this.state.postData.media.type.indexOf("youtube") > -1) {
             return (
                 <TouchableOpacity onPress={() => this.openLink(this.props.linkURL)}>
@@ -184,6 +184,7 @@ class Post extends Component {
             )
         }
 
+        //Reddit Video
         if (this.state.postData["secure_media"] && this.state.postData["secure_media"]["reddit_video"]) {
             return (
                 <TouchableOpacity
@@ -200,17 +201,19 @@ class Post extends Component {
             )
         }
 
-
-        if (this.state.postData.preview && this.state.postData.preview['reddit_video_preview']) {
+        //Regular GIF
+        if (this.state.postData["secure_media"] && this.state.postData["secure_media"]["oembed"]) {
             return (
                 <TouchableOpacity
-                    onPress={() => this.displayVideoModal(this.state.postData.preview['reddit_video_preview']['hls_url'])}
+                    onPress={() => {
+                        this.displayImageModal();
+                    }}
                     style={{
                         alignItems: 'center'
                     }}
                 >
                     <Image
-                        source={{ uri: this.state.postData.thumbnail }}
+                        source={{ uri: this.state.postData["secure_media"]["oembed"]['thumbnail_url'] }}
                         style={{ width: window.width, height: this.state.imageHeight }}
                         resizeMode={'contain'}
                     />
@@ -218,22 +221,14 @@ class Post extends Component {
             )
         }
 
-        if (this.state.postData.secureMedia && this.state.postData.secureMedia['reddit_video']) {
-            return (
-                <TouchableOpacity onPress={() => this.displayVideoModal(this.state.postData.secureMedia['reddit_video']['hls_url'])}>
-                    <Image
-                        source={{ uri: this.state.postData.thumbnail }}
-                        style={{ width: window.width, height: this.state.imageHeight }}
-                        resizeMode={'contain'}
-                    />
-                </TouchableOpacity>
-            )
-        }
 
+
+        //Self Text 
         if (this.state.postData.thumbnail === "self" || this.state.postData['is_self']) {
             return null;
         }
 
+        //Image
         if (this.state.postData['post_hint'] === "image") {
             return (
                 <TouchableOpacity
@@ -253,7 +248,7 @@ class Post extends Component {
             )
         }
 
-        //Check if url is a link or image, check if it's a reddit link
+        //Link
         if (!this.state.postData['is_self'] && this.state.postData['post_hint'] === "link") {
             return (
                 <TouchableOpacity
