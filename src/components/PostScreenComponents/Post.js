@@ -12,6 +12,7 @@ import CommentList from './CommentList';
 import PostImage from './PostImage';
 import { kFormatter } from '../utils/numUtils';
 import PostVideo from './PostVideo';
+import ShareModal from './ShareModal';
 
 const window = Dimensions.get('window');
 
@@ -33,6 +34,7 @@ class Post extends Component {
             endCommentIdx: 10,
             endOfComments: false,
             showSortModal: false,
+            showShareModal: false,
             sortingParam: '?sort=confidence'
         }
         this.loadTheme();
@@ -161,6 +163,12 @@ class Post extends Component {
     displaySortModal = () => {
         this.setState({
             showSortModal: true
+        });
+    }
+
+    toggleShareModal = () => {
+        this.setState({
+            showShareModal: !this.state.showShareModal
         });
     }
 
@@ -412,6 +420,9 @@ class Post extends Component {
                     </View>
                 </Modal>
 
+                {/* Share Modal */}
+                <ShareModal visible={this.state.showShareModal} toggleShareModal={this.toggleShareModal} postData={this.state.postData}/>
+                
                 <ScrollView
                     style={{
                         backgroundColor: this.props.theme.colors.tileBackground,
@@ -451,7 +462,7 @@ class Post extends Component {
                         <Icon color="white" size={iconSize} name="md-arrow-up" />
                         <Icon color="white" size={iconSize} name="md-arrow-down" />
                         <Icon color="white" size={iconSize} name="ios-download" />
-                        <Icon color="white" size={iconSize} name="md-share" />
+                        <Icon color="white" size={iconSize} name="md-share" onPress={() => this.toggleShareModal()}/>
                     </View>
                     <Divider
                         style={{
