@@ -163,13 +163,19 @@ class Post extends Component {
         });
     }
 
+    //Open url in external app 
+    //Ex. youtube
+    openLink = (url) => {
+        Linking.openURL(url).catch((err) => console.error('An error occurred', err));
+    }
+
     renderContent = () => {
         //Youtube video 
         if (this.state.postData.media && this.state.postData.media.type && this.state.postData.media.type.indexOf("youtube") > -1) {
             return (
                 <TouchableOpacity onPress={() => this.openLink(this.props.linkURL)}>
                     <Image
-                        source={{ uri: this.props.thumbnailURL }}
+                        source={{ uri: this.state.postData.thumbnail }}
                         style={{ width: window.width, height: this.state.imageHeight }}
                         resizeMode={'contain'}
                     />
@@ -177,19 +183,25 @@ class Post extends Component {
             )
         }
 
+        if (this.state.postData["secure_media"] && this.state.postData["secure_media"]["reddit_video"]) {
+            return (
+                <TouchableOpacity
+                    onPress={() => this.displayVideoModal(this.state.postData["secure_media"]["reddit_video"]['hls_url'])}
+                    style={{
+                        alignItems: 'center'
+                    }}
+                >
+                    <Image
+                        source={{ uri: this.state.postData.thumbnail }}
+                        style={{ width: window.width, height: this.state.imageHeight }}
+                        resizeMode={'contain'}
+                    />
+                </TouchableOpacity>
+            )
+        }
+
+
         if (this.state.postData.preview && this.state.postData.preview['reddit_video_preview']) {
-            if (this.state.postData['over_18']) {
-                return (
-                    <TouchableOpacity onPress={() => this.displayVideoModal(this.state.postData.preview['reddit_video_preview']['hls_url'])}>
-                        <Icon
-                            name="alert-circle-outline"
-                            color="white"
-                            size={60}
-                            style={{ width: 100, height: 100, textAlign: 'center', textAlignVertical: 'center' }}
-                        />
-                    </TouchableOpacity>
-                )
-            }
             return (
                 <TouchableOpacity
                     onPress={() => this.displayVideoModal(this.state.postData.preview['reddit_video_preview']['hls_url'])}
@@ -207,18 +219,6 @@ class Post extends Component {
         }
 
         if (this.state.postData.secureMedia && this.state.postData.secureMedia['reddit_video']) {
-            if (this.state.postData['over_18']) {
-                return (
-                    <TouchableOpacity onPress={() => this.displayVideoModal(this.state.postData.secureMedia['reddit_video']['hls_url'])}>
-                        <Icon
-                            name="alert-circle-outline"
-                            color="white"
-                            size={60}
-                            style={{ width: 100, height: 100, textAlign: 'center', textAlignVertical: 'center' }}
-                        />
-                    </TouchableOpacity>
-                )
-            }
             return (
                 <TouchableOpacity onPress={() => this.displayVideoModal(this.state.postData.secureMedia['reddit_video']['hls_url'])}>
                     <Image
@@ -231,7 +231,7 @@ class Post extends Component {
         }
 
         if (this.state.postData.thumbnail === "self" || this.state.postData['is_self']) {
-
+            return null;
         }
 
         if (this.state.postData['post_hint'] === "image") {
@@ -337,7 +337,7 @@ class Post extends Component {
                 >
                     <View style={{ overflow: 'hidden', borderRadius: 10 }}>
                         <ListItem
-                            titleStyle={{color: this.props.theme.colors.primaryText}}
+                            titleStyle={{ color: this.props.theme.colors.primaryText }}
                             containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
                             title="Best"
                             onPress={() => {
@@ -350,7 +350,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={{color: this.props.theme.colors.primaryText}}
+                            titleStyle={{ color: this.props.theme.colors.primaryText }}
                             containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
                             title="Top"
                             onPress={() => {
@@ -363,7 +363,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={{color: this.props.theme.colors.primaryText}}
+                            titleStyle={{ color: this.props.theme.colors.primaryText }}
                             containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
                             title="New"
                             onPress={() => {
@@ -376,7 +376,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={{color: this.props.theme.colors.primaryText}}
+                            titleStyle={{ color: this.props.theme.colors.primaryText }}
                             containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
                             title="Old"
                             onPress={() => {
@@ -389,7 +389,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={{color: this.props.theme.colors.primaryText}}
+                            titleStyle={{ color: this.props.theme.colors.primaryText }}
                             containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
                             title="Controversial"
                             onPress={() => {
@@ -402,7 +402,7 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={{color: this.props.theme.colors.primaryText}}
+                            titleStyle={{ color: this.props.theme.colors.primaryText }}
                             containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
                             title="Q&A"
                             onPress={() => {
@@ -418,10 +418,10 @@ class Post extends Component {
                 </Modal>
 
                 <ScrollView
-                    style={{ 
-                        backgroundColor: this.props.theme.colors.tileBackground, 
-                        paddingLeft: 10, 
-                        paddingRight: 10, 
+                    style={{
+                        backgroundColor: this.props.theme.colors.tileBackground,
+                        paddingLeft: 10,
+                        paddingRight: 10,
                         width: window.width,
                         height: window.height
                     }}
