@@ -337,8 +337,8 @@ class Post extends Component {
                 >
                     <View style={{ overflow: 'hidden', borderRadius: 10 }}>
                         <ListItem
-                            titleStyle={this.props.theme.colors.primaryText}
-                            containerStyle={{ backgroundColor: "#1a1a1a" }}
+                            titleStyle={{color: this.props.theme.colors.primaryText}}
+                            containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
                             title="Best"
                             onPress={() => {
                                 this.setState({
@@ -350,8 +350,8 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={this.props.theme.colors.primaryText}
-                            containerStyle={{ backgroundColor: "#1a1a1a" }}
+                            titleStyle={{color: this.props.theme.colors.primaryText}}
+                            containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
                             title="Top"
                             onPress={() => {
                                 this.setState({
@@ -363,8 +363,8 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={this.props.theme.colors.primaryText}
-                            containerStyle={{ backgroundColor: "#1a1a1a" }}
+                            titleStyle={{color: this.props.theme.colors.primaryText}}
+                            containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
                             title="New"
                             onPress={() => {
                                 this.setState({
@@ -376,8 +376,8 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={this.props.theme.colors.primaryText}
-                            containerStyle={{ backgroundColor: "#1a1a1a" }}
+                            titleStyle={{color: this.props.theme.colors.primaryText}}
+                            containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
                             title="Old"
                             onPress={() => {
                                 this.setState({
@@ -389,8 +389,8 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={this.props.theme.colors.primaryText}
-                            containerStyle={{ backgroundColor: "#1a1a1a" }}
+                            titleStyle={{color: this.props.theme.colors.primaryText}}
+                            containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
                             title="Controversial"
                             onPress={() => {
                                 this.setState({
@@ -402,8 +402,8 @@ class Post extends Component {
                             }}
                         />
                         <ListItem
-                            titleStyle={this.props.theme.colors.primaryText}
-                            containerStyle={{ backgroundColor: "#1a1a1a" }}
+                            titleStyle={{color: this.props.theme.colors.primaryText}}
+                            containerStyle={{ backgroundColor: this.props.theme.colors.tileBackground }}
                             title="Q&A"
                             onPress={() => {
                                 this.setState({
@@ -418,7 +418,13 @@ class Post extends Component {
                 </Modal>
 
                 <ScrollView
-                    style={{ backgroundColor: this.props.theme.colors.tileBackground, paddingLeft: 10, paddingRight: 10 }}
+                    style={{ 
+                        backgroundColor: this.props.theme.colors.tileBackground, 
+                        paddingLeft: 10, 
+                        paddingRight: 10, 
+                        width: window.width,
+                        height: window.height
+                    }}
                     scrollEventThrottle={50}
                     onScroll={({ nativeEvent }) => {
                         if (this.isCloseToBottom(nativeEvent) && this.state.fetchingData === false && !this.state.endOfComments) {
