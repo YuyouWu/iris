@@ -61,7 +61,7 @@ class SubredditSearchResult extends Component {
                                         titleStyle={{color: this.props.theme.colors.primaryText}}
                                         subtitle={subreddit.data["public_description"]}
                                         subtitleStyle={{ color: "grey" }}
-                                        containerStyle={this.props.theme.colors.tileBackground}
+                                        containerStyle={{backgroundColor: this.props.theme.colors.tileBackground}}
                                         bottomDivider
                                     />
                                 </TouchableOpacity>
