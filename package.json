@@ -32,6 +32,7 @@
     "react-native-share": "^3.0.0",
     "react-native-vector-icons": "^6.6.0",
     "react-native-video": "^5.0.2",
+    "react-native-video-controls": "^2.6.0",
     "react-native-video-player": "^0.10.0",
     "react-native-webview": "^8.0.3",
     "rn-fetch-blob": "^0.12.0"

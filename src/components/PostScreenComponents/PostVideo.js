@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Dimensions, SafeAreaView, Button } from 'react-native';
-import VideoPlayer from 'react-native-video-player';
+import { View, Dimensions, SafeAreaView, Button, Text } from 'react-native';
+import VideoPlayer from 'react-native-video-controls';
 
 const window = Dimensions.get('window');
 
@@ -13,20 +13,22 @@ class PostVideo extends Component {
         return (
             //TODO: add thumbnail for video
             <SafeAreaView>
-                <View style={{ backgroundColor: 'black' }}>
+                <View
+                    style={{
+                        backgroundColor: 'black',
+                        width: window.width,
+                        height: window.height
+                    }}
+                >
                     <VideoPlayer
-                        autoplay
-                        hideControlsOnStart
-                        video={{ uri: this.props.videoURL }}
-                        videoWidth={window.width}
-                        repeat={true}
-                        customStyles={{
-                            seekBarKnob: {
-                                backgroundColor: "white"
-                            },
-                            seekBarProgress: {
-                                backgroundColor: "white"
-                            }
+                        source={{
+                            uri: this.props.videoURL
+                        }}
+                        resizeMode="contain"
+                        disableBack={true}
+                        style={{
+                            width: window.width,
+                            height: window.height
                         }}
                     />
                 </View>
