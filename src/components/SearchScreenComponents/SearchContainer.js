@@ -99,7 +99,7 @@ class SearchContainer extends Component {
                             marginTop: 10,
                             marginBottom: 10
                         }}
-                        placeholderTextColor={styles.placeHolder}
+                        placeholderTextColor={styles.placeHolder.color}
                         placeholder='Search for subreddits, posts, or users'
                         onChangeText={(text) => this.handleChangeText(text)}
                         value={this.state.query}
