@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, View, Linking } from 'react-native';
+import { Image, TouchableOpacity, View, Linking, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from "react-native-modal";
+import { useTheme } from '@react-navigation/native';
 import PostVideo from "./PostVideo";
 import PostImage from "./PostImage";
 
@@ -75,12 +76,22 @@ class PostThumbNail extends Component {
             if (this.props.post.data['over_18']) {
                 return (
                     <TouchableOpacity onPress={() => this.displayVideoModal(this.props.preview['reddit_video_preview']['hls_url'])}>
-                        <Icon
-                            name="alert-circle-outline"
-                            color="white"
-                            size={60}
-                            style={{ width: 100, height: 100, textAlign: 'center', textAlignVertical: 'center' }}
-                        />
+                        <View
+                            style={{
+                                width: 100,
+                                height: 100,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Text style={{
+                                color: this.props.theme.colors.primaryText,
+                                fontWeight: "bold",
+                                fontSize: 25
+                            }}>
+                                NSFW
+                            </Text>
+                        </View>
                     </TouchableOpacity>
                 )
             }
@@ -99,12 +110,22 @@ class PostThumbNail extends Component {
             if (this.props.post.data['over_18']) {
                 return (
                     <TouchableOpacity onPress={() => this.displayVideoModal(this.props.secureMedia['reddit_video']['hls_url'])}>
-                        <Icon
-                            name="alert-circle-outline"
-                            color="white"
-                            size={60}
-                            style={{ width: 100, height: 100, textAlign: 'center', textAlignVertical: 'center' }}
-                        />
+                        <View
+                            style={{
+                                width: 100,
+                                height: 100,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Text style={{
+                                color: this.props.theme.colors.primaryText,
+                                fontWeight: "bold",
+                                fontSize: 25
+                            }}>
+                                NSFW
+                            </Text>
+                        </View>
                     </TouchableOpacity>
                 )
             }
@@ -137,12 +158,22 @@ class PostThumbNail extends Component {
             if (this.props.post.data['over_18'] && this.props.postHint === 'image') {
                 return (
                     <TouchableOpacity onPress={() => this.displayImageModal(this.props.linkURL)}>
-                        <Icon
-                            name="alert-circle-outline"
-                            color="white"
-                            size={60}
-                            style={{ width: 100, height: 100, textAlign: 'center', textAlignVertical: 'center' }}
-                        />
+                        <View
+                            style={{
+                                width: 100,
+                                height: 100,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Text style={{
+                                color: this.props.theme.colors.primaryText,
+                                fontWeight: "bold",
+                                fontSize: 25
+                            }}>
+                                NSFW
+                            </Text>
+                        </View>
                     </TouchableOpacity>
                 )
             }
@@ -209,11 +240,11 @@ class PostThumbNail extends Component {
                     }}
                 >
                     <PostImage
-                        imageURL={this.state.imageURL} 
+                        imageURL={this.state.imageURL}
                         setImageModalState={this.setImageModalState}
                     />
                 </Modal>
-                
+
                 <Modal
                     //Video Modal
                     isVisible={this.state.showVideoModal}
@@ -235,7 +266,7 @@ class PostThumbNail extends Component {
                             showVideoModal: false
                         });
                     }}
-                    // propagateSwipe={true}
+                // propagateSwipe={true}
                 >
                     <PostVideo videoURL={this.state.videoURL} />
                 </Modal>
@@ -245,4 +276,7 @@ class PostThumbNail extends Component {
     }
 };
 
-export default PostThumbNail;
+export default function (props) {
+    const theme = useTheme();
+    return <PostThumbNail {...props} theme={theme} />
+}
