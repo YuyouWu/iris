@@ -7,6 +7,9 @@ const window = Dimensions.get('window');
 class PostVideo extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            videoHeight: props.isFullScreen ? window.height : 300
+        }
     }
 
     render() {
@@ -17,7 +20,7 @@ class PostVideo extends Component {
                     style={{
                         backgroundColor: 'black',
                         width: window.width,
-                        height: window.height
+                        height: this.state.videoHeight
                     }}
                 >
                     <VideoPlayer
@@ -28,7 +31,7 @@ class PostVideo extends Component {
                         disableBack={true}
                         style={{
                             width: window.width,
-                            height: window.height
+                            height: this.state.videoHeight
                         }}
                     />
                 </View>

@@ -11,6 +11,7 @@ import { useTheme } from '@react-navigation/native';
 import CommentList from './CommentList';
 import PostImage from './PostImage';
 import { kFormatter } from '../utils/numUtils';
+import PostVideo from './PostVideo';
 
 const window = Dimensions.get('window');
 
@@ -191,10 +192,9 @@ class Post extends Component {
                         alignItems: 'center'
                     }}
                 >
-                    <Image
-                        source={{ uri: this.state.postData.thumbnail }}
-                        style={{ width: window.width, height: this.state.imageHeight }}
-                        resizeMode={'contain'}
+                    <PostVideo
+                        videoURL={this.state.postData["secure_media"]["reddit_video"]['hls_url']}
+                        isFullScreen={false}
                     />
                 </TouchableOpacity>
             )

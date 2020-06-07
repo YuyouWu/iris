@@ -268,7 +268,7 @@ class PostThumbNail extends Component {
                     }}
                 // propagateSwipe={true}
                 >
-                    <PostVideo videoURL={this.state.videoURL} />
+                    <PostVideo videoURL={this.state.videoURL} isFullScreen={true}/>
                 </Modal>
                 {this.renderThumbNail()}
             </View>
